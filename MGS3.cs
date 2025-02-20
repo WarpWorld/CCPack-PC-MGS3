@@ -3323,9 +3323,15 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
             case "subtractAmmo":
                 {
-                    if (!int.TryParse(codeParams[1], out int quantity) || IsInCutscene())
+                    if (!int.TryParse(codeParams[1], out int quantity))
                     {
-                        Respond(request, EffectStatus.FailTemporary, "Invalid quantity, or cutscene is playing.");
+                        Respond(request, EffectStatus.FailTemporary, StandardErrors.CannotParseNumber, codeParams[1]);
+                        break;
+                    }
+
+                    if (IsInCutscene())
+                    {
+                        DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                         break;
                     }
 
@@ -3340,7 +3346,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
                 {
                     if (!int.TryParse(codeParams[1], out int quantity) || IsInCutscene())
                     {
-                        Respond(request, EffectStatus.FailTemporary, "Invalid quantity");
+                        Respond(request, EffectStatus.FailTemporary, StandardErrors.CannotParseNumber, codeParams[1]);
                         break;
                     }
 
@@ -3389,7 +3395,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
             case "setSnakeCurrentWeaponToNone":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Snake's gun if a cutscene is playing.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 var unequipSnakeWeapon = request.Duration;
@@ -3473,7 +3479,7 @@ case "removeCurrentSuppressor":
                     // Combine the two checks: if we are in a cutscene OR the map doesn't allow alerts, disallow the effect.
                     if (IsInCutscene() || !IsAlertAllowedOnCurrentMap())
                     {
-                        Respond(request, EffectStatus.FailTemporary, "Alert effect cannot be triggered on this map, or a cutscene is playing.");
+                        DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                         return;
                     }
 
@@ -3492,7 +3498,7 @@ case "removeCurrentSuppressor":
             case "setEvasionStatus":
                 if (IsInCutscene() || !IsAlertAllowedOnCurrentMap())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Alert effect cannot be triggered on this map, or a cutscene is playing.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -3515,7 +3521,7 @@ case "removeCurrentSuppressor":
             case "setCautionStatus":
                 if (IsInCutscene() || !IsAlertAllowedOnCurrentMap())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Alert effect cannot be triggered on this map, or a cutscene is playing.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -3642,7 +3648,7 @@ case "removeCurrentSuppressor":
             case "zoomInFOV":
                 if (!IsNormalFOV() || IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot zoom in the camera while another camera effect is active, or if a cutscene is playing.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 var zoomInFOVDuration = request.Duration;
@@ -3671,7 +3677,7 @@ case "removeCurrentSuppressor":
             case "zoomOutFOV":
                 if (!IsNormalFOV() || IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot zoom the camera out while another camera effect is active, or if a cutscene is playing.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 var zoomOutFOVDuration = request.Duration;
@@ -3705,7 +3711,7 @@ case "removeCurrentSuppressor":
             case "swapToNoFacePaint":
                 if (IsInCutscene() || IsMaskEquipped())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's face paint during a cutscene, in a menu or if he's wearing the Mask.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
                     return;
                 }
                 TryEffect(request,
@@ -3723,7 +3729,7 @@ case "removeCurrentSuppressor":
             case "swapToWoodlandFacePaint":
                 if (IsInCutscene() || IsMaskEquipped())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's face paint during a cutscene, in a menu or if he's wearing the Mask.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
                     return;
                 }
                 TryEffect(request,
@@ -3740,7 +3746,7 @@ case "removeCurrentSuppressor":
             case "swapToBlackFacePaint":
                 if (IsInCutscene() || IsMaskEquipped())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's face paint during a cutscene, in a menu or if he's wearing the Mask.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
                     return;
                 }
                 TryEffect(request,
@@ -3757,7 +3763,7 @@ case "removeCurrentSuppressor":
             case "swapToWaterFacePaint":
                 if (IsInCutscene() || IsMaskEquipped())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's face paint during a cutscene, in a menu or if he's wearing the Mask.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
                     return;
                 }
                 TryEffect(request,
@@ -3774,7 +3780,7 @@ case "removeCurrentSuppressor":
             case "swapToDesertFacePaint":
                 if (IsInCutscene() || IsMaskEquipped())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's face paint during a cutscene, in a menu or if he's wearing the Mask.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
                     return;
                 }
                 TryEffect(request,
@@ -3791,7 +3797,7 @@ case "removeCurrentSuppressor":
             case "swapToSplitterFacePaint":
                 if (IsInCutscene() || IsMaskEquipped())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's face paint during a cutscene, in a menu or if he's wearing the Mask.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
                     return;
                 }
                 TryEffect(request,
@@ -3808,7 +3814,7 @@ case "removeCurrentSuppressor":
             case "swapToSnowFacePaint":
                 if (IsInCutscene() || IsMaskEquipped())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's face paint during a cutscene, in a menu or if he's wearing the Mask.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
                     return;
                 }
                 TryEffect(request,
@@ -3825,7 +3831,7 @@ case "removeCurrentSuppressor":
             case "swapToKabukiFacePaint":
                 if (IsInCutscene() || IsMaskEquipped())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's face paint during a cutscene, in a menu or if he's wearing the Mask.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
                     return;
                 }
                 TryEffect(request,
@@ -3842,7 +3848,7 @@ case "removeCurrentSuppressor":
             case "swapToZombieFacePaint":
                 if (IsInCutscene() || IsMaskEquipped())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's face paint during a cutscene, in a menu or if he's wearing the Mask.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
                     return;
                 }
                 TryEffect(request,
@@ -3859,7 +3865,7 @@ case "removeCurrentSuppressor":
             case "swapToOyamaFacePaint":
                 if (IsInCutscene() || IsMaskEquipped())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's face paint during a cutscene, in a menu or if he's wearing the Mask.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
                     return;
                 }
                 TryEffect(request,
@@ -3876,7 +3882,7 @@ case "removeCurrentSuppressor":
             case "swapToGreenFacePaint":
                 if (IsInCutscene() || IsMaskEquipped())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's face paint during a cutscene, in a menu or if he's wearing the Mask.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
                     return;
                 }
                 TryEffect(request,
@@ -3893,7 +3899,7 @@ case "removeCurrentSuppressor":
             case "swapToBrownFacePaint":
                 if (IsInCutscene() || IsMaskEquipped())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's face paint during a cutscene, in a menu or if he's wearing the Mask.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
                     return;
                 }
                 TryEffect(request,
@@ -3910,7 +3916,7 @@ case "removeCurrentSuppressor":
             case "swapToSovietUnionFacePaint":
                 if (IsInCutscene() || IsMaskEquipped())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's face paint during a cutscene, in a menu or if he's wearing the Mask.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
                     return;
                 }
                 TryEffect(request,
@@ -3927,7 +3933,7 @@ case "removeCurrentSuppressor":
             case "swapToUKFacePaint":
                 if (IsInCutscene() || IsMaskEquipped())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's face paint during a cutscene, in a menu or if he's wearing the Mask.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
                     return;
                 }
                 TryEffect(request,
@@ -3944,7 +3950,7 @@ case "removeCurrentSuppressor":
             case "swapToFranceFacePaint":
                 if (IsInCutscene() || IsMaskEquipped())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's face paint during a cutscene, in a menu or if he's wearing the Mask.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
                     return;
                 }
                 TryEffect(request,
@@ -3961,7 +3967,7 @@ case "removeCurrentSuppressor":
             case "swapToSpainFacePaint":
                 if (IsInCutscene() || IsMaskEquipped())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's face paint during a cutscene, in a menu or if he's wearing the Mask.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
                     return;
                 }
                 TryEffect(request,
@@ -3978,7 +3984,7 @@ case "removeCurrentSuppressor":
             case "swapToSwedenFacePaint":
                 if (IsInCutscene() || IsMaskEquipped())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's face paint during a cutscene, in a menu or if he's wearing the Mask.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
                     return;
                 }
                 TryEffect(request,
@@ -3995,7 +4001,7 @@ case "removeCurrentSuppressor":
             case "swapToItalyFacePaint":
                 if (IsInCutscene() || IsMaskEquipped())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's face paint during a cutscene, in a menu or if he's wearing the Mask.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
                     return;
                 }
                 TryEffect(request,
@@ -4012,7 +4018,7 @@ case "removeCurrentSuppressor":
             case "swapToGermanyFacePaint":
                 if (IsInCutscene() || IsMaskEquipped())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's face paint during a cutscene, in a menu or if he's wearing the Mask.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
                     return;
                 }
                 TryEffect(request,
@@ -4029,7 +4035,7 @@ case "removeCurrentSuppressor":
             case "swapToJapanFacePaint":
                 if (IsInCutscene() || IsMaskEquipped())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's face paint during a cutscene, in a menu or if he's wearing the Mask.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
                     return;
                 }
                 TryEffect(request,
@@ -4047,7 +4053,7 @@ case "removeCurrentSuppressor":
             case "swapToUSAFacePaint":
                 if (IsInCutscene() || IsMaskEquipped())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's face paint during a cutscene, in a menu or if he's wearing the Mask.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
                     return;
                 }
                 TryEffect(request,
@@ -4070,7 +4076,7 @@ case "removeCurrentSuppressor":
             case "swapToOliveDrab":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4087,7 +4093,7 @@ case "removeCurrentSuppressor":
             case "swapToTigerStripe":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4104,7 +4110,7 @@ case "removeCurrentSuppressor":
             case "swapToLeaf":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4121,7 +4127,7 @@ case "removeCurrentSuppressor":
             case "swapToTreeBark":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4138,7 +4144,7 @@ case "removeCurrentSuppressor":
             case "swapToChocoChip":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4155,7 +4161,7 @@ case "removeCurrentSuppressor":
             case "swapToSplitter":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4172,7 +4178,7 @@ case "removeCurrentSuppressor":
             case "swapToRaindrop":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4189,7 +4195,7 @@ case "removeCurrentSuppressor":
             case "swapToSquares":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4206,7 +4212,7 @@ case "removeCurrentSuppressor":
             case "swapToWater":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4223,7 +4229,7 @@ case "removeCurrentSuppressor":
             case "swapToBlack":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4240,7 +4246,7 @@ case "removeCurrentSuppressor":
             case "swapToSnow":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4257,7 +4263,7 @@ case "removeCurrentSuppressor":
             case "swapToNaked":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4274,7 +4280,7 @@ case "removeCurrentSuppressor":
             case "swapToSneakingSuit":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4293,7 +4299,7 @@ case "removeCurrentSuppressor":
             case "swapToHornetStripe":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4310,7 +4316,7 @@ case "removeCurrentSuppressor":
             case "swapToSpider":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4327,7 +4333,7 @@ case "removeCurrentSuppressor":
             case "swapToMoss":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4344,7 +4350,7 @@ case "removeCurrentSuppressor":
             case "swapToFire":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4361,7 +4367,7 @@ case "removeCurrentSuppressor":
             case "swapToSpirit":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4378,7 +4384,7 @@ case "removeCurrentSuppressor":
             case "swapToColdWar":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4395,7 +4401,7 @@ case "removeCurrentSuppressor":
             case "swapToSnake":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4412,7 +4418,7 @@ case "removeCurrentSuppressor":
             case "swapToGaKo":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4429,7 +4435,7 @@ case "removeCurrentSuppressor":
             case "swapToDesertTiger":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4446,7 +4452,7 @@ case "removeCurrentSuppressor":
             case "swapToDPM":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4463,7 +4469,7 @@ case "removeCurrentSuppressor":
             case "swapToFlecktarn":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4480,7 +4486,7 @@ case "removeCurrentSuppressor":
             case "swapToAuscam":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4497,7 +4503,7 @@ case "removeCurrentSuppressor":
             case "swapToAnimals":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4514,7 +4520,7 @@ case "removeCurrentSuppressor":
             case "swapToFly":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot swap Snake's uniform during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4535,7 +4541,7 @@ case "removeCurrentSuppressor":
             case "giveOliveDrab":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.OliveDrab) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Olive Drab during a cutscene or menu, or Snake already has Olive Drab.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4553,7 +4559,7 @@ case "removeCurrentSuppressor":
             case "removeOliveDrab":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.OliveDrab) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Olive Drab during a cutscene or menu, or Snake has no Olive Drab to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4571,7 +4577,7 @@ case "removeCurrentSuppressor":
             case "giveTigerStripe":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.TigerStripe) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Tiger Stripe during a cutscene or menu, or Snake already has Tiger Stripe.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4589,7 +4595,7 @@ case "removeCurrentSuppressor":
             case "removeTigerStripe":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.TigerStripe) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Tiger Stripe during a cutscene or menu, or Snake has no Tiger Stripe to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4607,7 +4613,7 @@ case "removeCurrentSuppressor":
             case "giveLeaf":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Leaf) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Leaf during a cutscene or menu, or Snake already has Leaf.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4626,7 +4632,7 @@ case "removeCurrentSuppressor":
             case "removeLeaf":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Leaf) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Leaf during a cutscene or menu, or Snake has no Leaf to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4644,7 +4650,7 @@ case "removeCurrentSuppressor":
             case "giveTreeBark":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.TreeBark) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Tree Bark during a cutscene or menu, or Snake already has Tree Bark.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4662,7 +4668,7 @@ case "removeCurrentSuppressor":
             case "removeTreeBark":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.TreeBark) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Tree Bark during a cutscene or menu, or Snake has no Tree Bark to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4680,7 +4686,7 @@ case "removeCurrentSuppressor":
             case "giveChocoChip":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.ChocoChip) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Choco Chip during a cutscene or menu, or Snake already has Choco Chip.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4698,7 +4704,7 @@ case "removeCurrentSuppressor":
             case "removeChocoChip":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.ChocoChip) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Choco Chip during a cutscene or menu, or Snake has no Choco Chip to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4716,7 +4722,7 @@ case "removeCurrentSuppressor":
             case "giveSplitter":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Splitter) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Splitter during a cutscene or menu, or Snake already has Splitter.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4734,7 +4740,7 @@ case "removeCurrentSuppressor":
             case "removeSplitter":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Splitter) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Splitter during a cutscene or menu, or Snake has no Splitter to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4752,7 +4758,7 @@ case "removeCurrentSuppressor":
             case "giveRaindrop":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Raindrop) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Raindrop during a cutscene or menu, or Snake already has Raindrop.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4770,7 +4776,7 @@ case "removeCurrentSuppressor":
             case "removeRaindrop":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Raindrop) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Raindrop during a cutscene or menu, or Snake has no Raindrop to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4788,7 +4794,7 @@ case "removeCurrentSuppressor":
             case "giveSquares":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Squares) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Squares during a cutscene or menu, or Snake already has Squares.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4806,7 +4812,7 @@ case "removeCurrentSuppressor":
             case "removeSquares":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Squares) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Squares during a cutscene or menu, or Snake has no Squares to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4824,7 +4830,7 @@ case "removeCurrentSuppressor":
             case "giveWater":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Water) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Water during a cutscene or menu, or Snake already has Water.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4842,7 +4848,7 @@ case "removeCurrentSuppressor":
             case "removeWater":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Water) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Water during a cutscene or menu, or Snake has no Water to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4860,7 +4866,7 @@ case "removeCurrentSuppressor":
             case "giveBlack":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Black) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Black during a cutscene or menu, or Snake already has Black.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4878,7 +4884,7 @@ case "removeCurrentSuppressor":
             case "removeBlack":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Black) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Black during a cutscene or menu, or Snake has no Black to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4896,7 +4902,7 @@ case "removeCurrentSuppressor":
             case "giveSnow":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Snow) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Snow during a cutscene or menu, or Snake already has Snow.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4914,7 +4920,7 @@ case "removeCurrentSuppressor":
             case "removeSnow":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Snow) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Snow during a cutscene or menu, or Snake has no Snow to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4932,7 +4938,7 @@ case "removeCurrentSuppressor":
             case "giveSneakingSuit":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.SneakingSuit) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Sneaking Suit during a cutscene or menu, or Snake already has Sneaking Suit.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4950,7 +4956,7 @@ case "removeCurrentSuppressor":
             case "removeSneakingSuit":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.SneakingSuit) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Sneaking Suit during a cutscene or menu, or Snake has no Sneaking Suit to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4968,7 +4974,7 @@ case "removeCurrentSuppressor":
             case "giveHornetStripe":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.HornetStripe) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Hornet Stripe during a cutscene or menu, or Snake already has Hornet Stripe.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -4986,7 +4992,7 @@ case "removeCurrentSuppressor":
             case "removeHornetStripe":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.HornetStripe) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Hornet Stripe during a cutscene or menu, or Snake has no Hornet Stripe to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5004,7 +5010,7 @@ case "removeCurrentSuppressor":
             case "giveSpider":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Spider) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Spider during a cutscene or menu, or Snake already has Spider.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5022,7 +5028,7 @@ case "removeCurrentSuppressor":
             case "removeSpider":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Spider) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Spider during a cutscene or menu, or Snake has no Spider to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5040,7 +5046,7 @@ case "removeCurrentSuppressor":
             case "giveMoss":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Moss) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Moss during a cutscene or menu, or Snake already has Moss.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5058,7 +5064,7 @@ case "removeCurrentSuppressor":
             case "removeMoss":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Moss) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Moss during a cutscene or menu, or Snake has no Moss to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5076,7 +5082,7 @@ case "removeCurrentSuppressor":
             case "giveFire":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Fire) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Fire during a cutscene or menu, or Snake already has Fire.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5094,7 +5100,7 @@ case "removeCurrentSuppressor":
             case "removeFire":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Fire) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Fire during a cutscene or menu, or Snake has no Fire to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5112,7 +5118,7 @@ case "removeCurrentSuppressor":
             case "giveSpirit":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Spirit) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Spirit during a cutscene or menu, or Snake already has Spirit.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5130,7 +5136,7 @@ case "removeCurrentSuppressor":
             case "removeSpirit":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Spirit) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Spirit during a cutscene or menu, or Snake has no Spirit to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5148,7 +5154,7 @@ case "removeCurrentSuppressor":
             case "giveColdWar":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.ColdWar) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Cold War during a cutscene or menu, or Snake already has Cold War.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5166,7 +5172,7 @@ case "removeCurrentSuppressor":
             case "removeColdWar":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.ColdWar) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Cold War during a cutscene or menu, or Snake has no Cold War to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5184,7 +5190,7 @@ case "removeCurrentSuppressor":
             case "giveSnake":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Snake) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Snake during a cutscene or menu, or Snake already has Snake.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5202,7 +5208,7 @@ case "removeCurrentSuppressor":
             case "removeSnake":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Snake) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Snake during a cutscene or menu, or Snake has no Snake to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5220,7 +5226,7 @@ case "removeCurrentSuppressor":
             case "giveGako":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.GakoCamo) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Gako during a cutscene or menu, or Snake already has Gako.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5238,7 +5244,7 @@ case "removeCurrentSuppressor":
             case "removeGako":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.GakoCamo) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Gako during a cutscene or menu, or Snake has no Gako to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5256,7 +5262,7 @@ case "removeCurrentSuppressor":
             case "giveDesertTiger":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.DesertTiger) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Desert Tiger during a cutscene or menu, or Snake already has Desert Tiger.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5274,7 +5280,7 @@ case "removeCurrentSuppressor":
             case "removeDesertTiger":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.DesertTiger) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Desert Tiger during a cutscene or menu, or Snake has no Desert Tiger to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5292,7 +5298,7 @@ case "removeCurrentSuppressor":
             case "giveDPM":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.DPM) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give DPM during a cutscene or menu, or Snake already has DPM.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5310,7 +5316,7 @@ case "removeCurrentSuppressor":
             case "removeDPM":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.DPM) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove DPM during a cutscene or menu, or Snake has no DPM to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5328,7 +5334,7 @@ case "removeCurrentSuppressor":
             case "giveFlecktarn":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Flecktarn) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Flecktarn during a cutscene or menu, or Snake already has Flecktarn.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5346,7 +5352,7 @@ case "removeCurrentSuppressor":
             case "removeFlecktarn":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Flecktarn) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Flecktarn during a cutscene or menu, or Snake has no Flecktarn to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5364,7 +5370,7 @@ case "removeCurrentSuppressor":
             case "giveAuscam":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Auscam) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Auscam during a cutscene or menu, or Snake already has Auscam.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5382,7 +5388,7 @@ case "removeCurrentSuppressor":
             case "removeAuscam":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Auscam) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Auscam during a cutscene or menu, or Snake has no Auscam to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5400,7 +5406,7 @@ case "removeCurrentSuppressor":
             case "giveAnimals":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Animals) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Animals during a cutscene or menu, or Snake already has Animals.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5418,7 +5424,7 @@ case "removeCurrentSuppressor":
             case "removeAnimals":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Animals) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Animals during a cutscene or menu, or Snake has no Animals to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5436,7 +5442,7 @@ case "removeCurrentSuppressor":
             case "giveFly":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Fly) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Fly during a cutscene or menu, or Snake already has Fly.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5454,7 +5460,7 @@ case "removeCurrentSuppressor":
             case "removeFly":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Fly) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Fly during a cutscene or menu, or Snake has no Fly to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5472,7 +5478,7 @@ case "removeCurrentSuppressor":
             case "giveBanana":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.BananaCamo) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Banana during a cutscene or menu, or Snake already has Banana.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5490,7 +5496,7 @@ case "removeCurrentSuppressor":
             case "removeBanana":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.BananaCamo) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove Banana during a cutscene or menu, or Snake has no Banana to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5512,7 +5518,7 @@ case "removeCurrentSuppressor":
             case "giveLifeMedicine":
                 if (IsInCutscene() || (GetItemMaxCapacity(MGS3UsableObjects.LifeMedicine) <= GetItemValue(MGS3UsableObjects.LifeMedicine)))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give life medicine during a cutscene or menu, or this would exceed Snake's maximum life med capacity.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5531,7 +5537,7 @@ case "removeCurrentSuppressor":
             case "removeLifeMedicine":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.LifeMedicine) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove life medicine during a cutscene or menu, or Snake has no life meds to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5549,7 +5555,7 @@ case "removeCurrentSuppressor":
             case "giveScope":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Binoculars) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give a cigar during a cutscene or menu, or Snake already has the cigar.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5567,7 +5573,7 @@ case "removeCurrentSuppressor":
             case "removeScope":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Binoculars) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove a cigar during a cutscene or menu, or Snake has no cigar to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5585,7 +5591,7 @@ case "removeCurrentSuppressor":
             case "giveThermalGoggles":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.ThermalGoggles) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give thermal goggles during a cutscene or menu, or Snake already has the thermal goggles.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5603,7 +5609,7 @@ case "removeCurrentSuppressor":
             case "removeThermalGoggles":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.ThermalGoggles) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove thermal goggles during a cutscene or menu, or Snake has no thermal goggles to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5621,7 +5627,7 @@ case "removeCurrentSuppressor":
             case "giveNightVisionGoggles":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.NightVisionGoggles) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give night vision goggles during a cutscene or menu, or Snake already has the night vision goggles.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5639,7 +5645,7 @@ case "removeCurrentSuppressor":
             case "removeNightVisionGoggles":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.NightVisionGoggles) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove night vision goggles during a cutscene or menu, or Snake has no night vision goggles to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5657,7 +5663,7 @@ case "removeCurrentSuppressor":
             case "giveMotionDetector":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.MotionDetector) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give a motion detector during a cutscene or menu, or Snake already has the motion detector.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5675,7 +5681,7 @@ case "removeCurrentSuppressor":
             case "removeMotionDetector":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.MotionDetector) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove a motion detector during a cutscene or menu, or Snake has no motion detector to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5693,7 +5699,7 @@ case "removeCurrentSuppressor":
             case "giveSonar":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.ActiveSonar) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give a sonar during a cutscene or menu, or Snake already has the sonar.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5711,7 +5717,7 @@ case "removeCurrentSuppressor":
             case "removeSonar":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.ActiveSonar) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove a sonar during a cutscene or menu, or Snake has no sonar to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5729,7 +5735,7 @@ case "removeCurrentSuppressor":
             case "giveAntiPersonnelSensor":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.AntiPersonnelSensor) == 1))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give an anti-personnel sensor during a cutscene or menu, or Snake already has the anti-personnel sensor.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5747,7 +5753,7 @@ case "removeCurrentSuppressor":
             case "removeAntiPersonnelSensor":
                 if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.AntiPersonnelSensor) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove an anti-personnel sensor during a cutscene or menu, or Snake has no anti-personnel sensor to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5765,7 +5771,7 @@ case "removeCurrentSuppressor":
             case "giveAntidote":
                 if (IsInCutscene() || !IsMedicalItemEffectsAllowed() || (GetItemMaxCapacity(MGS3UsableObjects.Antidote) <= GetItemValue(MGS3UsableObjects.Antidote)))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give antidote during Cutscene/Menu/Virtuous Mission, or this would exceed Snake's maximum antidote capacity.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5783,7 +5789,7 @@ case "removeCurrentSuppressor":
             case "removeAntidote":
                 if (IsInCutscene() || !IsMedicalItemEffectsAllowed() || (GetItemValue(MGS3UsableObjects.Antidote) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove antidote during Cutscene/Menu/Virtuous Mission, or Snake has no antidote to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5801,7 +5807,7 @@ case "removeCurrentSuppressor":
             case "giveCMed":
                 if (IsInCutscene() || !IsMedicalItemEffectsAllowed() || (GetItemMaxCapacity(MGS3UsableObjects.ColdMedicine) <= GetItemValue(MGS3UsableObjects.ColdMedicine)))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give C Med during Cutscene/Menu/Virtuous Mission, or this would exceed Snake's maximum C Med capacity.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5819,7 +5825,7 @@ case "removeCurrentSuppressor":
             case "removeCMed":
                 if (IsInCutscene() || !IsMedicalItemEffectsAllowed() || (GetItemValue(MGS3UsableObjects.ColdMedicine) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove C Med during Cutscene/Menu/Virtuous Mission, or Snake has no C Med to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5838,7 +5844,7 @@ case "removeCurrentSuppressor":
             case "giveDMed":
                 if (IsInCutscene() || !IsMedicalItemEffectsAllowed() || (GetItemMaxCapacity(MGS3UsableObjects.DigestiveMedicine) <= GetItemValue(MGS3UsableObjects.DigestiveMedicine)))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give D Med during Cutscene/Menu/Virtuous Mission, or this would exceed Snake's maximum D Med capacity.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5856,7 +5862,7 @@ case "removeCurrentSuppressor":
             case "removeDMed":
                 if (IsInCutscene() || !IsMedicalItemEffectsAllowed() || (GetItemValue(MGS3UsableObjects.DigestiveMedicine) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove D Med during Cutscene/Menu/Virtuous Mission, or Snake has no D Med to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5874,7 +5880,7 @@ case "removeCurrentSuppressor":
             case "giveSerum":
                 if (IsInCutscene() || !IsMedicalItemEffectsAllowed() || (GetItemMaxCapacity(MGS3UsableObjects.Serum) <= GetItemValue(MGS3UsableObjects.Serum)))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give serum during Cutscene/Menu/Virtuous Mission, or this would exceed Snake's maximum serum capacity.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5892,7 +5898,7 @@ case "removeCurrentSuppressor":
             case "removeSerum":
                 if (IsInCutscene() || !IsMedicalItemEffectsAllowed() || (GetItemValue(MGS3UsableObjects.Serum) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove serum during Cutscene/Menu/Virtuous Mission, or Snake has no serum to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5910,7 +5916,7 @@ case "removeCurrentSuppressor":
             case "giveBandage":
                 if (IsInCutscene() || !IsMedicalItemEffectsAllowed() || (GetItemMaxCapacity(MGS3UsableObjects.Bandage) <= GetItemValue(MGS3UsableObjects.Bandage)))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give bandage during Cutscene/Menu/Virtuous Mission, or this would exceed Snake's maximum bandage capacity.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5928,7 +5934,7 @@ case "removeCurrentSuppressor":
             case "removeBandage":
                 if (IsInCutscene() || !IsMedicalItemEffectsAllowed() || (GetItemValue(MGS3UsableObjects.Bandage) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove bandage during Cutscene/Menu/Virtuous Mission, or Snake has no bandage to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5946,7 +5952,7 @@ case "removeCurrentSuppressor":
             case "giveDisinfectant":
                 if (IsInCutscene() || !IsMedicalItemEffectsAllowed() || (GetItemMaxCapacity(MGS3UsableObjects.Disinfectant) <= GetItemValue(MGS3UsableObjects.Disinfectant)))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give disinfectant during Cutscene/Menu/Virtuous Mission, or this would exceed Snake's maximum disinfectant capacity.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5964,7 +5970,7 @@ case "removeCurrentSuppressor":
             case "removeDisinfectant":
                 if (IsInCutscene() || !IsMedicalItemEffectsAllowed() || (GetItemValue(MGS3UsableObjects.Disinfectant) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove disinfectant during Cutscene/Menu/Virtuous Mission, or Snake has no disinfectant to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -5982,7 +5988,7 @@ case "removeCurrentSuppressor":
             case "giveOintment":
                 if (IsInCutscene() || !IsMedicalItemEffectsAllowed() || (GetItemMaxCapacity(MGS3UsableObjects.Ointment) <= GetItemValue(MGS3UsableObjects.Ointment)))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give ointment during Cutscene/Menu/Virtuous Mission, or this would exceed Snake's maximum ointment capacity.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -6000,7 +6006,7 @@ case "removeCurrentSuppressor":
             case "removeOintment":
                 if (IsInCutscene() || !IsMedicalItemEffectsAllowed() || (GetItemValue(MGS3UsableObjects.Ointment) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove ointment during Cutscene/Menu/Virtuous Mission, or Snake has no ointment to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -6018,7 +6024,7 @@ case "removeCurrentSuppressor":
             case "giveSplint":
                 if (IsInCutscene() || !IsMedicalItemEffectsAllowed() || (GetItemMaxCapacity(MGS3UsableObjects.Splint) <= GetItemValue(MGS3UsableObjects.Splint)))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give splint during Cutscene/Menu/Virtuous Mission, or this would exceed Snake's maximum splint capacity.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -6036,7 +6042,7 @@ case "removeCurrentSuppressor":
             case "removeSplint":
                 if (IsInCutscene() || !IsMedicalItemEffectsAllowed() || (GetItemValue(MGS3UsableObjects.Splint) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove splint during Cutscene/Menu/Virtuous Mission, or Snake has no splint to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -6054,7 +6060,7 @@ case "removeCurrentSuppressor":
             case "giveStyptic":
                 if (IsInCutscene() || !IsMedicalItemEffectsAllowed() || (GetItemMaxCapacity(MGS3UsableObjects.Styptic) <= GetItemValue(MGS3UsableObjects.Styptic)))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give styptic during Cutscene/Menu/Virtuous Mission, or this would exceed Snake's maximum styptic capacity.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -6072,7 +6078,7 @@ case "removeCurrentSuppressor":
             case "removeStyptic":
                 if (IsInCutscene() || !IsMedicalItemEffectsAllowed() || (GetItemValue(MGS3UsableObjects.Styptic) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove styptic during Cutscene/Menu/Virtuous Mission, or Snake has no styptic to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -6090,7 +6096,7 @@ case "removeCurrentSuppressor":
             case "giveSutureKit":
                 if (IsInCutscene() || !IsMedicalItemEffectsAllowed() || (GetItemMaxCapacity(MGS3UsableObjects.SutureKit) <= GetItemValue(MGS3UsableObjects.SutureKit)))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give suture kit during Cutscene/Menu/Virtuous Mission, or this would exceed Snake's maximum suture kit capacity.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -6108,7 +6114,7 @@ case "removeCurrentSuppressor":
             case "removeSutureKit":
                 if (IsInCutscene() || !IsMedicalItemEffectsAllowed() || (GetItemValue(MGS3UsableObjects.SutureKit) == 0))
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot remove suture kit during Cutscene/Menu/Virtuous Mission, or Snake has no suture kit to remove.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -6131,7 +6137,7 @@ case "removeCurrentSuppressor":
                 {
                     if (IsInCutscene())
                     {
-                        Respond(request, EffectStatus.FailTemporary, "Cannot change Snake's stamina during a cutscene or menu.");
+                        DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                         return;
                     }
                     TryEffect(request,
@@ -6149,7 +6155,7 @@ case "removeCurrentSuppressor":
             case "setSnakeMaxStamina":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot change Snake's stamina during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -6178,7 +6184,7 @@ case "removeCurrentSuppressor":
             case "snakeHasTheCommonCold":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Snake the common cold during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -6195,7 +6201,7 @@ case "removeCurrentSuppressor":
             case "snakeIsPoisoned":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot poison Snake during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -6212,7 +6218,7 @@ case "removeCurrentSuppressor":
             case "snakeHasFoodPoisoning":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot give Snake food poisoning during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -6229,7 +6235,7 @@ case "removeCurrentSuppressor":
             case "snakeHasLeeches":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot attach a leech to Snake during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -6246,7 +6252,7 @@ case "removeCurrentSuppressor":
             case "setSnakeDamageX2":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot change the damage Snake takes during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 var damageX2Duration = request.Duration;
@@ -6275,7 +6281,7 @@ case "removeCurrentSuppressor":
             case "setSnakeDamageX3":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot change the damage Snake takes during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 var damageX3Duration = request.Duration;
@@ -6304,7 +6310,7 @@ case "removeCurrentSuppressor":
             case "setSnakeDamageX4":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot change the damage Snake takes during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 var damageX4Duration = request.Duration;
@@ -6333,7 +6339,7 @@ case "removeCurrentSuppressor":
             case "setSnakeDamageX5":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot change the damage Snake takes during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 var damageX5Duration = request.Duration;
@@ -6362,7 +6368,7 @@ case "removeCurrentSuppressor":
             case "setSnakeCamoIndexNegative":
                 if (IsInCutscene() || !IsCamoIndexInstructionNormal())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot change Snake's camo index during a cutscene or menu, or if another camo index effect is being used.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 var camoIndexNegativeDuration = request.Duration;
@@ -6392,7 +6398,7 @@ case "removeCurrentSuppressor":
             case "setSnakeCamoIndexPositive":
                 if (IsInCutscene() || !IsCamoIndexInstructionNormal())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot change Snake's camo index during a cutscene or menu, or if another camo index effect is being used.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 var camoIndexPositiveDuration = request.Duration;
@@ -6422,7 +6428,7 @@ case "removeCurrentSuppressor":
             case "setSnakeCamoIndexZero":
                 if (IsInCutscene() || !IsCamoIndexInstructionNormal())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot change Snake's camo index during a cutscene or menu, or if another camo index effect is being used.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 var camoIndexZeroDuration = request.Duration;
@@ -6452,7 +6458,7 @@ case "removeCurrentSuppressor":
             case "setSnakeCamoIndexFifty":
                 if (IsInCutscene() || !IsCamoIndexInstructionNormal())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot change Snake's camo index during a cutscene or menu, or if another camo index effect is being used.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 var camoIndexFiftyDuration = request.Duration;
@@ -6482,7 +6488,7 @@ case "removeCurrentSuppressor":
             case "setSnakeCamoIndexNegativeFifty":
                 if (IsInCutscene() || !IsCamoIndexInstructionNormal())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot change Snake's camo index during a cutscene or menu, or if another camo index effect is being used.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 var camoIndexNegativeFiftyDuration = request.Duration;
@@ -6517,7 +6523,7 @@ case "removeCurrentSuppressor":
             case "makeSnakeQuickSleep":
                 if (IsInCutscene() || !IsSleepAllowedOnCurrentMap())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot put Snake to sleep while in a cutscene, menu or softlockable area.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -6534,7 +6540,7 @@ case "removeCurrentSuppressor":
             case "makeSnakePukeFire":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot set Snake on fire and make him puke during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -6551,7 +6557,7 @@ case "removeCurrentSuppressor":
             case "makeSnakePuke":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot make Snake puke during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -6568,7 +6574,7 @@ case "removeCurrentSuppressor":
             case "setSnakeOnFire":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot set Snake on fire during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 TryEffect(request,
@@ -6585,7 +6591,7 @@ case "removeCurrentSuppressor":
             case "makeSnakeBunnyHop":
                 if (IsInCutscene() || !IsBunnyHopAllowedOnCurrentMap())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot make Snake bunny hop during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 var bunnyHopDuration = request.Duration;
@@ -6614,7 +6620,7 @@ case "removeCurrentSuppressor":
             case "makeSnakeFreeze":
                 if (IsInCutscene())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot freeze Snake during a cutscene or menu.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 var freezeDuration = request.Duration;
@@ -6644,7 +6650,7 @@ case "removeCurrentSuppressor":
             case "makeSnakeCrouch":
                 if (IsInCutscene() || !IsSleepAllowedOnCurrentMap())
                 {
-                    Respond(request, EffectStatus.FailTemporary, "Cannot make Snake crouch during a cutscene or menu, or in an area the animation is not allowed.");
+                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
                     return;
                 }
                 var crouchDuration = request.Duration;
