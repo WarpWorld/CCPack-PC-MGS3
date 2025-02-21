@@ -3422,22 +3422,21 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 case "removeCurrentSuppressor":
 {
     Weapon currentWeapon = GetCurrentEquippedWeapon();
-    if (IsInCutscene() ||
-        (currentWeapon != MGS3UsableObjects.M1911A1 &&
-         currentWeapon != MGS3UsableObjects.MK22 &&
-         currentWeapon != MGS3UsableObjects.XM16E1))
+    if (IsInCutscene())
     {
-        Connector.SendMessage("Current weapon does not have a suppressor, or a cutscene is playing.");
-        Respond(request, EffectStatus.FailTemporary, "Suppressor removal not allowed.");
+        DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
         return;
     }
 
-    // Inform the framework that the effect has started successfully.
-    Respond(request, EffectStatus.Success, "Suppressor removal started.");
+    if (currentWeapon != MGS3UsableObjects.M1911A1 &&
+        currentWeapon != MGS3UsableObjects.MK22 &&
+        currentWeapon != MGS3UsableObjects.XM16E1)
+    {
+        Respond(request, EffectStatus.FailTemporary, StandardErrors.PrerequisiteNotFound, "A weapon with a suppressor");
+        return;
+    }
 
-    var effectDuration = request.Duration;
-
-    var unsuppressAct = RepeatAction(
+    RepeatAction(
         request,
         () => true,
         () => true,
@@ -3447,7 +3446,7 @@ case "removeCurrentSuppressor":
         () =>
         {
             Weapon weapon = GetCurrentEquippedWeapon();
-            if (weapon != null && weapon.HasSuppressor &&
+            if (weapon is { HasSuppressor: true } &&
                 (weapon == MGS3UsableObjects.M1911A1 ||
                  weapon == MGS3UsableObjects.MK22 ||
                  weapon == MGS3UsableObjects.XM16E1))
@@ -3460,9 +3459,7 @@ case "removeCurrentSuppressor":
         },
         TimeSpan.FromMilliseconds(100),
         false
-    );
-
-    unsuppressAct.WhenCompleted.Then(_ =>
+    ).WhenCompleted.Then(_ =>
     {
         Connector.SendMessage("Suppressors can be equipped again.");
     });
@@ -6797,7 +6794,7 @@ case "removeCurrentSuppressor":
                 break;
 
             default:
-                Respond(request, EffectStatus.FailPermanent, "Unknown effect");
+                Respond(request, EffectStatus.FailPermanent, StandardErrors.UnknownEffect, request);
                 break;
 
                 #endregion
