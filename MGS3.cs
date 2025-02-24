@@ -3309,12 +3309,6 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     protected override void StartEffect(EffectRequest request)
     {
-        if (!IsReady(request))
-        {
-            DelayEffect(request);
-            return;
-        }
-
         var codeParams = FinalCode(request).Split('_');
         switch (codeParams[0])
         {
