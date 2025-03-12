@@ -8,7 +8,7 @@ using ConnectorLib;
 using ConnectorLib.Inject.VersionProfiles;
 using ConnectorLib.Memory;
 using CrowdControl.Common;
-using AddressChain = ConnectorLib.Inject.AddressChaining.AddressChain;
+using AddressChain = ConnectorLib.Memory.AddressChain<ConnectorLib.Inject.InjectConnector>;
 using ConnectorType = CrowdControl.Common.ConnectorType;
 using Log = CrowdControl.Common.Log;
 
