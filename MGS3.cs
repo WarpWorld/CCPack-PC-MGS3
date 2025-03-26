@@ -259,33 +259,33 @@ public class MGS3 : InjectEffectPack
         public static readonly Weapon NoneWeapon = new Weapon("None Weapon", 0);
         public static readonly Weapon SurvivalKnife = new Weapon("Survival Knife", 1);
         public static readonly Weapon Fork = new Weapon("Fork", 2);
-        public static readonly Weapon CigSpray = new Weapon("Cig Spray", 3, hasAmmo: true);
-        public static readonly Weapon Handkerchief = new Weapon("Handkerchief", 4, hasAmmo: true);
-        public static readonly Weapon MK22 = new Weapon("MK22", 5, hasAmmo: true, hasClip: true, hasSuppressor: true);
-        public static readonly Weapon M1911A1 = new Weapon("M1911A1", 6, hasAmmo: true, hasClip: true, hasSuppressor: true);
+        public static readonly Weapon CigSpray = new Weapon("Cig Spray", 3, true);
+        public static readonly Weapon Handkerchief = new Weapon("Handkerchief", 4, true);
+        public static readonly Weapon MK22 = new Weapon("MK22", 5, true, true, true);
+        public static readonly Weapon M1911A1 = new Weapon("M1911A1", 6, true, true, true);
         public static readonly Weapon EzGun = new Weapon("EZ Gun", 7);
-        public static readonly Weapon SAA = new Weapon("SAA", 8, hasAmmo: true, hasClip: true);
+        public static readonly Weapon SAA = new Weapon("SAA", 8, true, true);
         public static readonly Weapon Patriot = new Weapon("Patriot", 9);
-        public static readonly Weapon Scorpion = new Weapon("Scorpion", 10, hasAmmo: true, hasClip: true);
-        public static readonly Weapon XM16E1 = new Weapon("XM16E1", 11, hasAmmo: true, hasClip: true, hasSuppressor: true);
-        public static readonly Weapon AK47 = new Weapon("AK47", 12, hasAmmo: true, hasClip: true);
-        public static readonly Weapon M63 = new Weapon("M63", 13, hasAmmo: true, hasClip: true);
-        public static readonly Weapon M37 = new Weapon("M37", 14, hasAmmo: true, hasClip: true);
-        public static readonly Weapon SVD = new Weapon("SVD", 15, hasAmmo: true, hasClip: true);
-        public static readonly Weapon MosinNagant = new Weapon("Mosin-Nagant", 16, hasAmmo: true, hasClip: true);
-        public static readonly Weapon RPG7 = new Weapon("RPG-7", 17, hasAmmo: true, hasClip: true);
+        public static readonly Weapon Scorpion = new Weapon("Scorpion", 10, true, true);
+        public static readonly Weapon XM16E1 = new Weapon("XM16E1", 11, true, true, true);
+        public static readonly Weapon AK47 = new Weapon("AK47", 12, true, true);
+        public static readonly Weapon M63 = new Weapon("M63", 13, true, true);
+        public static readonly Weapon M37 = new Weapon("M37", 14, true, true);
+        public static readonly Weapon SVD = new Weapon("SVD", 15, true, true);
+        public static readonly Weapon MosinNagant = new Weapon("Mosin-Nagant", 16, true, true);
+        public static readonly Weapon RPG7 = new Weapon("RPG-7", 17, true, true);
         public static readonly Weapon Torch = new Weapon("Torch", 18);
-        public static readonly Weapon Grenade = new Weapon("Grenade", 19, hasAmmo: true);
-        public static readonly Weapon WpGrenade = new Weapon("WP Grenade", 20, hasAmmo: true);
-        public static readonly Weapon StunGrenade = new Weapon("Stun Grenade", 21, hasAmmo: true);
-        public static readonly Weapon ChaffGrenade = new Weapon("Chaff Grenade", 22, hasAmmo: true);
-        public static readonly Weapon SmokeGrenade = new Weapon("Smoke Grenade", 23, hasAmmo: true);
-        public static readonly Weapon EmptyMagazine = new Weapon("Empty Magazine", 24, hasAmmo: true);
-        public static readonly Weapon TNT = new Weapon("TNT", 25, hasAmmo: true);
-        public static readonly Weapon C3 = new Weapon("C3", 26, hasAmmo: true);
-        public static readonly Weapon Claymore = new Weapon("Claymore", 27, hasAmmo: true);
-        public static readonly Weapon Book = new Weapon("Book", 28, hasAmmo: true);
-        public static readonly Weapon Mousetrap = new Weapon("Mousetrap", 29, hasAmmo: true);
+        public static readonly Weapon Grenade = new Weapon("Grenade", 19, true);
+        public static readonly Weapon WpGrenade = new Weapon("WP Grenade", 20, true);
+        public static readonly Weapon StunGrenade = new Weapon("Stun Grenade", 21, true);
+        public static readonly Weapon ChaffGrenade = new Weapon("Chaff Grenade", 22, true);
+        public static readonly Weapon SmokeGrenade = new Weapon("Smoke Grenade", 23, true);
+        public static readonly Weapon EmptyMagazine = new Weapon("Empty Magazine", 24, true);
+        public static readonly Weapon TNT = new Weapon("TNT", 25, true);
+        public static readonly Weapon C3 = new Weapon("C3", 26, true);
+        public static readonly Weapon Claymore = new Weapon("Claymore", 27, true);
+        public static readonly Weapon Book = new Weapon("Book", 28, true);
+        public static readonly Weapon Mousetrap = new Weapon("Mousetrap", 29, true);
         public static readonly Weapon DirectionalMic = new Weapon("Directional Microphone", 30);
 
         public static readonly Dictionary<int, Weapon> AllWeapons = new Dictionary<int, Weapon>
@@ -3332,7 +3332,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
                     TryEffect(request,
                         () => true,
                         () => TrySubtractAmmoFromCurrentWeapon((short)quantity),
-                        () => Connector.SendMessage($"{request.DisplayViewer} subtracted {quantity} ammo from {GetCurrentEquippedWeapon()?.Name ?? "Unknown Weapon"}."), null, false);
+                        () => Connector.SendMessage($"{request.DisplayViewer} subtracted {quantity} ammo from {GetCurrentEquippedWeapon()?.Name ?? "Unknown Weapon"}."),
+                        retryOnFail: false);
                     break;
                 }
 
@@ -3348,7 +3349,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
                         () => true,
                         () => TryAddAmmoToCurrentWeapon((short)quantity),
                         () => Connector.SendMessage($"{request.DisplayViewer} added {quantity} ammo to {GetCurrentEquippedWeapon()?.Name ?? "Unknown Weapon"}."),
-                        null, false);
+                        retryOnFail: false);
                     break;
                 }
 
@@ -3481,8 +3482,7 @@ case "removeCurrentSuppressor":
                             SetAlertStatus();
                             return true;
                         },
-                        () => Connector.SendMessage($"{request.DisplayViewer} set the game to Alert Status."),
-                        null, true);
+                        () => Connector.SendMessage($"{request.DisplayViewer} set the game to Alert Status."));
                     break;
                 }
 
@@ -3505,8 +3505,7 @@ case "removeCurrentSuppressor":
                         SetAlertStatus();
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} set the game to Evasion Status."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} set the game to Evasion Status."));
                 break;
 
             case "setCautionStatus":
@@ -3522,8 +3521,7 @@ case "removeCurrentSuppressor":
                         SetCautionStatus();
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} set the game to Caution Status."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} set the game to Caution Status."));
                 break;
 
             #endregion
@@ -3584,8 +3582,7 @@ case "removeCurrentSuppressor":
                         SetToDayMode();
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} set the game to Day Mode."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} set the game to Day Mode."));
                 break;
 
             case "setToNightMode":
@@ -3596,8 +3593,7 @@ case "removeCurrentSuppressor":
                         SetToNightMode();
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} set the game to Night Mode."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} set the game to Night Mode."));
                 break;
 
             case "setToFoggyMode":
@@ -3608,8 +3604,7 @@ case "removeCurrentSuppressor":
                         SetToFoggyMode();
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} set the game to Foggy Mode."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} set the game to Foggy Mode."));
                 break;
 
             case "setToMuddyFogMode":
@@ -3620,8 +3615,7 @@ case "removeCurrentSuppressor":
                         SetToMuddyFogMode();
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} set the game to Muddy Fog Mode."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} set the game to Muddy Fog Mode."));
                 break;
 
             case "setToRedMistMode":
@@ -3632,8 +3626,7 @@ case "removeCurrentSuppressor":
                         SetToRedMistMode();
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} set the game to Red Mist Mode."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} set the game to Red Mist Mode."));
                 break;
 
             case "zoomInFOV":
@@ -3712,8 +3705,7 @@ case "removeCurrentSuppressor":
                         SwapFacePaint(SnakesFacePaint.NoPaint);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Snake's face paint."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Snake's face paint."));
                 break;
 
 
@@ -3730,8 +3722,7 @@ case "removeCurrentSuppressor":
                         SwapFacePaint(SnakesFacePaint.Woodland);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Woodland."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Woodland."));
                 break;
 
             case "swapToBlackFacePaint":
@@ -3747,8 +3738,7 @@ case "removeCurrentSuppressor":
                         SwapFacePaint(SnakesFacePaint.Black);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Black."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Black."));
                 break;
 
             case "swapToWaterFacePaint":
@@ -3764,8 +3754,7 @@ case "removeCurrentSuppressor":
                         SwapFacePaint(SnakesFacePaint.Water);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Water."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Water."));
                 break;
 
             case "swapToDesertFacePaint":
@@ -3781,8 +3770,7 @@ case "removeCurrentSuppressor":
                         SwapFacePaint(SnakesFacePaint.Desert);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Desert."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Desert."));
                 break;
 
             case "swapToSplitterFacePaint":
@@ -3798,8 +3786,7 @@ case "removeCurrentSuppressor":
                         SwapFacePaint(SnakesFacePaint.Splitter);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Splitter."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Splitter."));
                 break;
 
             case "swapToSnowFacePaint":
@@ -3815,8 +3802,7 @@ case "removeCurrentSuppressor":
                         SwapFacePaint(SnakesFacePaint.Snow);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Snow."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Snow."));
                 break;
 
             case "swapToKabukiFacePaint":
@@ -3832,8 +3818,7 @@ case "removeCurrentSuppressor":
                         SwapFacePaint(SnakesFacePaint.Kabuki);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Kabuki."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Kabuki."));
                 break;
 
             case "swapToZombieFacePaint":
@@ -3849,8 +3834,7 @@ case "removeCurrentSuppressor":
                         SwapFacePaint(SnakesFacePaint.Zombie);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Zombie."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Zombie."));
                 break;
 
             case "swapToOyamaFacePaint":
@@ -3866,8 +3850,7 @@ case "removeCurrentSuppressor":
                         SwapFacePaint(SnakesFacePaint.Oyama);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Oyama."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Oyama."));
                 break;
 
             case "swapToGreenFacePaint":
@@ -3883,8 +3866,7 @@ case "removeCurrentSuppressor":
                         SwapFacePaint(SnakesFacePaint.Green);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Green."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Green."));
                 break;
 
             case "swapToBrownFacePaint":
@@ -3900,8 +3882,7 @@ case "removeCurrentSuppressor":
                         SwapFacePaint(SnakesFacePaint.Brown);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Brown."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Brown."));
                 break;
 
             case "swapToSovietUnionFacePaint":
@@ -3917,8 +3898,7 @@ case "removeCurrentSuppressor":
                         SwapFacePaint(SnakesFacePaint.SovietUnion);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Soviet Union."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Soviet Union."));
                 break;
 
             case "swapToUKFacePaint":
@@ -3934,8 +3914,7 @@ case "removeCurrentSuppressor":
                         SwapFacePaint(SnakesFacePaint.UK);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to UK."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to UK."));
                 break;
 
             case "swapToFranceFacePaint":
@@ -3951,8 +3930,7 @@ case "removeCurrentSuppressor":
                         SwapFacePaint(SnakesFacePaint.France);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to France."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to France."));
                 break;
 
             case "swapToSpainFacePaint":
@@ -3968,8 +3946,7 @@ case "removeCurrentSuppressor":
                         SwapFacePaint(SnakesFacePaint.Spain);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Spain."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Spain."));
                 break;
 
             case "swapToSwedenFacePaint":
@@ -3985,8 +3962,7 @@ case "removeCurrentSuppressor":
                         SwapFacePaint(SnakesFacePaint.Sweden);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Sweden."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Sweden."));
                 break;
 
             case "swapToItalyFacePaint":
@@ -4002,8 +3978,7 @@ case "removeCurrentSuppressor":
                         SwapFacePaint(SnakesFacePaint.Italy);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Italy."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Italy."));
                 break;
 
             case "swapToGermanyFacePaint":
@@ -4019,8 +3994,7 @@ case "removeCurrentSuppressor":
                         SwapFacePaint(SnakesFacePaint.Germany);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Germany."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Germany."));
                 break;
 
             case "swapToJapanFacePaint":
@@ -4036,8 +4010,7 @@ case "removeCurrentSuppressor":
                         SwapFacePaint(SnakesFacePaint.Japan);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Japan."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Japan."));
                 break;
 
 
@@ -4054,8 +4027,7 @@ case "removeCurrentSuppressor":
                         SwapFacePaint(SnakesFacePaint.USA);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to USA."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to USA."));
                 break;
 
 
@@ -4077,8 +4049,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.OliveDrab);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Olive Drab."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Olive Drab."));
                 break;
 
             case "swapToTigerStripe":
@@ -4094,8 +4065,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.TigerStripe);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Tiger Stripe."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Tiger Stripe."));
                 break;
 
             case "swapToLeaf":
@@ -4111,8 +4081,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.Leaf);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Leaf."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Leaf."));
                 break;
 
             case "swapToTreeBark":
@@ -4128,8 +4097,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.TreeBark);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Tree Bark."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Tree Bark."));
                 break;
 
             case "swapToChocoChip":
@@ -4145,8 +4113,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.ChocoChip);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Choco Chip."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Choco Chip."));
                 break;
 
             case "swapToSplitter":
@@ -4162,8 +4129,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.Splitter);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Splitter."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Splitter."));
                 break;
 
             case "swapToRaindrop":
@@ -4179,8 +4145,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.Raindrop);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Raindrop."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Raindrop."));
                 break;
 
             case "swapToSquares":
@@ -4196,8 +4161,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.Squares);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Squares."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Squares."));
                 break;
 
             case "swapToWater":
@@ -4213,8 +4177,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.Water);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Water."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Water."));
                 break;
 
             case "swapToBlack":
@@ -4230,8 +4193,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.Black);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Black."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Black."));
                 break;
 
             case "swapToSnow":
@@ -4247,8 +4209,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.Snow);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Snow."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Snow."));
                 break;
 
             case "swapToNaked":
@@ -4264,8 +4225,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.Naked);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Naked."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Naked."));
                 break;
 
             case "swapToSneakingSuit":
@@ -4281,8 +4241,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.SneakingSuit);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Sneaking Suit."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Sneaking Suit."));
                 break;
 
 
@@ -4300,8 +4259,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.HornetStripe);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Hornet Stripe."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Hornet Stripe."));
                 break;
 
             case "swapToSpider":
@@ -4317,8 +4275,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.Spider);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Spider."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Spider."));
                 break;
 
             case "swapToMoss":
@@ -4334,8 +4291,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.Moss);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Moss."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Moss."));
                 break;
 
             case "swapToFire":
@@ -4351,8 +4307,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.Fire);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Fire."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Fire."));
                 break;
 
             case "swapToSpirit":
@@ -4368,8 +4323,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.Spirit);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Spirit."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Spirit."));
                 break;
 
             case "swapToColdWar":
@@ -4385,8 +4339,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.ColdWar);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Cold War."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Cold War."));
                 break;
 
             case "swapToSnake":
@@ -4402,8 +4355,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.Snake);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Snake."));
                 break;
 
             case "swapToGaKo":
@@ -4419,8 +4371,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.GakoCamo);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Ga-Ko."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Ga-Ko."));
                 break;
 
             case "swapToDesertTiger":
@@ -4436,8 +4387,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.DesertTiger);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Desert Tiger."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Desert Tiger."));
                 break;
 
             case "swapToDPM":
@@ -4453,8 +4403,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.DPM);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to DPM."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to DPM."));
                 break;
 
             case "swapToFlecktarn":
@@ -4470,8 +4419,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.Flecktarn);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Flecktarn."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Flecktarn."));
                 break;
 
             case "swapToAuscam":
@@ -4487,8 +4435,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.Auscam);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Auscam."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Auscam."));
                 break;
 
             case "swapToAnimals":
@@ -4504,8 +4451,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.Animals);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Animals."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Animals."));
                 break;
 
             case "swapToFly":
@@ -4521,8 +4467,7 @@ case "removeCurrentSuppressor":
                         SwapUniform(SnakesUniformCamo.Fly);
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Fly."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Fly."));
                 break;
 
             #endregion
@@ -4543,8 +4488,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.OliveDrab, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Olive Drab."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Olive Drab."));
                 break;
 
             case "removeOliveDrab":
@@ -4561,8 +4505,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.OliveDrab, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Olive Drab from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Olive Drab from Snake."));
                 break;
 
             case "giveTigerStripe":
@@ -4579,8 +4522,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.TigerStripe, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Tiger Stripe."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Tiger Stripe."));
                 break;
 
             case "removeTigerStripe":
@@ -4597,8 +4539,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.TigerStripe, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Tiger Stripe from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Tiger Stripe from Snake."));
                 break;
 
             case "giveLeaf":
@@ -4615,8 +4556,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Leaf, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Leaf."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Leaf."));
                 break;
 
 
@@ -4634,8 +4574,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Leaf, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Leaf from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Leaf from Snake."));
                 break;
 
             case "giveTreeBark":
@@ -4652,8 +4591,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.TreeBark, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Tree Bark."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Tree Bark."));
                 break;
 
             case "removeTreeBark":
@@ -4670,8 +4608,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.TreeBark, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Tree Bark from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Tree Bark from Snake."));
                 break;
 
             case "giveChocoChip":
@@ -4688,8 +4625,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.ChocoChip, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Choco Chip."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Choco Chip."));
                 break;
 
             case "removeChocoChip":
@@ -4706,8 +4642,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.ChocoChip, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Choco Chip from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Choco Chip from Snake."));
                 break;
 
             case "giveSplitter":
@@ -4724,8 +4659,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Splitter, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Splitter."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Splitter."));
                 break;
 
             case "removeSplitter":
@@ -4742,8 +4676,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Splitter, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Splitter from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Splitter from Snake."));
                 break;
 
             case "giveRaindrop":
@@ -4760,8 +4693,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Raindrop, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Raindrop."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Raindrop."));
                 break;
 
             case "removeRaindrop":
@@ -4778,8 +4710,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Raindrop, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Raindrop from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Raindrop from Snake."));
                 break;
 
             case "giveSquares":
@@ -4796,8 +4727,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Squares, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Squares."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Squares."));
                 break;
 
             case "removeSquares":
@@ -4814,8 +4744,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Squares, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Squares from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Squares from Snake."));
                 break;
 
             case "giveWater":
@@ -4832,8 +4761,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Water, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Water."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Water."));
                 break;
 
             case "removeWater":
@@ -4850,8 +4778,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Water, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Water from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Water from Snake."));
                 break;
 
             case "giveBlack":
@@ -4868,8 +4795,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Black, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Black."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Black."));
                 break;
 
             case "removeBlack":
@@ -4886,8 +4812,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Black, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Black from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Black from Snake."));
                 break;
 
             case "giveSnow":
@@ -4904,8 +4829,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Snow, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Snow."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Snow."));
                 break;
 
             case "removeSnow":
@@ -4922,8 +4846,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Snow, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Snow from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Snow from Snake."));
                 break;
 
             case "giveSneakingSuit":
@@ -4940,8 +4863,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.SneakingSuit, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Sneaking Suit."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Sneaking Suit."));
                 break;
 
             case "removeSneakingSuit":
@@ -4958,8 +4880,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.SneakingSuit, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Sneaking Suit from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Sneaking Suit from Snake."));
                 break;
 
             case "giveHornetStripe":
@@ -4976,8 +4897,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.HornetStripe, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Hornet Stripe."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Hornet Stripe."));
                 break;
 
             case "removeHornetStripe":
@@ -4994,8 +4914,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.HornetStripe, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Hornet Stripe from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Hornet Stripe from Snake."));
                 break;
 
             case "giveSpider":
@@ -5012,8 +4931,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Spider, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Spider."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Spider."));
                 break;
 
             case "removeSpider":
@@ -5030,8 +4948,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Spider, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Spider from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Spider from Snake."));
                 break;
 
             case "giveMoss":
@@ -5048,8 +4965,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Moss, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Moss."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Moss."));
                 break;
 
             case "removeMoss":
@@ -5066,8 +4982,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Moss, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Moss from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Moss from Snake."));
                 break;
 
             case "giveFire":
@@ -5084,8 +4999,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Fire, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Fire."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Fire."));
                 break;
 
             case "removeFire":
@@ -5102,8 +5016,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Fire, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Fire from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Fire from Snake."));
                 break;
 
             case "giveSpirit":
@@ -5120,8 +5033,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Spirit, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Spirit."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Spirit."));
                 break;
 
             case "removeSpirit":
@@ -5138,8 +5050,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Spirit, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Spirit from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Spirit from Snake."));
                 break;
 
             case "giveColdWar":
@@ -5156,8 +5067,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.ColdWar, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Cold War."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Cold War."));
                 break;
 
             case "removeColdWar":
@@ -5174,8 +5084,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.ColdWar, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Cold War from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Cold War from Snake."));
                 break;
 
             case "giveSnake":
@@ -5192,8 +5101,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Snake, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Snake."));
                 break;
 
             case "removeSnake":
@@ -5210,8 +5118,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Snake, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Snake from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Snake from Snake."));
                 break;
 
             case "giveGako":
@@ -5228,8 +5135,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.GakoCamo, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Gako."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Gako."));
                 break;
 
             case "removeGako":
@@ -5246,8 +5152,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.GakoCamo, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Gako from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Gako from Snake."));
                 break;
 
             case "giveDesertTiger":
@@ -5264,8 +5169,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.DesertTiger, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Desert Tiger."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Desert Tiger."));
                 break;
 
             case "removeDesertTiger":
@@ -5282,8 +5186,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.DesertTiger, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Desert Tiger from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Desert Tiger from Snake."));
                 break;
 
             case "giveDPM":
@@ -5300,8 +5203,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.DPM, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake DPM."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake DPM."));
                 break;
 
             case "removeDPM":
@@ -5318,8 +5220,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.DPM, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed DPM from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed DPM from Snake."));
                 break;
 
             case "giveFlecktarn":
@@ -5336,8 +5237,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Flecktarn, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Flecktarn."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Flecktarn."));
                 break;
 
             case "removeFlecktarn":
@@ -5354,8 +5254,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Flecktarn, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Flecktarn from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Flecktarn from Snake."));
                 break;
 
             case "giveAuscam":
@@ -5372,8 +5271,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Auscam, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Auscam."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Auscam."));
                 break;
 
             case "removeAuscam":
@@ -5390,8 +5288,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Auscam, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Auscam from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Auscam from Snake."));
                 break;
 
             case "giveAnimals":
@@ -5408,8 +5305,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Animals, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Animals."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Animals."));
                 break;
 
             case "removeAnimals":
@@ -5426,8 +5322,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Animals, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Animals from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Animals from Snake."));
                 break;
 
             case "giveFly":
@@ -5444,8 +5339,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Fly, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Fly."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Fly."));
                 break;
 
             case "removeFly":
@@ -5462,8 +5356,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Fly, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Fly from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Fly from Snake."));
                 break;
 
             case "giveBanana":
@@ -5480,8 +5373,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.BananaCamo, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Banana."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Banana."));
                 break;
 
             case "removeBanana":
@@ -5498,8 +5390,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.BananaCamo, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Banana camo from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed Banana camo from Snake."));
                 break;
 
             #endregion
@@ -5520,8 +5411,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.LifeMedicine, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a life med. Snake now has {GetItemValue(MGS3UsableObjects.LifeMedicine)} life med(s)."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a life med. Snake now has {GetItemValue(MGS3UsableObjects.LifeMedicine)} life med(s)."));
                 break;
 
 
@@ -5539,8 +5429,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.LifeMedicine, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed a life medicine from Snake, he now has {GetItemValue(MGS3UsableObjects.LifeMedicine)} life med(s)."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed a life medicine from Snake, he now has {GetItemValue(MGS3UsableObjects.LifeMedicine)} life med(s)."));
                 break;
 
             case "giveScope":
@@ -5557,8 +5446,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Binoculars, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a scope."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a scope."));
                 break;
 
             case "removeScope":
@@ -5575,8 +5463,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Binoculars, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed a cigar from Snake, guess he is quitting smoking early."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed a cigar from Snake, guess he is quitting smoking early."));
                 break;
 
             case "giveThermalGoggles":
@@ -5593,8 +5480,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.ThermalGoggles, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake thermal goggles."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake thermal goggles."));
                 break;
 
             case "removeThermalGoggles":
@@ -5611,8 +5497,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.ThermalGoggles, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed thermal goggles from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed thermal goggles from Snake."));
                 break;
 
             case "giveNightVisionGoggles":
@@ -5629,8 +5514,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.NightVisionGoggles, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake night vision goggles."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake night vision goggles."));
                 break;
 
             case "removeNightVisionGoggles":
@@ -5647,8 +5531,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.NightVisionGoggles, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed night vision goggles from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed night vision goggles from Snake."));
                 break;
 
             case "giveMotionDetector":
@@ -5665,8 +5548,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.MotionDetector, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a motion detector."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a motion detector."));
                 break;
 
             case "removeMotionDetector":
@@ -5683,8 +5565,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.MotionDetector, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed a motion detector from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed a motion detector from Snake."));
                 break;
 
             case "giveSonar":
@@ -5701,8 +5582,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.ActiveSonar, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a sonar."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a sonar."));
                 break;
 
             case "removeSonar":
@@ -5719,8 +5599,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.ActiveSonar, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed a sonar from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed a sonar from Snake."));
                 break;
 
             case "giveAntiPersonnelSensor":
@@ -5737,8 +5616,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.AntiPersonnelSensor, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake an anti-personnel sensor."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake an anti-personnel sensor."));
                 break;
 
             case "removeAntiPersonnelSensor":
@@ -5755,8 +5633,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.AntiPersonnelSensor, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed an anti-personnel sensor from Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed an anti-personnel sensor from Snake."));
                 break;
 
             case "giveAntidote":
@@ -5773,8 +5650,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Antidote, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake an antidote. Snake now has {GetItemValue(MGS3UsableObjects.Antidote)} antidote(s)."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake an antidote. Snake now has {GetItemValue(MGS3UsableObjects.Antidote)} antidote(s)."));
                 break;
 
             case "removeAntidote":
@@ -5791,8 +5667,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Antidote, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed an antidote from Snake, he now has {GetItemValue(MGS3UsableObjects.Antidote)} antidote(s)."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed an antidote from Snake, he now has {GetItemValue(MGS3UsableObjects.Antidote)} antidote(s)."));
                 break;
 
             case "giveCMed":
@@ -5809,8 +5684,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.ColdMedicine, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a C Med. Snake now has {GetItemValue(MGS3UsableObjects.ColdMedicine)} C Med(s)."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a C Med. Snake now has {GetItemValue(MGS3UsableObjects.ColdMedicine)} C Med(s)."));
                 break;
 
             case "removeCMed":
@@ -5827,8 +5701,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.ColdMedicine, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed a C Med from Snake, he now has {GetItemValue(MGS3UsableObjects.ColdMedicine)} C Med(s)."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed a C Med from Snake, he now has {GetItemValue(MGS3UsableObjects.ColdMedicine)} C Med(s)."));
                 break;
 
 
@@ -5846,8 +5719,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.DigestiveMedicine, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a D Med. Snake now has {GetItemValue(MGS3UsableObjects.DigestiveMedicine)} D Med(s)."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a D Med. Snake now has {GetItemValue(MGS3UsableObjects.DigestiveMedicine)} D Med(s)."));
                 break;
 
             case "removeDMed":
@@ -5864,8 +5736,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.DigestiveMedicine, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed a D Med from Snake, he now has {GetItemValue(MGS3UsableObjects.DigestiveMedicine)} D Med(s)."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed a D Med from Snake, he now has {GetItemValue(MGS3UsableObjects.DigestiveMedicine)} D Med(s)."));
                 break;
 
             case "giveSerum":
@@ -5882,8 +5753,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Serum, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a serum. Snake now has {GetItemValue(MGS3UsableObjects.Serum)} serum(s)."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a serum. Snake now has {GetItemValue(MGS3UsableObjects.Serum)} serum(s)."));
                 break;
 
             case "removeSerum":
@@ -5900,8 +5770,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Serum, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed a serum from Snake, he now has {GetItemValue(MGS3UsableObjects.Serum)} serum(s)."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed a serum from Snake, he now has {GetItemValue(MGS3UsableObjects.Serum)} serum(s)."));
                 break;
 
             case "giveBandage":
@@ -5918,8 +5787,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Bandage, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a bandage. Snake now has {GetItemValue(MGS3UsableObjects.Bandage)} bandage(s)."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a bandage. Snake now has {GetItemValue(MGS3UsableObjects.Bandage)} bandage(s)."));
                 break;
 
             case "removeBandage":
@@ -5936,8 +5804,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Bandage, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed a bandage from Snake, he now has {GetItemValue(MGS3UsableObjects.Bandage)} bandage(s)."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed a bandage from Snake, he now has {GetItemValue(MGS3UsableObjects.Bandage)} bandage(s)."));
                 break;
 
             case "giveDisinfectant":
@@ -5954,8 +5821,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Disinfectant, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a disinfectant. Snake now has {GetItemValue(MGS3UsableObjects.Disinfectant)} disinfectant(s)."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a disinfectant. Snake now has {GetItemValue(MGS3UsableObjects.Disinfectant)} disinfectant(s)."));
                 break;
 
             case "removeDisinfectant":
@@ -5972,8 +5838,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Disinfectant, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed a disinfectant from Snake, he now has {GetItemValue(MGS3UsableObjects.Disinfectant)} disinfectant(s)."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed a disinfectant from Snake, he now has {GetItemValue(MGS3UsableObjects.Disinfectant)} disinfectant(s)."));
                 break;
 
             case "giveOintment":
@@ -5990,8 +5855,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Ointment, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake an ointment. Snake now has {GetItemValue(MGS3UsableObjects.Ointment)} ointment(s)."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake an ointment. Snake now has {GetItemValue(MGS3UsableObjects.Ointment)} ointment(s)."));
                 break;
 
             case "removeOintment":
@@ -6008,8 +5872,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Ointment, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed an ointment from Snake, he now has {GetItemValue(MGS3UsableObjects.Ointment)} ointment(s)."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed an ointment from Snake, he now has {GetItemValue(MGS3UsableObjects.Ointment)} ointment(s)."));
                 break;
 
             case "giveSplint":
@@ -6026,8 +5889,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Splint, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a splint. Snake now has {GetItemValue(MGS3UsableObjects.Splint)} splint(s)."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a splint. Snake now has {GetItemValue(MGS3UsableObjects.Splint)} splint(s)."));
                 break;
 
             case "removeSplint":
@@ -6044,8 +5906,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Splint, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed a splint from Snake, he now has {GetItemValue(MGS3UsableObjects.Splint)} splint(s)."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed a splint from Snake, he now has {GetItemValue(MGS3UsableObjects.Splint)} splint(s)."));
                 break;
 
             case "giveStyptic":
@@ -6062,8 +5923,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Styptic, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a styptic. Snake now has {GetItemValue(MGS3UsableObjects.Styptic)} styptic(s)."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a styptic. Snake now has {GetItemValue(MGS3UsableObjects.Styptic)} styptic(s)."));
                 break;
 
             case "removeStyptic":
@@ -6080,8 +5940,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.Styptic, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed a styptic from Snake, he now has {GetItemValue(MGS3UsableObjects.Styptic)} styptic(s)."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed a styptic from Snake, he now has {GetItemValue(MGS3UsableObjects.Styptic)} styptic(s)."));
                 break;
 
             case "giveSutureKit":
@@ -6098,8 +5957,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.SutureKit, (short)(currentValue + 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a suture kit. Snake now has {GetItemValue(MGS3UsableObjects.SutureKit)} suture kit(s)."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a suture kit. Snake now has {GetItemValue(MGS3UsableObjects.SutureKit)} suture kit(s)."));
                 break;
 
             case "removeSutureKit":
@@ -6116,8 +5974,7 @@ case "removeCurrentSuppressor":
                         SetItemValue(MGS3UsableObjects.SutureKit, (short)(currentValue - 1));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed a suture kit from Snake, he now has {GetItemValue(MGS3UsableObjects.SutureKit)} suture kit(s)."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed a suture kit from Snake, he now has {GetItemValue(MGS3UsableObjects.SutureKit)} suture kit(s)."));
                 break;
 
             #endregion
@@ -6138,8 +5995,7 @@ case "removeCurrentSuppressor":
                             SetSnakeStamina();
                             return true;
                         },
-                        () => Connector.SendMessage($"{request.DisplayViewer} set Snake's stamina to 0."),
-                        null, true);
+                        () => Connector.SendMessage($"{request.DisplayViewer} set Snake's stamina to 0."));
                     break;
                 }
 
@@ -6156,8 +6012,7 @@ case "removeCurrentSuppressor":
                         SetSnakeMaxStamina();
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} set Snake's Stamina to 30000."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} set Snake's Stamina to 30000."));
                 break;
 
             case "makeSnakeJump":
@@ -6168,8 +6023,7 @@ case "removeCurrentSuppressor":
                         IncreaseSnakeYCoordBy2000();
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} made Snake jump."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} made Snake jump."));
                 break;
 
             case "snakeHasTheCommonCold":
@@ -6185,8 +6039,7 @@ case "removeCurrentSuppressor":
                         SnakeHasTheCommonCold();
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake the common cold."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake the common cold."));
                 break;
 
             case "snakeIsPoisoned":
@@ -6202,8 +6055,7 @@ case "removeCurrentSuppressor":
                         SnakeIsPoisoned();
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} poisoned Snake."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} poisoned Snake."));
                 break;
 
             case "snakeHasFoodPoisoning":
@@ -6219,8 +6071,7 @@ case "removeCurrentSuppressor":
                         SnakeHasFoodPoisoning();
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake food poisoning."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake food poisoning."));
                 break;
 
             case "snakeHasLeeches":
@@ -6236,8 +6087,7 @@ case "removeCurrentSuppressor":
                         SnakeHasLeeches();
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake leeches."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake leeches."));
                 break;
 
             case "setSnakeDamageX2":
@@ -6524,8 +6374,7 @@ case "removeCurrentSuppressor":
                         MakeSnakeQuickSleep();
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} made Snake quick sleep."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} made Snake quick sleep."));
                 break;
 
             case "makeSnakePukeFire":
@@ -6541,8 +6390,7 @@ case "removeCurrentSuppressor":
                         MakeSnakePukeFire();
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} made Snake puke fire."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} made Snake puke fire."));
                 break;
 
             case "makeSnakePuke":
@@ -6558,8 +6406,7 @@ case "removeCurrentSuppressor":
                         MakeSnakePuke();
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} made Snake puke."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} made Snake puke."));
                 break;
 
             case "setSnakeOnFire":
@@ -6575,8 +6422,7 @@ case "removeCurrentSuppressor":
                         SetSnakeOnFire();
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} set Snake on fire."),
-                    null, true);
+                    () => Connector.SendMessage($"{request.DisplayViewer} set Snake on fire."));
                 break;
 
             case "makeSnakeBunnyHop":
