@@ -865,31 +865,31 @@ public class MGS3 : InjectEffectPack
     }
 
     // Helper methods for suppressor control:
-private void ForceWeaponSuppressorOff(Weapon weapon)
-{
-    if (weapon == null || !weapon.HasSuppressor)
-        return;
-
-    var suppressorAddress = weapon.GetPropertyAddress(baseWeaponAddress, WeaponAddresses.SuppressorToggleOffset);
-    byte currentValue = Get8(suppressorAddress);
-    // If not already off, force it off.
-    if (currentValue != 0)
+    private void ForceWeaponSuppressorOff(Weapon weapon)
     {
-        Set8(suppressorAddress, 0);
-        Log.Message($"{weapon.Name} suppressor forced off (was {currentValue}).");
+        if (weapon == null || !weapon.HasSuppressor)
+            return;
+
+        var suppressorAddress = weapon.GetPropertyAddress(baseWeaponAddress, WeaponAddresses.SuppressorToggleOffset);
+        byte currentValue = Get8(suppressorAddress);
+        // If not already off, force it off.
+        if (currentValue != 0)
+        {
+            Set8(suppressorAddress, 0);
+            Log.Message($"{weapon.Name} suppressor forced off (was {currentValue}).");
+        }
     }
-}
 
-private void ForceWeaponSuppressorOn(Weapon weapon)
-{
-    if (weapon == null || !weapon.HasSuppressor)
-        return;
+    private void ForceWeaponSuppressorOn(Weapon weapon)
+    {
+        if (weapon == null || !weapon.HasSuppressor)
+            return;
 
-    var suppressorAddress = weapon.GetPropertyAddress(baseWeaponAddress, WeaponAddresses.SuppressorToggleOffset);
-    // Here we assume that 16 is the “on” value for these weapons.
-    Set8(suppressorAddress, 16);
-    Log.Message($"{weapon.Name} suppressor forced on.");
-}
+        var suppressorAddress = weapon.GetPropertyAddress(baseWeaponAddress, WeaponAddresses.SuppressorToggleOffset);
+        // Here we assume that 16 is the “on” value for these weapons.
+        Set8(suppressorAddress, 16);
+        Log.Message($"{weapon.Name} suppressor forced on.");
+    }
 
 
     #endregion
@@ -1110,7 +1110,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
         {
             Log.Error($"An error occurred while setting Snake's Camo Index Value: {ex.Message}");
         }
-    } 
+    }
 
     private bool IsCamoIndexInstructionNormal()
     {
@@ -1126,7 +1126,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
             return false;
         }
     }
-    
+
     #endregion
 
     #region Guard Stats
@@ -1963,7 +1963,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Subtract Ammo", "subtractAmmo")
         {
-        Price = 1,
+        Price = 2,
         Quantity = 50,
         Description = "Removes a chunk of Snake's ammunition supply",
         Category = "Weapons"
@@ -1971,7 +1971,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Ammo", "addAmmo")
         {
-        Price = 1,
+        Price = 2,
         Quantity = 50,
         Description = "Grants additional ammunition to Snake",
         Category = "Weapons"
@@ -1979,7 +1979,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Empty Snake's Weapon Clip", "emptyCurrentWeaponClip")
         {
-        Price = 50,
+        Price = 80,
         Duration = 8,
         Description = "Forces Snake to reload over and over for 8 seconds",
         Category = "Weapons"
@@ -1987,7 +1987,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Unequip Snake's Weapon", "setSnakeCurrentWeaponToNone")
         {
-        Price = 20,
+        Price = 30,
         Duration = 4,
         Description = "Leaves Snake defenseless by unequipping his current weapon",
         Category = "Weapons"
@@ -1995,7 +1995,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Current Suppressor", "removeCurrentSuppressor")
         {
-        Price = 20,
+        Price = 30,
         Duration = 8,
         Description = "Removes the suppressor from Snake's current weapon for a short time. This will also stop him from using a different suppressor on a suppressed weapon",
         Category = "Weapons"
@@ -2007,21 +2007,21 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Set Alert Status", "setAlertStatus")
         {
-        Price = 80,
+        Price = 120,
         Description = "Triggers an alert status, sending the enemies to attack Snake",
         Category = "Alert Status"
         },
 
     new ("Set Evasion Status", "setEvasionStatus")
         {
-        Price = 40,
+        Price = 60,
         Description = "Puts the guards into evasion mode, where guards actively search for Snake",
         Category = "Alert Status"
         },
 
     new ("Set Caution Status", "setCautionStatus")
         {
-        Price = 20,
+        Price = 30,
         Description = "Puts the guards into caution mode with heightened awareness",
         Category = "Alert Status"
         },
@@ -2030,168 +2030,189 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     #region Camo - Face Paint Swap
 
-    new ("Swap to No Face Paint", "swapToNoFacePaint")
+    new ("Swap to No", "swapToNoFacePaint")
         {
-        Price = 20,
+        Note = "Face Paint",
+        Price = 30,
         Description = "Removes Snake's face paint, leaving his face bare",
         Category = "Camo - Face Paint"
         },
 
-    new ("Swap to Woodland Face Paint", "swapToWoodlandFacePaint")
+    new ("Swap to Woodland", "swapToWoodlandFacePaint")
         {
-        Price = 20,
+        Note = "Face Paint",
+        Price = 30,
         Description = "Applies woodland face paint to Snake's face",
         Category = "Camo - Face Paint",
         Image = "face_pain"
         },
 
-    new ("Swap to Black Face Paint", "swapToBlackFacePaint")
+    new ("Swap to Black", "swapToBlackFacePaint")
         {
-        Price = 20,
+        Note = "Face Paint",
+        Price = 30,
         Description = "Applies black face paint to Snake's face",
         Category = "Camo - Face Paint",
         Image = "face_pain"
         },
 
-    new ("Swap to Water Face Paint", "swapToWaterFacePaint")
+    new ("Swap to Water", "swapToWaterFacePaint")
         {
-        Price = 20,
+        Note = "Face Paint",
+        Price = 30,
         Description = "Applies water face paint to Snake's face",
         Category = "Camo - Face Paint",
         Image = "face_pain"
         },
 
-    new ("Swap to Desert Face Paint", "swapToDesertFacePaint")
+    new ("Swap to Desert", "swapToDesertFacePaint")
         {
-        Price = 20,
+        Note = "Face Paint",
+        Price = 30,
         Description = "Applies desert face paint to Snake's face",
         Category = "Camo - Face Paint",
         Image = "face_pain"
         },
 
-    new ("Swap to Splitter Face Paint", "swapToSplitterFacePaint")
+    new ("Swap to Splitter", "swapToSplitterFacePaint")
         {
-        Price = 20,
+        Note = "Face Paint",
+        Price = 30,
         Description = "Applies splitter face paint to Snake's face",
         Category = "Camo - Face Paint",
         Image = "face_pain"
         },
 
-    new ("Swap to Snow Face Paint", "swapToSnowFacePaint")
+    new ("Swap to Snow", "swapToSnowFacePaint")
         {
-        Price = 20,
+        Note = "Face Paint",
+        Price = 30,
         Description = "Applies snow face paint to Snake's face",
         Category = "Camo - Face Paint",
         Image = "face_pain"
         },
 
-    new ("Swap to Kabuki Face Paint", "swapToKabukiFacePaint")
+    new ("Swap to Kabuki", "swapToKabukiFacePaint")
         {
-        Price = 20,
+        Note = "Face Paint",
+        Price = 30,
         Description = "Applies kabuki face paint to Snake's face",
         Category = "Camo - Face Paint",
         Image = "face_pain"
         },
 
-    new ("Swap to Zombie Face Paint", "swapToZombieFacePaint")
+    new ("Swap to Zombie", "swapToZombieFacePaint")
         {
-        Price = 20,
+        Note = "Face Paint",
+        Price = 30,
         Description = "Applies zombie face paint to Snake's face",
         Category = "Camo - Face Paint",
         Image = "face_pain"
         },
 
-    new ("Swap to Oyama Face Paint", "swapToOyamaFacePaint")
+    new ("Swap to Oyama", "swapToOyamaFacePaint")
         {
-        Price = 20,
+        Note = "Face Paint",
+        Price = 30,
         Description = "Applies oyama face paint to Snake's face",
         Category = "Camo - Face Paint",
         Image = "face_pain"
         },
 
-    new ("Swap to Green Face Paint", "swapToGreenFacePaint")
+    new ("Swap to Green", "swapToGreenFacePaint")
         {
-        Price = 20,
+        Note = "Face Paint",
+        Price = 30,
         Description = "Applies green face paint to Snake's face",
         Category = "Camo - Face Paint",
         Image = "face_pain"
         },
 
-    new ("Swap to Brown Face Paint", "swapToBrownFacePaint")
+    new ("Swap to Brown", "swapToBrownFacePaint")
         {
-        Price = 20,
+        Note = "Face Paint",
+        Price = 30,
         Description = "Applies brown face paint to Snake's face",
         Category = "Camo - Face Paint",
         Image = "face_pain"
         },
 
-    new ("Swap to Soviet Union Face Paint", "swapToSovietUnionFacePaint")
+    new ("Swap to Soviet Union", "swapToSovietUnionFacePaint")
         {
-        Price = 20,
+        Note = "Face Paint",
+        Price = 30,
         Description = "Applies Soviet Union face paint to Snake's face",
         Category = "Camo - Face Paint",
         Image = "face_pain"
         },
 
-    new ("Swap to UK Face Paint", "swapToUKFacePaint")
+    new ("Swap to UK", "swapToUKFacePaint")
         {
-        Price = 20,
+        Note = "Face Paint",
+        Price = 30,
         Description = "Applies UK face paint to Snake's face",
         Category = "Camo - Face Paint",
         Image = "face_pain"
         },
 
-    new ("Swap to France Face Paint", "swapToFranceFacePaint")
+    new ("Swap to France", "swapToFranceFacePaint")
         {
-        Price = 20,
+        Note = "Face Paint",
+        Price = 30,
         Description = "Applies France face paint to Snake's face",
         Category = "Camo - Face Paint",
         Image = "face_pain"
         },
 
-    new ("Swap to Germany Face Paint", "swapToGermanyFacePaint")
+    new ("Swap to Germany", "swapToGermanyFacePaint")
         {
-        Price = 20,
+        Note = "Face Paint",
+        Price = 30,
         Description = "Applies Germany face paint to Snake's face",
         Category = "Camo - Face Paint",
         Image = "face_pain"
         },
 
-    new ("Swap to Italy Face Paint", "swapToItalyFacePaint")
+    new ("Swap to Italy", "swapToItalyFacePaint")
         {
-        Price = 20,
+        Note = "Face Paint",
+        Price = 30,
         Description = "Applies Italy face paint to Snake's face",
         Category = "Camo - Face Paint",
         Image = "face_pain"
         },
 
-    new ("Swap to Spain Face Paint", "swapToSpainFacePaint")
+    new ("Swap to Spain", "swapToSpainFacePaint")
         {
-        Price = 20,
+        Note = "Face Paint",
+        Price = 30,
         Description = "Applies Spain face paint to Snake's face",
         Category = "Camo - Face Paint",
         Image = "face_pain"
         },
 
-    new ("Swap to Sweden Face Paint", "swapToSwedenFacePaint")
+    new ("Swap to Sweden", "swapToSwedenFacePaint")
         {
-        Price = 20,
+        Note = "Face Paint",
+        Price = 30,
         Description = "Applies Sweden face paint to Snake's face",
         Category = "Camo - Face Paint",
         Image = "face_pain"
         },
 
-    new ("Swap to Japan Face Paint", "swapToJapanFacePaint")
+    new ("Swap to Japan", "swapToJapanFacePaint")
         {
-        Price = 20,
+        Note = "Face Paint",
+        Price = 30,
         Description = "Applies Japan face paint to Snake's face",
         Category = "Camo - Face Paint",
         Image = "face_pain"
         },
 
-    new ("Swap to USA Face Paint", "swapToUSAFacePaint")
+    new ("Swap to USA", "swapToUSAFacePaint")
         {
-        Price = 20,
+        Note = "Face Paint",
+        Price = 30,
         Description = "Applies USA face paint to Snake's face",
         Category = "Camo - Face Paint",
         Image = "face_pain"
@@ -2203,218 +2224,268 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Swap to Olive Drab", "swapToOliveDrab")
         {
-        Price = 20,
+        Note = "Uniform",
+        Price = 30,
         Description = "Changes Snake's uniform to Olive Drab",
-        Category = "Camo - Uniform", 
+        Category = "Camo - Uniform",
         Image = "camo_uniform"
         },
 
     new ("Swap to Tiger Stripe", "swapToTigerStripe")
         {
-        Price = 20,
+        Note = "Uniform",
+        Price = 30,
         Description = "Changes Snake's uniform to Tiger Stripe",
-        Category = "Camo - Uniform", 
+        Category = "Camo - Uniform",
         Image = "camo_uniform"
         },
 
     new ("Swap to Leaf", "swapToLeaf")
         {
-        Price = 20,
+        Note = "Uniform",
+        Price = 30,
         Description = "Changes Snake's uniform to Leaf",
-        Category = "Camo - Uniform", 
+        Category = "Camo - Uniform",
         Image = "camo_uniform"
         },
 
     new ("Swap to Tree Bark", "swapToTreeBark")
         {
-        Price = 20,
+        Note = "Uniform",
+        Price = 30,
         Description = "Changes Snake's uniform to Tree Bark",
-        Category = "Camo - Uniform", 
+        Category = "Camo - Uniform",
         Image = "camo_uniform"
         },
 
     new ("Swap to Choco Chip", "swapToChocoChip")
         {
-            Price = 20,
-            Description = "Changes Snake's uniform to Choco Chip",
-            Category = "Camo - Uniform", 
-            Image = "camo_uniform"
+
+        Note = "Uniform",
+        Price = 30,
+        Description = "Changes Snake's uniform to Choco Chip",
+        Category = "Camo - Uniform",
+        Image = "camo_uniform"
         },
 
     new ("Swap to Splitter", "swapToSplitter")
         {
-            Price = 20,
-            Description = "Changes Snake's uniform to Splitter",
-            Category = "Camo - Uniform", 
-            Image = "camo_uniform"
+
+        Note = "Uniform",
+        Price = 30,
+        Description = "Changes Snake's uniform to Splitter",
+        Category = "Camo - Uniform",
+        Image = "camo_uniform"
         },
 
     new ("Swap to Raindrop", "swapToRaindrop")
         {
-            Price = 20,
+
+Note = "Uniform",
+         Price = 30,
             Description = "Changes Snake's uniform to Raindrop",
-            Category = "Camo - Uniform", 
+            Category = "Camo - Uniform",
             Image = "camo_uniform"
         },
 
     new ("Swap to Squares", "swapToSquares")
         {
-            Price = 20,
+
+Note = "Uniform",
+         Price = 30,
             Description = "Changes Snake's uniform to Squares",
-            Category = "Camo - Uniform", 
+            Category = "Camo - Uniform",
             Image = "camo_uniform"
         },
 
     new ("Swap to Water", "swapToWater")
         {
-            Price = 20,
+
+Note = "Uniform",
+         Price = 30,
             Description = "Changes Snake's uniform to Water",
-            Category = "Camo - Uniform", 
+            Category = "Camo - Uniform",
             Image = "camo_uniform"
         },
 
     new ("Swap to Black", "swapToBlack")
         {
-            Price = 20,
+
+Note = "Uniform",
+         Price = 30,
             Description = "Changes Snake's uniform to Black",
-            Category = "Camo - Uniform", 
+            Category = "Camo - Uniform",
             Image = "camo_uniform"
         },
 
     new ("Swap to Snow", "swapToSnow")
         {
-            Price = 20,
+
+Note = "Uniform", 
+        Price = 30,
             Description = "Changes Snake's uniform to Snow",
-            Category = "Camo - Uniform", 
+            Category = "Camo - Uniform",
             Image = "camo_uniform"
         },
 
     new ("Swap to Naked", "swapToNaked")
         {
-            Price = 20,
+
+Note = "Uniform",
+         Price = 30,
             Description = "Changes Snake's uniform to Naked",
-            Category = "Camo - Uniform", 
+            Category = "Camo - Uniform",
             Image = "camo_uniform"
         },
 
     new ("Swap to Sneaking Suit", "swapToSneakingSuit")
         {
-            Price = 20,
+
+Note = "Uniform",
+         Price = 30,
             Description = "Changes Snake's uniform to Sneaking Suit",
-            Category = "Camo - Uniform", 
+            Category = "Camo - Uniform",
             Image = "camo_uniform"
         },
 
     new ("Swap to Hornet Stripe", "swapToHornetStripe")
         {
-            Price = 20,
+
+Note = "Uniform", 
+        Price = 30,
             Description = "Changes Snake's uniform to Hornet Stripe",
-            Category = "Camo - Uniform", 
+            Category = "Camo - Uniform",
             Image = "camo_uniform"
         },
 
     new ("Swap to Spider", "swapToSpider")
         {
-            Price = 20,
+
+Note = "Uniform", 
+        Price = 30,
             Description = "Changes Snake's uniform to Spider",
-            Category = "Camo - Uniform", 
+            Category = "Camo - Uniform",
             Image = "camo_uniform"
         },
 
     new ("Swap to Moss", "swapToMoss")
         {
-            Price = 20,
+
+Note = "Uniform",
+         Price = 30,
             Description = "Changes Snake's uniform to Moss",
-            Category = "Camo - Uniform", 
+            Category = "Camo - Uniform",
             Image = "camo_uniform"
         },
 
     new ("Swap to Fire", "swapToFire")
         {
-            Price = 20,
+
+Note = "Uniform",
+         Price = 30,
             Description = "Changes Snake's uniform to Fire",
-            Category = "Camo - Uniform", 
+            Category = "Camo - Uniform",
             Image = "camo_uniform"
         },
 
     new ("Swap to Spirit", "swapToSpirit")
         {
-            Price = 20,
+
+Note = "Uniform",
+         Price = 30,
             Description = "Changes Snake's uniform to Spirit",
-            Category = "Camo - Uniform", 
+            Category = "Camo - Uniform",
             Image = "camo_uniform"
         },
 
     new ("Swap to Cold War", "swapToColdWar")
         {
-            Price = 20,
+
+Note = "Uniform",
+         Price = 30,
             Description = "Changes Snake's uniform to Cold War",
-            Category = "Camo - Uniform", 
+            Category = "Camo - Uniform",
             Image = "camo_uniform"
         },
 
     new ("Swap to Snake", "swapToSnake")
         {
-            Price = 20,
+
+Note = "Uniform", 
+        Price = 30,
             Description = "Changes Snake's uniform to Snake",
-            Category = "Camo - Uniform", 
+            Category = "Camo - Uniform",
             Image = "camo_uniform"
         },
 
     new ("Swap to Ga-Ko", "swapToGaKo")
         {
-            Price = 20,
-            Description = "Changes Snake's uniform to Ga-Ko",
-            Category = "Camo - Uniform", 
-            Image = "camo_uniform"
+
+        Note = "Uniform",
+        Price = 30,
+        Description = "Changes Snake's uniform to Ga-Ko",
+        Category = "Camo - Uniform",
+        Image = "camo_uniform"
         },
 
     new ("Swap to Desert Tiger", "swapToDesertTiger")
         {
-            Price = 20,
-            Description = "Changes Snake's uniform to Desert Tiger",
-            Category = "Camo - Uniform", 
-            Image = "camo_uniform"
+
+        Note = "Uniform",
+        Price = 30,
+        Description = "Changes Snake's uniform to Desert Tiger",
+        Category = "Camo - Uniform",
+        Image = "camo_uniform"
         },
 
     new ("Swap to DPM", "swapToDPM")
         {
-            Price = 20,
-            Description = "Changes Snake's uniform to DPM",
-            Category = "Camo - Uniform", 
-            Image = "camo_uniform"
+
+        Note = "Uniform",
+        Price = 30,
+        Description = "Changes Snake's uniform to DPM",
+        Category = "Camo - Uniform",
+        Image = "camo_uniform"
         },
 
     new ("Swap to Flecktarn", "swapToFlecktarn")
         {
-            Price = 20,
-            Description = "Changes Snake's uniform to Flecktarn",
-            Category = "Camo - Uniform", 
-            Image = "camo_uniform"
+
+        Note = "Uniform",
+        Price = 30,
+        Description = "Changes Snake's uniform to Flecktarn",
+        Category = "Camo - Uniform",
+        Image = "camo_uniform"
         },
 
     new ("Swap to Auscam", "swapToAuscam")
         {
-            Price = 20,
-            Description = "Changes Snake's uniform to Auscam",
-            Category = "Camo - Uniform", 
-            Image = "camo_uniform"
+
+        Note = "Uniform",
+        Price = 30,
+        Description = "Changes Snake's uniform to Auscam",
+        Category = "Camo - Uniform",
+        Image = "camo_uniform"
         },
 
     new ("Swap to Animals", "swapToAnimals")
         {
-            Price = 20,
-            Description = "Changes Snake's uniform to Animals",
-            Category = "Camo - Uniform", 
-            Image = "camo_uniform"
+
+        Note = "Uniform",
+        Price = 30,
+        Description = "Changes Snake's uniform to Animals",
+        Category = "Camo - Uniform",
+        Image = "camo_uniform"
         },
 
     new ("Swap to Fly", "swapToFly")
         {
-            Price = 20,
-            Description = "Changes Snake's uniform to Fly",
-            Category = "Camo - Uniform", 
-            Image = "camo_uniform"
+
+        Note = "Uniform",
+        Price = 30,
+        Description = "Changes Snake's uniform to Fly",
+        Category = "Camo - Uniform",
+        Image = "camo_uniform"
         },
 
     #endregion
@@ -2423,7 +2494,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Olive Drab", "giveOliveDrab")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds Olive Drab camo to Snake's inventory",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2431,7 +2503,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Olive Drab", "removeOliveDrab")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes Olive Drab camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2439,7 +2511,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Tiger Stripe", "giveTigerStripe")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds Tiger Stripe camo to Snake's inventory",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2447,7 +2520,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Tiger Stripe", "removeTigerStripe")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes Tiger Stripe camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2455,7 +2528,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Leaf", "giveLeaf")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds Leaf camo to Snake's inventory",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2463,7 +2537,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Leaf", "removeLeaf")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes Leaf camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2471,7 +2545,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Tree Bark", "giveTreeBark")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds Tree Bark camo to Snake's inventory",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2479,7 +2554,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Tree Bark", "removeTreeBark")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes Tree Bark camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2487,7 +2562,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Choco Chip", "giveChocoChip")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds Choco Chip camo to Snake's inventory",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2495,7 +2571,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Choco Chip", "removeChocoChip")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes Choco Chip camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2503,7 +2579,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Splitter", "giveSplitter")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds Splitter camo to Snake's inventory",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2511,7 +2588,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Splitter", "removeSplitter")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes Splitter camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2519,7 +2596,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Raindrop", "giveRaindrop")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds Raindrop camo to Snake's inventory",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2527,7 +2605,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Raindrop", "removeRaindrop")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes Raindrop camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2535,7 +2613,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Squares", "giveSquares")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds Squares camo to Snake's inventory",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2543,7 +2622,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Squares", "removeSquares")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes Squares camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2551,7 +2630,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Water", "giveWater")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds Water camo to Snake's inventory",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2559,7 +2639,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Water", "removeWater")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes Water camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2567,7 +2647,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Black", "giveBlack")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds Black camo to Snake's inventory",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2575,7 +2656,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Black", "removeBlack")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes Black camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2583,7 +2664,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Snow", "giveSnow")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds Snow camo to Snake's inventory",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2591,7 +2673,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Snow", "removeSnow")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes Snow camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2599,7 +2681,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Sneaking Suit", "giveSneakingSuit")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds Sneaking Suit camo to Snake's inventory",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2607,7 +2690,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Sneaking Suit", "removeSneakingSuit")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes Sneaking Suit camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2615,7 +2698,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Hornet Stripe", "giveHornetStripe")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds Hornet Stripe camo to Snake's inventory",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2623,7 +2707,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Hornet Stripe", "removeHornetStripe")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes Hornet Stripe camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2631,7 +2715,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Spider", "giveSpider")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds Spider camo to Snake's inventory",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2639,7 +2724,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Spider", "removeSpider")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes Spider camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2647,7 +2732,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Moss", "giveMoss")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds Moss camo to Snake's inventory",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2655,7 +2741,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Moss", "removeMoss")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes Moss camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2663,7 +2749,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Fire", "giveFire")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds Fire camo to Snake's inventory",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2671,7 +2758,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Fire", "removeFire")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes Fire camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2679,7 +2766,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Spirit", "giveSpirit")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds Spirit camo to Snake's inventory",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2687,7 +2775,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Spirit", "removeSpirit")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes Spirit camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2695,7 +2783,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Cold War", "giveColdWar")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds Cold War camo to Snake's inventory",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2703,7 +2792,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Cold War", "removeColdWar")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes Cold War camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2711,7 +2800,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Snake", "giveSnake")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds Snake camo to Snake's inventory",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2719,7 +2809,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Snake", "removeSnake")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes Snake camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2727,7 +2817,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Ga-Ko", "giveGako")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds Ga-Ko camo to Snake's inventory",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2735,7 +2826,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Ga-Ko", "removeGako")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes Ga-Ko camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2743,7 +2834,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Desert Tiger", "giveDesertTiger")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds Desert Tiger camo to Snake's inventory",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2751,7 +2843,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Desert Tiger", "removeDesertTiger")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes Desert Tiger camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2759,7 +2851,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add DPM", "giveDPM")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds DPM camo to Snake's inventory",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2767,7 +2860,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove DPM", "removeDPM")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes DPM camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2775,7 +2868,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Flecktarn", "giveFlecktarn")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds Flecktarn camo to Snake's inventory",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2783,7 +2877,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Flecktarn", "removeFlecktarn")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes Flecktarn camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2791,7 +2885,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Auscam", "giveAuscam")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds Auscam camo to Snake's inventory",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2799,7 +2894,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Auscam", "removeAuscam")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes Auscam camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2807,7 +2902,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Animals", "giveAnimals")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds Animals camo to Snake's inventory",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2815,7 +2911,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Animals", "removeAnimals")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes Animals camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2823,7 +2919,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Fly", "giveFly")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds Fly camo to Snake's inventory",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2831,7 +2928,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Fly", "removeFly")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes Fly camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2839,7 +2936,8 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Add Banana", "giveBanana")
         {
-        Price = 40,
+        Note = "Uniform",
+        Price = 60,
         Description = "Adds Banana camo to Snake's inventory, might appear without textures if mod is not installed",
         Category = "Camo - Uniform - Add",
         Image = "camo_give"
@@ -2847,7 +2945,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Banana", "removeBanana")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes Banana camo from Snake's inventory",
         Category = "Camo - Uniform - Remove",
         Image = "camo_remove"
@@ -2859,7 +2957,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Partial HUD", "removePartialHUD")
         {
-        Price = 20,
+        Price = 30,
         Duration = 60,
         Description = "Removes parts of the on-screen HUD for a limited time",
         Category = "Visual Effects"
@@ -2867,7 +2965,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Full HUD", "removeFullHUD")
         {
-        Price = 20,
+        Price = 30,
         Duration = 60,
         Description = "Completely hides the on-screen HUD for a limited time",
         Category = "Visual Effects"
@@ -2875,42 +2973,42 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Set to Day Mode", "setToDayMode")
         {
-        Price = 15,
+        Price = 20,
         Description = "Changes the game visuals to daytime lighting",
         Category = "Visual Effects"
         },
 
     new ("Set to Night Mode", "setToNightMode")
         {
-        Price = 15,
+        Price = 20,
         Description = "Changes the game visuals to nighttime lighting",
         Category = "Visual Effects"
         },
 
     new ("Set to Foggy Mode", "setToFoggyMode")
         {
-        Price = 15,
+        Price = 20,
         Description = "Changes the game visuals to foggy weather",
         Category = "Visual Effects"
         },
 
     new ("Set to Muddy Fog Mode", "setToMuddyFogMode")
         {
-        Price = 15,
+        Price = 20,
         Description = "Changes the game visuals to muddy fog weather",
         Category = "Visual Effects"
         },
 
     new ("Set to Red Mist Mode", "setToRedMistMode")
         {
-        Price = 15,
+        Price = 20,
         Description = "Changes the game visuals to red mist weather",
         Category = "Visual Effects"
         },
 
     new ("Zoom Camera In", "zoomInFOV")
         {
-        Price = 40,
+        Price = 60,
         Duration = 30,
         Description = "Zooms the camera in to give a closer view of the action, which will probably also annoy the Streamer which is a bonus",
         Category = "Visual Effects"
@@ -2918,7 +3016,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Zoom Camera Out", "zoomOutFOV")
         {
-        Price = 40,
+        Price = 60,
         Duration = 30,
         Description = "Zooms the camera out to give a wider view of the action, which will probably also annoy the Streamer which is a bonus",
         Category = "Visual Effects"
@@ -2931,7 +3029,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Give Life Med", "giveLifeMedicine")
         {
-        Price = 100,
+        Price = 150,
         Description = "Gives Snake a Life Med to restore health",
         Category = "Items - Add",
         Image = "give_item"
@@ -2939,7 +3037,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Life Med", "removeLifeMedicine")
         {
-        Price = 100,
+        Price = 150,
         Description = "Removes a Life Medicine from Snake's inventory",
         Category = "Items - Remove",
         Image = "remove_item"
@@ -2947,7 +3045,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Give Scope", "giveScope")
         {
-        Price = 10,
+        Price = 20,
         Description = "Gives Snake a binoculars to scout the area",
         Category = "Items - Add",
         Image = "give_item"
@@ -2955,7 +3053,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Scope", "removeScope")
         {
-        Price = 10,
+        Price = 20,
         Description = "No more long range scouting for Snake",
         Category = "Items - Remove",
         Image = "remove_item"
@@ -2963,7 +3061,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Give Thermal Goggles", "giveThermalGoggles")
         {
-        Price = 40,
+        Price = 60,
         Description = "Gives Snake thermal goggles to see in the dark",
         Category = "Items - Add",
         Image = "give_item"
@@ -2971,7 +3069,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Thermal Goggles", "removeThermalGoggles")
         {
-        Price = 40,
+        Price = 60,
         Description = "Take away Snake's thermal goggles which will stop him from tracking heat signatures",
         Category = "Items - Remove",
         Image = "remove_item"
@@ -2979,7 +3077,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Give Night Vision Goggles", "giveNightVisionGoggles")
         {
-        Price = 40,
+        Price = 60,
         Description = "Gives Snake NVGs to see in the dark",
         Category = "Items - Add",
         Image = "give_item"
@@ -2987,7 +3085,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Night Vision Goggles", "removeNightVisionGoggles")
         {
-        Price = 40,
+        Price = 60,
         Description = "Take away Snake's NVGs which will stop him from seeing in the dark. Pairs well with the effect to make it night time.",
         Category = "Items - Remove",
         Image = "remove_item"
@@ -2995,7 +3093,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Give Motion Detector", "giveMotionDetector")
         {
-        Price = 20,
+        Price = 30,
         Description = "Gives Snake a motion detector to track enemy and animal movement",
         Category = "Items - Add",
         Image = "give_item"
@@ -3003,7 +3101,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Motion Detector", "removeMotionDetector")
         {
-        Price = 20,
+        Price = 30,
         Description = "Take away Snake's motion detector which will stop him from tracking enemy and animal movement",
         Category = "Items - Remove",
         Image = "remove_item"
@@ -3011,7 +3109,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Give Sonar", "giveSonar")
         {
-        Price = 20,
+        Price = 30,
         Description = "Gives Snake a sonar to detect enemy and animal positions",
         Category = "Items - Add",
         Image = "give_item"
@@ -3019,7 +3117,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Sonar", "removeSonar")
         {
-        Price = 20,
+        Price = 30,
         Description = "Take away Snake's sonar which will stop him from detecting enemy and animal positions",
         Category = "Items - Remove",
         Image = "remove_item"
@@ -3027,7 +3125,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Give Anti-Personnel Sensor", "giveAntiPersonnelSensor")
         {
-        Price = 20,
+        Price = 30,
         Description = "Gives Snake an anti-personnel sensor to detect enemy movement",
         Category = "Items - Add",
         Image = "give_item"
@@ -3035,7 +3133,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Anti-Personnel Sensor", "removeAntiPersonnelSensor")
         {
-        Price = 20,
+        Price = 30,
         Description = "Take away Snake's anti-personnel sensor which will stop him from detecting enemy movement",
         Category = "Items - Remove",
         Image = "remove_item"
@@ -3043,7 +3141,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Give Antidote", "giveAntidote")
         {
-        Price = 20,
+        Price = 30,
         Description = "Gives Snake an antidote to cure certain poisons",
         Category = "Items (Medical) - Add",
         Image = "give_item_medical"
@@ -3051,7 +3149,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Antidote", "removeAntidote")
         {
-        Price = 20,
+        Price = 30,
         Description = "Removes an antidote from Snake's inventory",
         Category = "Items (Medical) - Remove",
         Image = "remove_item_medical"
@@ -3059,7 +3157,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Give C Med", "giveCMed")
         {
-        Price = 20,
+        Price = 30,
         Description = "Gives Snake a C Med to cure colds",
         Category = "Items (Medical) - Add",
         Image = "give_item_medical"
@@ -3067,7 +3165,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove C Med", "removeCMed")
         {
-        Price = 20,
+        Price = 30,
         Description = "Removes a C Med from Snake's inventory, the common cold is a mystery hope he doesn't catch it.",
         Category = "Items (Medical) - Remove",
         Image = "remove_item_medical"
@@ -3075,7 +3173,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Give D Med", "giveDMed")
         {
-        Price = 20,
+        Price = 30,
         Description = "Gives Snake a D Med to cure Snake's stomach issues",
         Category = "Items (Medical) - Add",
         Image = "give_item_medical"
@@ -3083,7 +3181,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove D Med", "removeDMed")
         {
-        Price = 20,
+        Price = 30,
         Description = "Removes a D Med from Snake's inventory, hope his stomach doesn't get upset somehow.",
         Category = "Items (Medical) - Remove",
         Image = "remove_item_medical"
@@ -3091,7 +3189,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Give Serum", "giveSerum")
         {
-        Price = 30,
+        Price = 50,
         Description = "Gives Snake a serum to cure poison",
         Category = "Items (Medical) - Add",
         Image = "give_item_medical"
@@ -3099,7 +3197,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Serum", "removeSerum")
         {
-        Price = 30,
+        Price = 50,
         Description = "Removes a serum from Snake's inventory, sure would suck if he got poisoned.",
         Category = "Items (Medical) - Remove",
         Image = "remove_item_medical"
@@ -3107,7 +3205,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Give Bandage", "giveBandage")
         {
-        Price = 40,
+        Price = 60,
         Description = "Gives Snake a bandage to stop bleeding",
         Category = "Items (Medical) - Add",
         Image = "give_item_medical"
@@ -3115,7 +3213,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Bandage", "removeBandage")
         {
-        Price = 40,
+        Price = 60,
         Description = "Removes a bandage from Snake's inventory, hope he doesn't get hurt.",
         Category = "Items (Medical) - Remove",
         Image = "remove_item_medical"
@@ -3123,7 +3221,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Give Disinfectant", "giveDisinfectant")
         {
-        Price = 20,
+        Price = 30,
         Description = "Gives Snake a disinfectant to clean wounds",
         Category = "Items (Medical) - Add",
         Image = "give_item_medical"
@@ -3131,7 +3229,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Disinfectant", "removeDisinfectant")
         {
-        Price = 20,
+        Price = 30,
         Description = "Removes a disinfectant from Snake's inventory, hope he doesn't have to worry about an infection.",
         Category = "Items (Medical) - Remove",
         Image = "remove_item_medical"
@@ -3139,7 +3237,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Give Ointment", "giveOintment")
         {
-        Price = 20,
+        Price = 30,
         Description = "Gives Snake an ointment to heal burns",
         Category = "Items (Medical) - Add",
         Image = "give_item_medical"
@@ -3147,7 +3245,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Ointment", "removeOintment")
         {
-        Price = 20,
+        Price = 30,
         Description = "Removes an ointment from Snake's inventory, getting burnt would not be ideal for Snake.",
         Category = "Items (Medical) - Remove",
         Image = "remove_item_medical"
@@ -3155,7 +3253,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Give Splint", "giveSplint")
         {
-        Price = 20,
+        Price = 30,
         Description = "Gives Snake a splint to fix broken bones",
         Category = "Items (Medical) - Add",
         Image = "give_item_medical"
@@ -3163,7 +3261,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Splint", "removeSplint")
         {
-        Price = 20,
+        Price = 30,
         Description = "Removes a splint from Snake's inventory, what are the odds he gets thrown off a bridge again breaking all his bones?",
         Category = "Items (Medical) - Remove",
         Image = "remove_item_medical"
@@ -3171,7 +3269,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Give Styptic", "giveStyptic")
         {
-        Price = 20,
+        Price = 30,
         Description = "Gives Snake a styptic to stop bleeding",
         Category = "Items (Medical) - Add",
         Image = "give_item_medical"
@@ -3179,7 +3277,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Styptic", "removeStyptic")
         {
-        Price = 20,
+        Price = 30,
         Description = "Removes a styptic from Snake's inventory, he probably doesn't need those.",
         Category = "Items (Medical) - Remove",
         Image = "remove_item_medical"
@@ -3187,7 +3285,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Give Suture Kit", "giveSutureKit")
         {
-        Price = 20,
+        Price = 30,
         Description = "Gives Snake a suture kit to stitch up his cuts",
         Category = "Items (Medical) - Add",
         Image = "give_item_medical"
@@ -3195,7 +3293,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Remove Suture Kit", "removeSutureKit")
         {
-        Price = 20,
+        Price = 30,
         Description = "Removes a suture kit from Snake's inventory, he's a CQC expert he probably won't get stabbed.",
         Category = "Items (Medical) - Remove",
         Image = "remove_item_medical"
@@ -3209,49 +3307,49 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Set Snake Stamina to 0", "setSnakeStamina")
         {
-        Price = 250,
+        Price = 400,
         Description = "Drains Snake's stamina completely",
         Category = "Snake's Stats"
         },
 
     new ("Set Snake Max Stamina", "setSnakeMaxStamina")
         {
-        Price = 250,
+        Price = 400,
         Description = "Fully restores Snake's stamina bar",
         Category = "Snake's Stats"
         },
 
     new ("Snake gets Common Cold", "snakeHasTheCommonCold")
         {
-        Price = 10,
+        Price = 20,
         Description = "Inflicts Snake with a cold, causing sneezes to alert enemies",
         Category = "Snake's Stats"
         },
 
     new ("Poison Snake", "snakeIsPoisoned")
         {
-        Price = 100,
+        Price = 150,
         Description = "Poisons Snake, slowly draining his health",
         Category = "Snake's Stats"
         },
 
     new ("Snake has Food Poisoning", "snakeHasFoodPoisoning")
         {
-        Price = 25,
+        Price = 40,
         Description = "Gives Snake food poisoning, causing frequent nausea",
         Category = "Snake's Stats"
         },
 
     new ("Snake has Leeches", "snakeHasLeeches")
         {
-        Price = 25,
+        Price = 40,
         Description = "Attaches leeches to Snake, draining stamina until removed",
         Category = "Snake's Stats"
         },
 
     new ("Snake x2 Damage Multiplier", "setSnakeDamageX2")
         {
-        Price = 50,
+        Price = 80,
         Duration = 30,
         Description = "Doubles the damage Snake takes for a limited time",
         Category = "Snake's Stats"
@@ -3259,15 +3357,15 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Snake x3 Damage Multiplier", "setSnakeDamageX3")
         {
-        Price = 100,
-        Duration = 30, 
+        Price = 150,
+        Duration = 30,
         Description = "Triples the damage Snake takes for a limited time",
         Category = "Snake's Stats"
         },
 
     new ("Snake x4 Damage Multiplier", "setSnakeDamageX4")
         {
-        Price = 150,
+        Price = 250,
         Duration = 30,
         Description = "Quadruples the damage Snake takes for a limited time",
         Category = "Snake's Stats"
@@ -3275,7 +3373,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Snake x5 Damage Multiplier", "setSnakeDamageX5")
         {
-        Price = 200,
+        Price = 350,
         Duration = 30,
         Description = "Quintuples the damage Snake takes for a limited time",
         Category = "Snake's Stats"
@@ -3283,7 +3381,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Set Snake's Camo Index to -100%", "setSnakeCamoIndexNegative")
         {
-        Price = 100,
+        Price = 150,
         Duration = 60,
         Description = "Sets Snake's camo index to -100 for a limited time",
         Category = "Snake's Stats"
@@ -3291,7 +3389,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Set Snake's Camo Index to 100%", "setSnakeCamoIndexPositive")
         {
-        Price = 100,
+        Price = 150,
         Duration = 60,
         Description = "Sets Snake's camo index to 100 for a limited time",
         Category = "Snake's Stats"
@@ -3299,7 +3397,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Set Snake's Camo Index to 50%", "setSnakeCamoIndexFifty")
         {
-        Price = 50,
+        Price = 80,
         Duration = 60,
         Description = "Sets Snake's camo index to 50 for a limited time",
         Category = "Snake's Stats"
@@ -3307,7 +3405,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Set Snake's Camo Index to -50%", "setSnakeCamoIndexNegativeFifty")
         {
-        Price = 50,
+        Price = 80,
         Duration = 60,
         Description = "Sets Snake's camo index to -50 for a limited time",
         Category = "Snake's Stats"
@@ -3315,7 +3413,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Set Snake's Camo Index to 0%", "setSnakeCamoIndexZero")
         {
-        Price = 25,
+        Price = 40,
         Duration = 60,
         Description = "Sets Snake's camo index to 0 for a limited time",
         Category = "Snake's Stats"
@@ -3327,35 +3425,35 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Snake Nap Time", "makeSnakeQuickSleep")
         {
-        Price = 50,
+        Price = 80,
         Description = "Puts Snake to sleep instantly",
         Category = "Snake's Animations"
         },
 
     new ("Snake Pukes and gets set on Fire", "makeSnakePukeFire")
         {
-        Price = 250,
+        Price = 400,
         Description = "Causes Snake to vomit explosively and catch fire",
         Category = "Snake's Animations"
         },
 
     new ("Snake Pukes", "makeSnakePuke")
         {
-        Price = 100,
+        Price = 150,
         Description = "Causes Snake to vomit",
         Category = "Snake's Animations"
         },
 
     new ("Set Snake on Fire", "setSnakeOnFire")
         {
-        Price = 150,
+        Price = 250,
         Description = "Sets Snake on fire, causing him to take damage over time",
         Category = "Snake's Animations"
         },
 
     new ("Snake Bunny Hop", "makeSnakeBunnyHop")
         {
-        Price = 50,
+        Price = 80,
         Duration = 10,
         Description = "Makes Snake repeatedly jump like a bunny for a short time",
         Category = "Snake's Animations"
@@ -3363,7 +3461,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Snake Freeze in Place", "makeSnakeFreeze")
         {
-        Price = 50,
+        Price = 80,
         Duration = 5,
         Description = "Immobilizes Snake completely for a short duration",
         Category = "Snake's Animations"
@@ -3371,14 +3469,14 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Make Snake Jump", "makeSnakeJump")
         {
-        Price = 100,
+        Price = 150,
         Description = "Forces Snake to jump unexpectedly",
         Category = "Snake's Animations"
         },
 
     new ("Make Snake Crouch", "makeSnakeCrouch")
         {
-        Price = 50,
+        Price = 80,
         Duration = 5,
         Description = "Forces Snake to crouch unexpectedly",
         Category = "Snake's Animations"
@@ -3390,7 +3488,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Guards are Almost Invincible", "setGuardStatsAlmostInvincible")
         {
-        Price = 150,
+        Price = 250,
         Duration = 40,
         Description = "Guards become almost invincible to lethal, sleep, and stun damage",
         Category = "Guard Stats"
@@ -3398,7 +3496,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Guards become Very Strong", "setGuardStatsVeryStrong")
         {
-        Price = 100,
+        Price = 150,
         Duration = 40,
         Description = "Guards become very strong against lethal, sleep, and stun damage",
         Category = "Guard Stats"
@@ -3406,7 +3504,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Guards become Very Weak", "setGuardStatsVeryWeak")
         {
-        Price = 100,
+        Price = 150,
         Duration = 40,
         Description = "Guards become very weak against lethal, sleep, and stun damage",
         Category = "Guard Stats"
@@ -3414,7 +3512,7 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
 
     new ("Guards can be One Shot", "setGuardStatsOneShot")
         {
-        Price = 150,
+        Price = 250,
         Duration = 40,
         Description = "Guards become one shot by lethal, sleep, and stun damage",
         Category = "Guard Stats"
@@ -3545,53 +3643,53 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
                 });
                 break;
 
-case "removeCurrentSuppressor":
-{
-    Weapon currentWeapon = GetCurrentEquippedWeapon();
-    if (IsInCutscene())
-    {
-        DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-        return;
-    }
+            case "removeCurrentSuppressor":
+                {
+                    Weapon currentWeapon = GetCurrentEquippedWeapon();
+                    if (IsInCutscene())
+                    {
+                        DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
+                        return;
+                    }
 
-    if (currentWeapon != MGS3UsableObjects.M1911A1 &&
-        currentWeapon != MGS3UsableObjects.MK22 &&
-        currentWeapon != MGS3UsableObjects.XM16E1)
-    {
-        Respond(request, EffectStatus.FailTemporary, StandardErrors.PrerequisiteNotFound, "A weapon with a suppressor");
-        return;
-    }
+                    if (currentWeapon != MGS3UsableObjects.M1911A1 &&
+                        currentWeapon != MGS3UsableObjects.MK22 &&
+                        currentWeapon != MGS3UsableObjects.XM16E1)
+                    {
+                        Respond(request, EffectStatus.FailTemporary, StandardErrors.PrerequisiteNotFound, "A weapon with a suppressor");
+                        return;
+                    }
 
-    RepeatAction(
-        request,
-        () => true,
-        () => true,
-        TimeSpan.Zero,
-        () => IsReady(request),
-        TimeSpan.FromMilliseconds(100),
-        () =>
-        {
-            Weapon weapon = GetCurrentEquippedWeapon();
-            if (weapon is { HasSuppressor: true } &&
-                (weapon == MGS3UsableObjects.M1911A1 ||
-                 weapon == MGS3UsableObjects.MK22 ||
-                 weapon == MGS3UsableObjects.XM16E1))
-            {
-                AddressChain suppressorAddress = weapon.GetPropertyAddress(baseWeaponAddress, WeaponAddresses.SuppressorToggleOffset);
-                // Force the suppressor off.
-                Set8(suppressorAddress, 0);
-            }
-            return true;
-        },
-        TimeSpan.FromMilliseconds(100),
-        false
-    ).WhenCompleted.Then(_ =>
-    {
-        Connector.SendMessage("Suppressors can be equipped again.");
-    });
+                    RepeatAction(
+                        request,
+                        () => true,
+                        () => true,
+                        TimeSpan.Zero,
+                        () => IsReady(request),
+                        TimeSpan.FromMilliseconds(100),
+                        () =>
+                        {
+                            Weapon weapon = GetCurrentEquippedWeapon();
+                            if (weapon is { HasSuppressor: true } &&
+                                (weapon == MGS3UsableObjects.M1911A1 ||
+                                 weapon == MGS3UsableObjects.MK22 ||
+                                 weapon == MGS3UsableObjects.XM16E1))
+                            {
+                                AddressChain suppressorAddress = weapon.GetPropertyAddress(baseWeaponAddress, WeaponAddresses.SuppressorToggleOffset);
+                                // Force the suppressor off.
+                                Set8(suppressorAddress, 0);
+                            }
+                            return true;
+                        },
+                        TimeSpan.FromMilliseconds(100),
+                        false
+                    ).WhenCompleted.Then(_ =>
+                    {
+                        Connector.SendMessage("Suppressors can be equipped again.");
+                    });
 
-    break;
-}
+                    break;
+                }
 
             #endregion
 
@@ -6486,7 +6584,7 @@ case "removeCurrentSuppressor":
                     Connector.SendMessage("Snake's camo index is back to normal.");
                 });
                 break;
-                
+
 
             #endregion
 
