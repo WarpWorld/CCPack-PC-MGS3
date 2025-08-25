@@ -2041,140 +2041,160 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
         {
         Price = 20,
         Description = "Applies woodland face paint to Snake's face",
-        Category = "Camo - Face Paint"
+        Category = "Camo - Face Paint",
+        Image = "face_pain"
         },
 
     new ("Swap to Black Face Paint", "swapToBlackFacePaint")
         {
         Price = 20,
         Description = "Applies black face paint to Snake's face",
-        Category = "Camo - Face Paint"
+        Category = "Camo - Face Paint",
+        Image = "face_pain"
         },
 
     new ("Swap to Water Face Paint", "swapToWaterFacePaint")
         {
         Price = 20,
         Description = "Applies water face paint to Snake's face",
-        Category = "Camo - Face Paint"
+        Category = "Camo - Face Paint",
+        Image = "face_pain"
         },
 
     new ("Swap to Desert Face Paint", "swapToDesertFacePaint")
         {
         Price = 20,
         Description = "Applies desert face paint to Snake's face",
-        Category = "Camo - Face Paint"
+        Category = "Camo - Face Paint",
+        Image = "face_pain"
         },
 
     new ("Swap to Splitter Face Paint", "swapToSplitterFacePaint")
         {
         Price = 20,
         Description = "Applies splitter face paint to Snake's face",
-        Category = "Camo - Face Paint"
+        Category = "Camo - Face Paint",
+        Image = "face_pain"
         },
 
     new ("Swap to Snow Face Paint", "swapToSnowFacePaint")
         {
         Price = 20,
         Description = "Applies snow face paint to Snake's face",
-        Category = "Camo - Face Paint"
+        Category = "Camo - Face Paint",
+        Image = "face_pain"
         },
 
     new ("Swap to Kabuki Face Paint", "swapToKabukiFacePaint")
         {
         Price = 20,
         Description = "Applies kabuki face paint to Snake's face",
-        Category = "Camo - Face Paint"
+        Category = "Camo - Face Paint",
+        Image = "face_pain"
         },
 
     new ("Swap to Zombie Face Paint", "swapToZombieFacePaint")
         {
         Price = 20,
         Description = "Applies zombie face paint to Snake's face",
-        Category = "Camo - Face Paint"
+        Category = "Camo - Face Paint",
+        Image = "face_pain"
         },
 
     new ("Swap to Oyama Face Paint", "swapToOyamaFacePaint")
         {
         Price = 20,
         Description = "Applies oyama face paint to Snake's face",
-        Category = "Camo - Face Paint"
+        Category = "Camo - Face Paint",
+        Image = "face_pain"
         },
 
     new ("Swap to Green Face Paint", "swapToGreenFacePaint")
         {
         Price = 20,
         Description = "Applies green face paint to Snake's face",
-        Category = "Camo - Face Paint"
+        Category = "Camo - Face Paint",
+        Image = "face_pain"
         },
 
     new ("Swap to Brown Face Paint", "swapToBrownFacePaint")
         {
         Price = 20,
         Description = "Applies brown face paint to Snake's face",
-        Category = "Camo - Face Paint"
+        Category = "Camo - Face Paint",
+        Image = "face_pain"
         },
 
     new ("Swap to Soviet Union Face Paint", "swapToSovietUnionFacePaint")
         {
         Price = 20,
         Description = "Applies Soviet Union face paint to Snake's face",
-        Category = "Camo - Face Paint"
+        Category = "Camo - Face Paint",
+        Image = "face_pain"
         },
 
     new ("Swap to UK Face Paint", "swapToUKFacePaint")
         {
         Price = 20,
         Description = "Applies UK face paint to Snake's face",
-        Category = "Camo - Face Paint"
+        Category = "Camo - Face Paint",
+        Image = "face_pain"
         },
 
     new ("Swap to France Face Paint", "swapToFranceFacePaint")
         {
         Price = 20,
         Description = "Applies France face paint to Snake's face",
-        Category = "Camo - Face Paint"
+        Category = "Camo - Face Paint",
+        Image = "face_pain"
         },
 
     new ("Swap to Germany Face Paint", "swapToGermanyFacePaint")
         {
         Price = 20,
         Description = "Applies Germany face paint to Snake's face",
-        Category = "Camo - Face Paint"
+        Category = "Camo - Face Paint",
+        Image = "face_pain"
         },
 
     new ("Swap to Italy Face Paint", "swapToItalyFacePaint")
         {
         Price = 20,
         Description = "Applies Italy face paint to Snake's face",
-        Category = "Camo - Face Paint"
+        Category = "Camo - Face Paint",
+        Image = "face_pain"
         },
 
     new ("Swap to Spain Face Paint", "swapToSpainFacePaint")
         {
         Price = 20,
         Description = "Applies Spain face paint to Snake's face",
-        Category = "Camo - Face Paint"
+        Category = "Camo - Face Paint",
+        Image = "face_pain"
         },
 
     new ("Swap to Sweden Face Paint", "swapToSwedenFacePaint")
         {
         Price = 20,
         Description = "Applies Sweden face paint to Snake's face",
-        Category = "Camo - Face Paint"
+        Category = "Camo - Face Paint",
+        Image = "face_pain"
         },
 
     new ("Swap to Japan Face Paint", "swapToJapanFacePaint")
         {
         Price = 20,
         Description = "Applies Japan face paint to Snake's face",
-        Category = "Camo - Face Paint"
+        Category = "Camo - Face Paint",
+        Image = "face_pain"
         },
 
     new ("Swap to USA Face Paint", "swapToUSAFacePaint")
         {
         Price = 20,
         Description = "Applies USA face paint to Snake's face",
-        Category = "Camo - Face Paint"
+        Category = "Camo - Face Paint",
+        Image = "face_pain"
         },
 
     #endregion
@@ -2185,189 +2205,216 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
         {
         Price = 20,
         Description = "Changes Snake's uniform to Olive Drab",
-        Category = "Camo - Uniform"
+        Category = "Camo - Uniform", 
+        Image = "camo_uniform"
         },
 
     new ("Swap to Tiger Stripe", "swapToTigerStripe")
         {
         Price = 20,
         Description = "Changes Snake's uniform to Tiger Stripe",
-        Category = "Camo - Uniform"
+        Category = "Camo - Uniform", 
+        Image = "camo_uniform"
         },
 
     new ("Swap to Leaf", "swapToLeaf")
         {
         Price = 20,
         Description = "Changes Snake's uniform to Leaf",
-        Category = "Camo - Uniform"
+        Category = "Camo - Uniform", 
+        Image = "camo_uniform"
         },
 
     new ("Swap to Tree Bark", "swapToTreeBark")
         {
         Price = 20,
         Description = "Changes Snake's uniform to Tree Bark",
-        Category = "Camo - Uniform"
+        Category = "Camo - Uniform", 
+        Image = "camo_uniform"
         },
 
     new ("Swap to Choco Chip", "swapToChocoChip")
         {
             Price = 20,
             Description = "Changes Snake's uniform to Choco Chip",
-            Category = "Camo - Uniform"
+            Category = "Camo - Uniform", 
+            Image = "camo_uniform"
         },
 
     new ("Swap to Splitter", "swapToSplitter")
         {
             Price = 20,
             Description = "Changes Snake's uniform to Splitter",
-            Category = "Camo - Uniform"
+            Category = "Camo - Uniform", 
+            Image = "camo_uniform"
         },
 
     new ("Swap to Raindrop", "swapToRaindrop")
         {
             Price = 20,
             Description = "Changes Snake's uniform to Raindrop",
-            Category = "Camo - Uniform"
+            Category = "Camo - Uniform", 
+            Image = "camo_uniform"
         },
 
     new ("Swap to Squares", "swapToSquares")
         {
             Price = 20,
             Description = "Changes Snake's uniform to Squares",
-            Category = "Camo - Uniform"
+            Category = "Camo - Uniform", 
+            Image = "camo_uniform"
         },
 
     new ("Swap to Water", "swapToWater")
         {
             Price = 20,
             Description = "Changes Snake's uniform to Water",
-            Category = "Camo - Uniform"
+            Category = "Camo - Uniform", 
+            Image = "camo_uniform"
         },
 
     new ("Swap to Black", "swapToBlack")
         {
             Price = 20,
             Description = "Changes Snake's uniform to Black",
-            Category = "Camo - Uniform"
+            Category = "Camo - Uniform", 
+            Image = "camo_uniform"
         },
 
     new ("Swap to Snow", "swapToSnow")
         {
             Price = 20,
             Description = "Changes Snake's uniform to Snow",
-            Category = "Camo - Uniform"
+            Category = "Camo - Uniform", 
+            Image = "camo_uniform"
         },
 
     new ("Swap to Naked", "swapToNaked")
         {
             Price = 20,
             Description = "Changes Snake's uniform to Naked",
-            Category = "Camo - Uniform"
+            Category = "Camo - Uniform", 
+            Image = "camo_uniform"
         },
 
     new ("Swap to Sneaking Suit", "swapToSneakingSuit")
         {
             Price = 20,
             Description = "Changes Snake's uniform to Sneaking Suit",
-            Category = "Camo - Uniform"
+            Category = "Camo - Uniform", 
+            Image = "camo_uniform"
         },
 
     new ("Swap to Hornet Stripe", "swapToHornetStripe")
         {
             Price = 20,
             Description = "Changes Snake's uniform to Hornet Stripe",
-            Category = "Camo - Uniform"
+            Category = "Camo - Uniform", 
+            Image = "camo_uniform"
         },
 
     new ("Swap to Spider", "swapToSpider")
         {
             Price = 20,
             Description = "Changes Snake's uniform to Spider",
-            Category = "Camo - Uniform"
+            Category = "Camo - Uniform", 
+            Image = "camo_uniform"
         },
 
     new ("Swap to Moss", "swapToMoss")
         {
             Price = 20,
             Description = "Changes Snake's uniform to Moss",
-            Category = "Camo - Uniform"
+            Category = "Camo - Uniform", 
+            Image = "camo_uniform"
         },
 
     new ("Swap to Fire", "swapToFire")
         {
             Price = 20,
             Description = "Changes Snake's uniform to Fire",
-            Category = "Camo - Uniform"
+            Category = "Camo - Uniform", 
+            Image = "camo_uniform"
         },
 
     new ("Swap to Spirit", "swapToSpirit")
         {
             Price = 20,
             Description = "Changes Snake's uniform to Spirit",
-            Category = "Camo - Uniform"
+            Category = "Camo - Uniform", 
+            Image = "camo_uniform"
         },
 
     new ("Swap to Cold War", "swapToColdWar")
         {
             Price = 20,
             Description = "Changes Snake's uniform to Cold War",
-            Category = "Camo - Uniform"
+            Category = "Camo - Uniform", 
+            Image = "camo_uniform"
         },
 
     new ("Swap to Snake", "swapToSnake")
         {
             Price = 20,
             Description = "Changes Snake's uniform to Snake",
-            Category = "Camo - Uniform"
+            Category = "Camo - Uniform", 
+            Image = "camo_uniform"
         },
 
     new ("Swap to Ga-Ko", "swapToGaKo")
         {
             Price = 20,
             Description = "Changes Snake's uniform to Ga-Ko",
-            Category = "Camo - Uniform"
+            Category = "Camo - Uniform", 
+            Image = "camo_uniform"
         },
 
     new ("Swap to Desert Tiger", "swapToDesertTiger")
         {
             Price = 20,
             Description = "Changes Snake's uniform to Desert Tiger",
-            Category = "Camo - Uniform"
+            Category = "Camo - Uniform", 
+            Image = "camo_uniform"
         },
 
     new ("Swap to DPM", "swapToDPM")
         {
             Price = 20,
             Description = "Changes Snake's uniform to DPM",
-            Category = "Camo - Uniform"
+            Category = "Camo - Uniform", 
+            Image = "camo_uniform"
         },
 
     new ("Swap to Flecktarn", "swapToFlecktarn")
         {
             Price = 20,
             Description = "Changes Snake's uniform to Flecktarn",
-            Category = "Camo - Uniform"
+            Category = "Camo - Uniform", 
+            Image = "camo_uniform"
         },
 
     new ("Swap to Auscam", "swapToAuscam")
         {
             Price = 20,
             Description = "Changes Snake's uniform to Auscam",
-            Category = "Camo - Uniform"
+            Category = "Camo - Uniform", 
+            Image = "camo_uniform"
         },
 
     new ("Swap to Animals", "swapToAnimals")
         {
             Price = 20,
             Description = "Changes Snake's uniform to Animals",
-            Category = "Camo - Uniform"
+            Category = "Camo - Uniform", 
+            Image = "camo_uniform"
         },
 
     new ("Swap to Fly", "swapToFly")
         {
             Price = 20,
             Description = "Changes Snake's uniform to Fly",
-            Category = "Camo - Uniform"
+            Category = "Camo - Uniform", 
+            Image = "camo_uniform"
         },
 
     #endregion
@@ -2378,378 +2425,432 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
         {
         Price = 40,
         Description = "Adds Olive Drab camo to Snake's inventory",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove Olive Drab", "removeOliveDrab")
         {
         Price = 40,
         Description = "Removes Olive Drab camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     new ("Add Tiger Stripe", "giveTigerStripe")
         {
         Price = 40,
         Description = "Adds Tiger Stripe camo to Snake's inventory",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove Tiger Stripe", "removeTigerStripe")
         {
         Price = 40,
         Description = "Removes Tiger Stripe camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     new ("Add Leaf", "giveLeaf")
         {
         Price = 40,
         Description = "Adds Leaf camo to Snake's inventory",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove Leaf", "removeLeaf")
         {
         Price = 40,
         Description = "Removes Leaf camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     new ("Add Tree Bark", "giveTreeBark")
         {
         Price = 40,
         Description = "Adds Tree Bark camo to Snake's inventory",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove Tree Bark", "removeTreeBark")
         {
         Price = 40,
         Description = "Removes Tree Bark camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     new ("Add Choco Chip", "giveChocoChip")
         {
         Price = 40,
         Description = "Adds Choco Chip camo to Snake's inventory",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove Choco Chip", "removeChocoChip")
         {
         Price = 40,
         Description = "Removes Choco Chip camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     new ("Add Splitter", "giveSplitter")
         {
         Price = 40,
         Description = "Adds Splitter camo to Snake's inventory",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove Splitter", "removeSplitter")
         {
         Price = 40,
         Description = "Removes Splitter camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     new ("Add Raindrop", "giveRaindrop")
         {
         Price = 40,
         Description = "Adds Raindrop camo to Snake's inventory",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove Raindrop", "removeRaindrop")
         {
         Price = 40,
         Description = "Removes Raindrop camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     new ("Add Squares", "giveSquares")
         {
         Price = 40,
         Description = "Adds Squares camo to Snake's inventory",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove Squares", "removeSquares")
         {
         Price = 40,
         Description = "Removes Squares camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     new ("Add Water", "giveWater")
         {
         Price = 40,
         Description = "Adds Water camo to Snake's inventory",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove Water", "removeWater")
         {
         Price = 40,
         Description = "Removes Water camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     new ("Add Black", "giveBlack")
         {
         Price = 40,
         Description = "Adds Black camo to Snake's inventory",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove Black", "removeBlack")
         {
         Price = 40,
         Description = "Removes Black camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     new ("Add Snow", "giveSnow")
         {
         Price = 40,
         Description = "Adds Snow camo to Snake's inventory",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove Snow", "removeSnow")
         {
         Price = 40,
         Description = "Removes Snow camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     new ("Add Sneaking Suit", "giveSneakingSuit")
         {
         Price = 40,
         Description = "Adds Sneaking Suit camo to Snake's inventory",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove Sneaking Suit", "removeSneakingSuit")
         {
         Price = 40,
         Description = "Removes Sneaking Suit camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     new ("Add Hornet Stripe", "giveHornetStripe")
         {
         Price = 40,
         Description = "Adds Hornet Stripe camo to Snake's inventory",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove Hornet Stripe", "removeHornetStripe")
         {
         Price = 40,
         Description = "Removes Hornet Stripe camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     new ("Add Spider", "giveSpider")
         {
         Price = 40,
         Description = "Adds Spider camo to Snake's inventory",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove Spider", "removeSpider")
         {
         Price = 40,
         Description = "Removes Spider camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     new ("Add Moss", "giveMoss")
         {
         Price = 40,
         Description = "Adds Moss camo to Snake's inventory",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove Moss", "removeMoss")
         {
         Price = 40,
         Description = "Removes Moss camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     new ("Add Fire", "giveFire")
         {
         Price = 40,
         Description = "Adds Fire camo to Snake's inventory",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove Fire", "removeFire")
         {
         Price = 40,
         Description = "Removes Fire camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     new ("Add Spirit", "giveSpirit")
         {
         Price = 40,
         Description = "Adds Spirit camo to Snake's inventory",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove Spirit", "removeSpirit")
         {
         Price = 40,
         Description = "Removes Spirit camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     new ("Add Cold War", "giveColdWar")
         {
         Price = 40,
         Description = "Adds Cold War camo to Snake's inventory",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove Cold War", "removeColdWar")
         {
         Price = 40,
         Description = "Removes Cold War camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     new ("Add Snake", "giveSnake")
         {
         Price = 40,
         Description = "Adds Snake camo to Snake's inventory",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove Snake", "removeSnake")
         {
         Price = 40,
         Description = "Removes Snake camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     new ("Add Ga-Ko", "giveGako")
         {
         Price = 40,
         Description = "Adds Ga-Ko camo to Snake's inventory",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove Ga-Ko", "removeGako")
         {
         Price = 40,
         Description = "Removes Ga-Ko camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     new ("Add Desert Tiger", "giveDesertTiger")
         {
         Price = 40,
         Description = "Adds Desert Tiger camo to Snake's inventory",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove Desert Tiger", "removeDesertTiger")
         {
         Price = 40,
         Description = "Removes Desert Tiger camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     new ("Add DPM", "giveDPM")
         {
         Price = 40,
         Description = "Adds DPM camo to Snake's inventory",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove DPM", "removeDPM")
         {
         Price = 40,
         Description = "Removes DPM camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     new ("Add Flecktarn", "giveFlecktarn")
         {
         Price = 40,
         Description = "Adds Flecktarn camo to Snake's inventory",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove Flecktarn", "removeFlecktarn")
         {
         Price = 40,
         Description = "Removes Flecktarn camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     new ("Add Auscam", "giveAuscam")
         {
         Price = 40,
         Description = "Adds Auscam camo to Snake's inventory",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove Auscam", "removeAuscam")
         {
         Price = 40,
         Description = "Removes Auscam camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     new ("Add Animals", "giveAnimals")
         {
         Price = 40,
         Description = "Adds Animals camo to Snake's inventory",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove Animals", "removeAnimals")
         {
         Price = 40,
         Description = "Removes Animals camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     new ("Add Fly", "giveFly")
         {
         Price = 40,
         Description = "Adds Fly camo to Snake's inventory",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove Fly", "removeFly")
         {
         Price = 40,
         Description = "Removes Fly camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     new ("Add Banana", "giveBanana")
         {
         Price = 40,
         Description = "Adds Banana camo to Snake's inventory, might appear without textures if mod is not installed",
-        Category = "Camo - Uniform - Add"
+        Category = "Camo - Uniform - Add",
+        Image = "camo_give"
         },
 
     new ("Remove Banana", "removeBanana")
         {
         Price = 40,
         Description = "Removes Banana camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove"
+        Category = "Camo - Uniform - Remove",
+        Image = "camo_remove"
         },
 
     #endregion
@@ -2832,239 +2933,275 @@ private void ForceWeaponSuppressorOn(Weapon weapon)
         {
         Price = 100,
         Description = "Gives Snake a Life Med to restore health",
-        Category = "Items - Add"
+        Category = "Items - Add",
+        Image = "give_item"
         },
 
     new ("Remove Life Med", "removeLifeMedicine")
         {
         Price = 100,
         Description = "Removes a Life Medicine from Snake's inventory",
-        Category = "Items - Remove"
+        Category = "Items - Remove",
+        Image = "remove_item"
         },
 
     new ("Give Scope", "giveScope")
         {
         Price = 10,
         Description = "Gives Snake a binoculars to scout the area",
-        Category = "Items - Add"
+        Category = "Items - Add",
+        Image = "give_item"
         },
 
     new ("Remove Scope", "removeScope")
         {
         Price = 10,
         Description = "No more long range scouting for Snake",
-        Category = "Items - Remove"
+        Category = "Items - Remove",
+        Image = "remove_item"
         },
 
     new ("Give Thermal Goggles", "giveThermalGoggles")
         {
         Price = 40,
         Description = "Gives Snake thermal goggles to see in the dark",
-        Category = "Items - Add"
+        Category = "Items - Add",
+        Image = "give_item"
         },
 
     new ("Remove Thermal Goggles", "removeThermalGoggles")
         {
         Price = 40,
         Description = "Take away Snake's thermal goggles which will stop him from tracking heat signatures",
-        Category = "Items - Remove"
+        Category = "Items - Remove",
+        Image = "remove_item"
         },
 
     new ("Give Night Vision Goggles", "giveNightVisionGoggles")
         {
         Price = 40,
         Description = "Gives Snake NVGs to see in the dark",
-        Category = "Items - Add"
+        Category = "Items - Add",
+        Image = "give_item"
         },
 
     new ("Remove Night Vision Goggles", "removeNightVisionGoggles")
         {
         Price = 40,
         Description = "Take away Snake's NVGs which will stop him from seeing in the dark. Pairs well with the effect to make it night time.",
-        Category = "Items - Remove"
+        Category = "Items - Remove",
+        Image = "remove_item"
         },
 
     new ("Give Motion Detector", "giveMotionDetector")
         {
         Price = 20,
         Description = "Gives Snake a motion detector to track enemy and animal movement",
-        Category = "Items - Add"
+        Category = "Items - Add",
+        Image = "give_item"
         },
 
     new ("Remove Motion Detector", "removeMotionDetector")
         {
         Price = 20,
         Description = "Take away Snake's motion detector which will stop him from tracking enemy and animal movement",
-        Category = "Items - Remove"
+        Category = "Items - Remove",
+        Image = "remove_item"
         },
 
     new ("Give Sonar", "giveSonar")
         {
         Price = 20,
         Description = "Gives Snake a sonar to detect enemy and animal positions",
-        Category = "Items - Add"
+        Category = "Items - Add",
+        Image = "give_item"
         },
 
     new ("Remove Sonar", "removeSonar")
         {
         Price = 20,
         Description = "Take away Snake's sonar which will stop him from detecting enemy and animal positions",
-        Category = "Items - Remove"
+        Category = "Items - Remove",
+        Image = "remove_item"
         },
 
     new ("Give Anti-Personnel Sensor", "giveAntiPersonnelSensor")
         {
         Price = 20,
         Description = "Gives Snake an anti-personnel sensor to detect enemy movement",
-        Category = "Items - Add"
+        Category = "Items - Add",
+        Image = "give_item"
         },
 
     new ("Remove Anti-Personnel Sensor", "removeAntiPersonnelSensor")
         {
         Price = 20,
         Description = "Take away Snake's anti-personnel sensor which will stop him from detecting enemy movement",
-        Category = "Items - Remove"
+        Category = "Items - Remove",
+        Image = "remove_item"
         },
 
     new ("Give Antidote", "giveAntidote")
         {
         Price = 20,
         Description = "Gives Snake an antidote to cure certain poisons",
-        Category = "Items (Medical) - Add"
+        Category = "Items (Medical) - Add",
+        Image = "give_item_medical"
         },
 
     new ("Remove Antidote", "removeAntidote")
         {
         Price = 20,
         Description = "Removes an antidote from Snake's inventory",
-        Category = "Items (Medical) - Remove"
+        Category = "Items (Medical) - Remove",
+        Image = "remove_item_medical"
         },
 
     new ("Give C Med", "giveCMed")
         {
         Price = 20,
         Description = "Gives Snake a C Med to cure colds",
-        Category = "Items (Medical) - Add"
+        Category = "Items (Medical) - Add",
+        Image = "give_item_medical"
         },
 
     new ("Remove C Med", "removeCMed")
         {
         Price = 20,
         Description = "Removes a C Med from Snake's inventory, the common cold is a mystery hope he doesn't catch it.",
-        Category = "Items (Medical) - Remove"
+        Category = "Items (Medical) - Remove",
+        Image = "remove_item_medical"
         },
 
     new ("Give D Med", "giveDMed")
         {
         Price = 20,
         Description = "Gives Snake a D Med to cure Snake's stomach issues",
-        Category = "Items (Medical) - Add"
+        Category = "Items (Medical) - Add",
+        Image = "give_item_medical"
         },
 
     new ("Remove D Med", "removeDMed")
         {
         Price = 20,
         Description = "Removes a D Med from Snake's inventory, hope his stomach doesn't get upset somehow.",
-        Category = "Items (Medical) - Remove"
+        Category = "Items (Medical) - Remove",
+        Image = "remove_item_medical"
         },
 
     new ("Give Serum", "giveSerum")
         {
         Price = 30,
         Description = "Gives Snake a serum to cure poison",
-        Category = "Items (Medical) - Add"
+        Category = "Items (Medical) - Add",
+        Image = "give_item_medical"
         },
 
     new ("Remove Serum", "removeSerum")
         {
         Price = 30,
         Description = "Removes a serum from Snake's inventory, sure would suck if he got poisoned.",
-        Category = "Items (Medical) - Remove"
+        Category = "Items (Medical) - Remove",
+        Image = "remove_item_medical"
         },
 
     new ("Give Bandage", "giveBandage")
         {
         Price = 40,
         Description = "Gives Snake a bandage to stop bleeding",
-        Category = "Items (Medical) - Add"
+        Category = "Items (Medical) - Add",
+        Image = "give_item_medical"
         },
 
     new ("Remove Bandage", "removeBandage")
         {
         Price = 40,
         Description = "Removes a bandage from Snake's inventory, hope he doesn't get hurt.",
-        Category = "Items (Medical) - Remove"
+        Category = "Items (Medical) - Remove",
+        Image = "remove_item_medical"
         },
 
     new ("Give Disinfectant", "giveDisinfectant")
         {
         Price = 20,
         Description = "Gives Snake a disinfectant to clean wounds",
-        Category = "Items (Medical) - Add"
+        Category = "Items (Medical) - Add",
+        Image = "give_item_medical"
         },
 
     new ("Remove Disinfectant", "removeDisinfectant")
         {
         Price = 20,
         Description = "Removes a disinfectant from Snake's inventory, hope he doesn't have to worry about an infection.",
-        Category = "Items (Medical) - Remove"
+        Category = "Items (Medical) - Remove",
+        Image = "remove_item_medical"
         },
 
     new ("Give Ointment", "giveOintment")
         {
         Price = 20,
         Description = "Gives Snake an ointment to heal burns",
-        Category = "Items (Medical) - Add"
+        Category = "Items (Medical) - Add",
+        Image = "give_item_medical"
         },
 
     new ("Remove Ointment", "removeOintment")
         {
         Price = 20,
         Description = "Removes an ointment from Snake's inventory, getting burnt would not be ideal for Snake.",
-        Category = "Items (Medical) - Remove"
+        Category = "Items (Medical) - Remove",
+        Image = "remove_item_medical"
         },
 
     new ("Give Splint", "giveSplint")
         {
         Price = 20,
         Description = "Gives Snake a splint to fix broken bones",
-        Category = "Items (Medical) - Add"
+        Category = "Items (Medical) - Add",
+        Image = "give_item_medical"
         },
 
     new ("Remove Splint", "removeSplint")
         {
         Price = 20,
         Description = "Removes a splint from Snake's inventory, what are the odds he gets thrown off a bridge again breaking all his bones?",
-        Category = "Items (Medical) - Remove"
+        Category = "Items (Medical) - Remove",
+        Image = "remove_item_medical"
         },
 
     new ("Give Styptic", "giveStyptic")
         {
         Price = 20,
         Description = "Gives Snake a styptic to stop bleeding",
-        Category = "Items (Medical) - Add"
+        Category = "Items (Medical) - Add",
+        Image = "give_item_medical"
         },
 
     new ("Remove Styptic", "removeStyptic")
         {
         Price = 20,
         Description = "Removes a styptic from Snake's inventory, he probably doesn't need those.",
-        Category = "Items (Medical) - Remove"
+        Category = "Items (Medical) - Remove",
+        Image = "remove_item_medical"
         },
 
     new ("Give Suture Kit", "giveSutureKit")
         {
         Price = 20,
         Description = "Gives Snake a suture kit to stitch up his cuts",
-        Category = "Items (Medical) - Add"
+        Category = "Items (Medical) - Add",
+        Image = "give_item_medical"
         },
 
     new ("Remove Suture Kit", "removeSutureKit")
         {
         Price = 20,
         Description = "Removes a suture kit from Snake's inventory, he's a CQC expert he probably won't get stabbed.",
-        Category = "Items (Medical) - Remove"
+        Category = "Items (Medical) - Remove",
+        Image = "remove_item_medical"
         },
+
+
 
     #endregion
 
