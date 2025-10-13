@@ -250,39 +250,39 @@ public class MGS3 : InjectEffectPack
 
     public static class MGS3UsableObjects
     {
-        public static readonly Weapon NoneWeapon = new Weapon("None Weapon", 0);
-        public static readonly Weapon SurvivalKnife = new Weapon("Survival Knife", 1);
-        public static readonly Weapon Fork = new Weapon("Fork", 2);
-        public static readonly Weapon CigSpray = new Weapon("Cig Spray", 3, true);
-        public static readonly Weapon Handkerchief = new Weapon("Handkerchief", 4, true);
-        public static readonly Weapon MK22 = new Weapon("MK22", 5, true, true, true);
-        public static readonly Weapon M1911A1 = new Weapon("M1911A1", 6, true, true, true);
-        public static readonly Weapon EzGun = new Weapon("EZ Gun", 7);
-        public static readonly Weapon SAA = new Weapon("SAA", 8, true, true);
-        public static readonly Weapon Patriot = new Weapon("Patriot", 9);
-        public static readonly Weapon Scorpion = new Weapon("Scorpion", 10, true, true);
-        public static readonly Weapon XM16E1 = new Weapon("XM16E1", 11, true, true, true);
-        public static readonly Weapon AK47 = new Weapon("AK47", 12, true, true);
-        public static readonly Weapon M63 = new Weapon("M63", 13, true, true);
-        public static readonly Weapon M37 = new Weapon("M37", 14, true, true);
-        public static readonly Weapon SVD = new Weapon("SVD", 15, true, true);
-        public static readonly Weapon MosinNagant = new Weapon("Mosin-Nagant", 16, true, true);
-        public static readonly Weapon RPG7 = new Weapon("RPG-7", 17, true, true);
-        public static readonly Weapon Torch = new Weapon("Torch", 18);
-        public static readonly Weapon Grenade = new Weapon("Grenade", 19, true);
-        public static readonly Weapon WpGrenade = new Weapon("WP Grenade", 20, true);
-        public static readonly Weapon StunGrenade = new Weapon("Stun Grenade", 21, true);
-        public static readonly Weapon ChaffGrenade = new Weapon("Chaff Grenade", 22, true);
-        public static readonly Weapon SmokeGrenade = new Weapon("Smoke Grenade", 23, true);
-        public static readonly Weapon EmptyMagazine = new Weapon("Empty Magazine", 24, true);
-        public static readonly Weapon TNT = new Weapon("TNT", 25, true);
-        public static readonly Weapon C3 = new Weapon("C3", 26, true);
-        public static readonly Weapon Claymore = new Weapon("Claymore", 27, true);
-        public static readonly Weapon Book = new Weapon("Book", 28, true);
-        public static readonly Weapon Mousetrap = new Weapon("Mousetrap", 29, true);
-        public static readonly Weapon DirectionalMic = new Weapon("Directional Microphone", 30);
+        public static readonly Weapon NoneWeapon = new("None Weapon", 0);
+        public static readonly Weapon SurvivalKnife = new("Survival Knife", 1);
+        public static readonly Weapon Fork = new("Fork", 2);
+        public static readonly Weapon CigSpray = new("Cig Spray", 3, true);
+        public static readonly Weapon Handkerchief = new("Handkerchief", 4, true);
+        public static readonly Weapon MK22 = new("MK22", 5, true, true, true);
+        public static readonly Weapon M1911A1 = new("M1911A1", 6, true, true, true);
+        public static readonly Weapon EzGun = new("EZ Gun", 7);
+        public static readonly Weapon SAA = new("SAA", 8, true, true);
+        public static readonly Weapon Patriot = new("Patriot", 9);
+        public static readonly Weapon Scorpion = new("Scorpion", 10, true, true);
+        public static readonly Weapon XM16E1 = new("XM16E1", 11, true, true, true);
+        public static readonly Weapon AK47 = new("AK47", 12, true, true);
+        public static readonly Weapon M63 = new("M63", 13, true, true);
+        public static readonly Weapon M37 = new("M37", 14, true, true);
+        public static readonly Weapon SVD = new("SVD", 15, true, true);
+        public static readonly Weapon MosinNagant = new("Mosin-Nagant", 16, true, true);
+        public static readonly Weapon RPG7 = new("RPG-7", 17, true, true);
+        public static readonly Weapon Torch = new("Torch", 18);
+        public static readonly Weapon Grenade = new("Grenade", 19, true);
+        public static readonly Weapon WpGrenade = new("WP Grenade", 20, true);
+        public static readonly Weapon StunGrenade = new("Stun Grenade", 21, true);
+        public static readonly Weapon ChaffGrenade = new("Chaff Grenade", 22, true);
+        public static readonly Weapon SmokeGrenade = new("Smoke Grenade", 23, true);
+        public static readonly Weapon EmptyMagazine = new("Empty Magazine", 24, true);
+        public static readonly Weapon TNT = new("TNT", 25, true);
+        public static readonly Weapon C3 = new("C3", 26, true);
+        public static readonly Weapon Claymore = new("Claymore", 27, true);
+        public static readonly Weapon Book = new("Book", 28, true);
+        public static readonly Weapon Mousetrap = new("Mousetrap", 29, true);
+        public static readonly Weapon DirectionalMic = new("Directional Microphone", 30);
 
-        public static readonly Dictionary<int, Weapon> AllWeapons = new Dictionary<int, Weapon>
+        public static readonly Dictionary<int, Weapon> AllWeapons = new()
         {
             { NoneWeapon.Index, NoneWeapon },
             { SurvivalKnife.Index, SurvivalKnife },
@@ -317,109 +317,109 @@ public class MGS3 : InjectEffectPack
             { DirectionalMic.Index, DirectionalMic }
         };
 
-        public static readonly Item NoneItem = new Item("None Item", 0);
-        public static readonly Item LifeMedicine = new Item("Life Medicine", 1);
-        public static readonly Item Pentazemin = new Item("Pentazemin", 2);
-        public static readonly Item FakeDeathPill = new Item("Fake Death Pill", 3);
-        public static readonly Item RevivalPill = new Item("Revival Pill", 4);
-        public static readonly Item Cigar = new Item("Cigar", 5);
-        public static readonly Item Binoculars = new Item("Binoculars", 6);
-        public static readonly Item ThermalGoggles = new Item("Thermal Goggles", 7);
-        public static readonly Item NightVisionGoggles = new Item("Night Vision Goggles", 8);
-        public static readonly Item Camera = new Item("Camera", 9);
-        public static readonly Item MotionDetector = new Item("Motion Detector", 10);
-        public static readonly Item ActiveSonar = new Item("Active Sonar", 11);
-        public static readonly Item MineDetector = new Item("Mine Detector", 12);
-        public static readonly Item AntiPersonnelSensor = new Item("Anti Personnel Sensor", 13);
-        public static readonly Item CBoxA = new Item("CBox A", 14);
-        public static readonly Item CBoxB = new Item("CBox B", 15);
-        public static readonly Item CBoxC = new Item("CBox C", 16);
-        public static readonly Item CBoxD = new Item("CBox D", 17);
-        public static readonly Item CrocCap = new Item("Croc Cap", 18);
-        public static readonly Item KeyA = new Item("Key A", 19);
-        public static readonly Item KeyB = new Item("Key B", 20);
-        public static readonly Item KeyC = new Item("Key C", 21);
-        public static readonly Item Bandana = new Item("Bandana", 22);
-        public static readonly Item StealthCamo = new Item("Stealth Camo", 23);
-        public static readonly Item BugJuice = new Item("Bug Juice", 24);
-        public static readonly Item MonkeyMask = new Item("Monkey Mask", 25);
-        public static readonly Item Serum = new Item("Serum", 26);
-        public static readonly Item Antidote = new Item("Antidote", 27);
-        public static readonly Item ColdMedicine = new Item("Cold Medicine", 28);
-        public static readonly Item DigestiveMedicine = new Item("Digestive Medicine", 29);
-        public static readonly Item Ointment = new Item("Ointment", 30);
-        public static readonly Item Splint = new Item("Splint", 31);
-        public static readonly Item Disinfectant = new Item("Disinfectant", 32);
-        public static readonly Item Styptic = new Item("Styptic", 33);
-        public static readonly Item Bandage = new Item("Bandage", 34);
-        public static readonly Item SutureKit = new Item("Suture Kit", 35);
+        public static readonly Item NoneItem = new("None Item", 0);
+        public static readonly Item LifeMedicine = new("Life Medicine", 1);
+        public static readonly Item Pentazemin = new("Pentazemin", 2);
+        public static readonly Item FakeDeathPill = new("Fake Death Pill", 3);
+        public static readonly Item RevivalPill = new("Revival Pill", 4);
+        public static readonly Item Cigar = new("Cigar", 5);
+        public static readonly Item Binoculars = new("Binoculars", 6);
+        public static readonly Item ThermalGoggles = new("Thermal Goggles", 7);
+        public static readonly Item NightVisionGoggles = new("Night Vision Goggles", 8);
+        public static readonly Item Camera = new("Camera", 9);
+        public static readonly Item MotionDetector = new("Motion Detector", 10);
+        public static readonly Item ActiveSonar = new("Active Sonar", 11);
+        public static readonly Item MineDetector = new("Mine Detector", 12);
+        public static readonly Item AntiPersonnelSensor = new("Anti Personnel Sensor", 13);
+        public static readonly Item CBoxA = new("CBox A", 14);
+        public static readonly Item CBoxB = new("CBox B", 15);
+        public static readonly Item CBoxC = new("CBox C", 16);
+        public static readonly Item CBoxD = new("CBox D", 17);
+        public static readonly Item CrocCap = new("Croc Cap", 18);
+        public static readonly Item KeyA = new("Key A", 19);
+        public static readonly Item KeyB = new("Key B", 20);
+        public static readonly Item KeyC = new("Key C", 21);
+        public static readonly Item Bandana = new("Bandana", 22);
+        public static readonly Item StealthCamo = new("Stealth Camo", 23);
+        public static readonly Item BugJuice = new("Bug Juice", 24);
+        public static readonly Item MonkeyMask = new("Monkey Mask", 25);
+        public static readonly Item Serum = new("Serum", 26);
+        public static readonly Item Antidote = new("Antidote", 27);
+        public static readonly Item ColdMedicine = new("Cold Medicine", 28);
+        public static readonly Item DigestiveMedicine = new("Digestive Medicine", 29);
+        public static readonly Item Ointment = new("Ointment", 30);
+        public static readonly Item Splint = new("Splint", 31);
+        public static readonly Item Disinfectant = new("Disinfectant", 32);
+        public static readonly Item Styptic = new("Styptic", 33);
+        public static readonly Item Bandage = new("Bandage", 34);
+        public static readonly Item SutureKit = new("Suture Kit", 35);
         // This Knife is to be used for medical purposes but removing the knife as a weapon makes it disappear here too
-        public static readonly Item Knife = new Item("Knife", 36);
-        public static readonly Item Battery = new Item("Battery", 37);
+        public static readonly Item Knife = new("Knife", 36);
+        public static readonly Item Battery = new("Battery", 37);
         // These are for suppressor quantities but it being on/off is determined by the weapon attribute in the weapon class
-        public static readonly Item M1911A1Suppressor = new Item("M1911A1 Suppressor", 38);
-        public static readonly Item MK22Suppressor = new Item("MK22 Suppressor", 39);
-        public static readonly Item XM16E1Suppressor = new Item("XM16E1 Suppressor", 40);
+        public static readonly Item M1911A1Suppressor = new("M1911A1 Suppressor", 38);
+        public static readonly Item MK22Suppressor = new("MK22 Suppressor", 39);
+        public static readonly Item XM16E1Suppressor = new("XM16E1 Suppressor", 40);
         // 0 for unacquired and 1 for acquired we check for this before changing the camo as
         // equippping an unacquired camo has a chance to crash the game
-        public static readonly Item OliveDrab = new Item("Olive Drab", 41);
-        public static readonly Item TigerStripe = new Item("Tiger Stripe", 42);
-        public static readonly Item Leaf = new Item("Leaf", 43);
-        public static readonly Item TreeBark = new Item("Tree Bark", 44);
-        public static readonly Item ChocoChip = new Item("Choco Chip", 45);
-        public static readonly Item Splitter = new Item("Splitter", 46);
-        public static readonly Item Raindrop = new Item("Raindrop", 47);
-        public static readonly Item Squares = new Item("Squares", 48);
-        public static readonly Item Water = new Item("Water", 49);
-        public static readonly Item Black = new Item("Black", 50);
-        public static readonly Item Snow = new Item("Snow", 51);
-        public static readonly Item Naked = new Item("Naked", 52);
-        public static readonly Item SneakingSuit = new Item("Sneaking Suit", 53);
-        public static readonly Item Scientist = new Item("Scientist", 54);
-        public static readonly Item Officer = new Item("Officer", 55);
-        public static readonly Item Maintenance = new Item("Maintenance", 56);
-        public static readonly Item Tuxedo = new Item("Tuxedo", 57);
-        public static readonly Item HornetStripe = new Item("Hornet Stripe", 58);
-        public static readonly Item Spider = new Item("Spider", 59);
-        public static readonly Item Moss = new Item("Moss", 60);
-        public static readonly Item Fire = new Item("Fire", 61);
-        public static readonly Item Spirit = new Item("Spirit", 62);
-        public static readonly Item ColdWar = new Item("Cold War", 63);
-        public static readonly Item Snake = new Item("Snake", 64);
-        public static readonly Item GakoCamo = new Item("GakoCamo", 65);
-        public static readonly Item DesertTiger = new Item("Desert Tiger", 66);
-        public static readonly Item DPM = new Item("DPM", 67);
-        public static readonly Item Flecktarn = new Item("Flecktarn", 68);
-        public static readonly Item Auscam = new Item("Auscam", 69);
-        public static readonly Item Animals = new Item("Animals", 70);
-        public static readonly Item Fly = new Item("Fly", 71);
-        public static readonly Item BananaCamo = new Item("Banana Camo", 72);
-        public static readonly Item Downloaded = new Item("Downloaded", 73);
-        public static readonly Item NoPaint = new Item("No Paint", 74);
-        public static readonly Item Woodland = new Item("Woodland", 75);
-        public static readonly Item BlackFacePaint = new Item("Black", 76);
-        public static readonly Item WaterFacePaint = new Item("Water", 77);
-        public static readonly Item DesertFacePaint = new Item("Desert", 78);
-        public static readonly Item SplitterFacePaint = new Item("Splitter", 79);
-        public static readonly Item SnowFacePaint = new Item("Snow", 80);
-        public static readonly Item Kabuki = new Item("Kabuki", 81);
-        public static readonly Item Zombie = new Item("Zombie", 82);
-        public static readonly Item Oyama = new Item("Oyama", 83);
-        public static readonly Item Mask = new Item("Mask", 84);
-        public static readonly Item GreenFacePaint = new Item("Green", 85);
-        public static readonly Item BrownFacePaint = new Item("Brown", 86);
-        public static readonly Item Infinity = new Item("Infinity", 87);
-        public static readonly Item SovietUnion = new Item("Soviet Union", 88);
-        public static readonly Item UK = new Item("UK", 89);
-        public static readonly Item France = new Item("France", 90);
-        public static readonly Item Germany = new Item("Germany", 91);
-        public static readonly Item Italy = new Item("Italy", 92);
-        public static readonly Item Spain = new Item("Spain", 93);
-        public static readonly Item Sweden = new Item("Sweden", 94);
-        public static readonly Item Japan = new Item("Japan", 95);
-        public static readonly Item USA = new Item("USA", 96);
+        public static readonly Item OliveDrab = new("Olive Drab", 41);
+        public static readonly Item TigerStripe = new("Tiger Stripe", 42);
+        public static readonly Item Leaf = new("Leaf", 43);
+        public static readonly Item TreeBark = new("Tree Bark", 44);
+        public static readonly Item ChocoChip = new("Choco Chip", 45);
+        public static readonly Item Splitter = new("Splitter", 46);
+        public static readonly Item Raindrop = new("Raindrop", 47);
+        public static readonly Item Squares = new("Squares", 48);
+        public static readonly Item Water = new("Water", 49);
+        public static readonly Item Black = new("Black", 50);
+        public static readonly Item Snow = new("Snow", 51);
+        public static readonly Item Naked = new("Naked", 52);
+        public static readonly Item SneakingSuit = new("Sneaking Suit", 53);
+        public static readonly Item Scientist = new("Scientist", 54);
+        public static readonly Item Officer = new("Officer", 55);
+        public static readonly Item Maintenance = new("Maintenance", 56);
+        public static readonly Item Tuxedo = new("Tuxedo", 57);
+        public static readonly Item HornetStripe = new("Hornet Stripe", 58);
+        public static readonly Item Spider = new("Spider", 59);
+        public static readonly Item Moss = new("Moss", 60);
+        public static readonly Item Fire = new("Fire", 61);
+        public static readonly Item Spirit = new("Spirit", 62);
+        public static readonly Item ColdWar = new("Cold War", 63);
+        public static readonly Item Snake = new("Snake", 64);
+        public static readonly Item GakoCamo = new("GakoCamo", 65);
+        public static readonly Item DesertTiger = new("Desert Tiger", 66);
+        public static readonly Item DPM = new("DPM", 67);
+        public static readonly Item Flecktarn = new("Flecktarn", 68);
+        public static readonly Item Auscam = new("Auscam", 69);
+        public static readonly Item Animals = new("Animals", 70);
+        public static readonly Item Fly = new("Fly", 71);
+        public static readonly Item BananaCamo = new("Banana Camo", 72);
+        public static readonly Item Downloaded = new("Downloaded", 73);
+        public static readonly Item NoPaint = new("No Paint", 74);
+        public static readonly Item Woodland = new("Woodland", 75);
+        public static readonly Item BlackFacePaint = new("Black", 76);
+        public static readonly Item WaterFacePaint = new("Water", 77);
+        public static readonly Item DesertFacePaint = new("Desert", 78);
+        public static readonly Item SplitterFacePaint = new("Splitter", 79);
+        public static readonly Item SnowFacePaint = new("Snow", 80);
+        public static readonly Item Kabuki = new("Kabuki", 81);
+        public static readonly Item Zombie = new("Zombie", 82);
+        public static readonly Item Oyama = new("Oyama", 83);
+        public static readonly Item Mask = new("Mask", 84);
+        public static readonly Item GreenFacePaint = new("Green", 85);
+        public static readonly Item BrownFacePaint = new("Brown", 86);
+        public static readonly Item Infinity = new("Infinity", 87);
+        public static readonly Item SovietUnion = new("Soviet Union", 88);
+        public static readonly Item UK = new("UK", 89);
+        public static readonly Item France = new("France", 90);
+        public static readonly Item Germany = new("Germany", 91);
+        public static readonly Item Italy = new("Italy", 92);
+        public static readonly Item Spain = new("Spain", 93);
+        public static readonly Item Sweden = new("Sweden", 94);
+        public static readonly Item Japan = new("Japan", 95);
+        public static readonly Item USA = new("USA", 96);
 
-        public static readonly Dictionary<int, Item> AllItems = new Dictionary<int, Item>
+        public static readonly Dictionary<int, Item> AllItems = new()
         {
             { NoneItem.Index, NoneItem },
             { LifeMedicine.Index, LifeMedicine },
@@ -642,7 +642,7 @@ public class MGS3 : InjectEffectPack
         }
         else
         {
-            throw new Exception("Failed to read float value.");
+            throw new("Failed to read float value.");
         }
     }
 
@@ -1655,7 +1655,7 @@ public class MGS3 : InjectEffectPack
     {
         if (IsInCutscene())
         {
-            throw new Exception("Cannot swap uniform during a cutscene or menu.");
+            throw new("Cannot swap uniform during a cutscene or menu.");
         }
         // Write the new uniform value.
         Set8(snakeCurrentCamo, (byte)uniform);
@@ -1666,12 +1666,12 @@ public class MGS3 : InjectEffectPack
     {
         if (IsInCutscene())
         {
-            throw new Exception("Cannot swap face paint during a cutscene or menu.");
+            throw new("Cannot swap face paint during a cutscene or menu.");
         }
         byte currentFacePaint = Get8(snakeCurrentFacePaint);
         if (currentFacePaint == (byte)SnakesFacePaint.Mask)
         {
-            throw new Exception("Cannot change face paint while mask is equipped.");
+            throw new("Cannot change face paint while mask is equipped.");
         }
         Set8(snakeCurrentFacePaint, (byte)facePaint);
         Log.Message($"Face paint swapped to {facePaint}");
