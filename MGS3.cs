@@ -118,25 +118,23 @@ public class MGS3 : InjectEffectPack
         snakeCurrentEquippedItem = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+ACBE18=>+5D6");
         snakeCurrentCamo = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+ACBE18=>+67E"); // Exceeding 31 will crash the game
         snakeCurrentFacePaint = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+ACBE18=>+67F"); // Exceeding 22 will crash the game
-        snakeDamageMultiplierInstructions = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+335AE9");
-        snakeDamageMultiplierValue = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+335AEB");
+        //snakeDamageMultiplierInstructions = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+335AE9");
+        //snakeDamageMultiplierValue = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+335AEB");
 
-        camoIndexInstructions = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+357907"); // 89 44 2B 24 = normal 90 90 90 90 allows camoIndexValue to be changed
+        camoIndexInstructions = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+357927"); // 89 44 2B 24 = normal 90 90 90 90 allows camoIndexValue to be changed
         camoIndexValue = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1E14C24"); // -1000 for -100% camo 1000 for 100% camo 4 byte value
 
         // Game State
         isPausedOrMenu = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D76E9C");
         mapStringAddress = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+ACBE18=>+24");
 
-
         // 16 = Alert, 32 = Caution, 0 = No Alert
         alertStatus = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D84F38");
-
 
         // HUD and Filters
         hudPartiallyRemoved = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D558DD");
         hudFullyRemoved = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D558DC");
-        fieldOfView = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+AE733");
+        fieldOfView = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+AE773");
 
         pissFilter = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D5435B");
         pissFilterDensity = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D54330");
@@ -149,26 +147,25 @@ public class MGS3 : InjectEffectPack
 
         // Guard Health, Sleep & Stun Statues
         // Lethal Damage
-        guardWpNadeDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1BC456");
-        guardShotgunDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CECFD");
-        guardM63Damage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CED3C");
-        guardKnifeForkDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CEE81");
-        guardMostWeaponsDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CF40F");
-        guardExplosionDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CF505");
-        guardThroatSlitDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1F2EAD");
+        guardWpNadeDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1BC466");
+        guardShotgunDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CED0D");
+        guardM63Damage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CED4C");
+        guardKnifeForkDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CEE91");
+        guardMostWeaponsDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CF41F");
+        guardExplosionDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CF515");
 
         // Sleep Damage
-        guardZzzDrain = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1BDC46");
-        guardSleepStatus1 = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CF3B2");
-        guardSleepStatus2 = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CF35E");
-        guardZzzWeaponsDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D1941");
+        guardZzzDrain = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1BDC56");
+        guardSleepStatus1 = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CF3C2");
+        guardSleepStatus2 = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CF36E");
+        //guardZzzWeaponsDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D1941");
 
         // Stun Damage
-        guardCqcSlamVeryEasytoHardDifficulty = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1BC3E7");
-        guardCqcSlamExtremeDifficulty = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1BC3F2");
-        guardRollDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CF002");
-        guardStunGrenadeDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CEDB2");
-        guardPunchDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CF636");
+        //guardCqcSlamVeryEasytoHardDifficulty = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1BC3E7");
+        //guardCqcSlamExtremeDifficulty = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1BC3F2");
+        guardRollDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CF012");
+        guardStunGrenadeDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CEDC2");
+        //guardPunchDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CF636");
     }
 
     private void DeinitGame()
@@ -1231,7 +1228,7 @@ public class MGS3 : InjectEffectPack
             SetArray(guardZzzDrain, new byte[] { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 });
             SetArray(guardSleepStatus1, new byte[] { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 });
             Set16(guardSleepStatus2, 0);
-            Set16(guardZzzWeaponsDamage, 0);
+            //Set16(guardZzzWeaponsDamage, 0);
         }
         catch (Exception ex)
         {
@@ -1246,7 +1243,7 @@ public class MGS3 : InjectEffectPack
             SetArray(guardZzzDrain, new byte[] { 0x89, 0x87, 0x48, 0x01, 0x00, 0x00 });
             SetArray(guardSleepStatus1, new byte[] { 0x89, 0x86, 0x48, 0x01, 0x00, 0x00 });
             Set16(guardSleepStatus2, 1000);
-            Set16(guardZzzWeaponsDamage, 1000);
+            //Set16(guardZzzWeaponsDamage, 1000);
         }
         catch (Exception ex)
         {
@@ -1261,7 +1258,7 @@ public class MGS3 : InjectEffectPack
             SetArray(guardZzzDrain, new byte[] { 0x89, 0x87, 0x48, 0x01, 0x00, 0x00 });
             SetArray(guardSleepStatus1, new byte[] { 0x89, 0x86, 0x48, 0x01, 0x00, 0x00 });
             Set16(guardSleepStatus2, 4000);
-            Set16(guardZzzWeaponsDamage, 4000);
+            //Set16(guardZzzWeaponsDamage, 4000);
         }
         catch (Exception ex)
         {
@@ -1276,7 +1273,7 @@ public class MGS3 : InjectEffectPack
             SetArray(guardZzzDrain, new byte[] { 0x89, 0x87, 0x48, 0x01, 0x00, 0x00 });
             SetArray(guardSleepStatus1, new byte[] { 0x89, 0x86, 0x48, 0x01, 0x00, 0x00 });
             Set16(guardSleepStatus2, 8000);
-            Set16(guardZzzWeaponsDamage, 8000);
+            //Set16(guardZzzWeaponsDamage, 8000);
         }
         catch (Exception ex)
         {
@@ -1291,7 +1288,7 @@ public class MGS3 : InjectEffectPack
             SetArray(guardZzzDrain, new byte[] { 0x89, 0x87, 0x48, 0x01, 0x00, 0x00 });
             SetArray(guardSleepStatus1, new byte[] { 0x89, 0x86, 0x48, 0x01, 0x00, 0x00 });
             Set16(guardSleepStatus2, 30000);
-            Set16(guardZzzWeaponsDamage, 30000);
+            //Set16(guardZzzWeaponsDamage, 30000);
         }
         catch (Exception ex)
         {
@@ -1307,11 +1304,11 @@ public class MGS3 : InjectEffectPack
     {
         try
         {
-            Set32(guardCqcSlamVeryEasytoHardDifficulty, 90000);
-            Set32(guardCqcSlamExtremeDifficulty, 90000);
+            //Set32(guardCqcSlamVeryEasytoHardDifficulty, 90000);
+            //Set32(guardCqcSlamExtremeDifficulty, 90000);
             SetArray(guardStunGrenadeDamage, new byte[] { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 });
             SetArray(guardRollDamage, new byte[] { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 });
-            Set8(guardPunchDamage, 0);
+            //Set8(guardPunchDamage, 0);
         }
         catch (Exception ex)
         {
@@ -1323,11 +1320,11 @@ public class MGS3 : InjectEffectPack
     {
         try
         {
-            Set32(guardCqcSlamVeryEasytoHardDifficulty, -1600);
-            Set32(guardCqcSlamExtremeDifficulty, -1600);
+            //Set32(guardCqcSlamVeryEasytoHardDifficulty, -1600);
+            //Set32(guardCqcSlamExtremeDifficulty, -1600);
             SetArray(guardStunGrenadeDamage, new byte[] { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 });
-            Set8(guardPunchDamage, 232);
             SetArray(guardRollDamage, new byte[] { 0x29, 0x86, 0x40, 0x01, 0x00, 0x00 });
+            //Set8(guardPunchDamage, 232);
         }
         catch (Exception ex)
         {
@@ -1339,10 +1336,10 @@ public class MGS3 : InjectEffectPack
     {
         try
         {
-            Set32(guardCqcSlamVeryEasytoHardDifficulty, -90000);
-            Set32(guardCqcSlamExtremeDifficulty, -36000);
+            //Set32(guardCqcSlamVeryEasytoHardDifficulty, -90000);
+            //Set32(guardCqcSlamExtremeDifficulty, -36000);
             SetArray(guardStunGrenadeDamage, new byte[] { 0x29, 0x86, 0x40, 0x01, 0x00, 0x00 });
-            Set8(guardPunchDamage, 1);
+            //Set8(guardPunchDamage, 1);
             SetArray(guardRollDamage, new byte[] { 0x29, 0x86, 0x40, 0x01, 0x00, 0x00 });
         }
         catch (Exception ex)
@@ -1355,10 +1352,10 @@ public class MGS3 : InjectEffectPack
     {
         try
         {
-            Set32(guardCqcSlamVeryEasytoHardDifficulty, -99999);
-            Set32(guardCqcSlamExtremeDifficulty, -99999);
+            //Set32(guardCqcSlamVeryEasytoHardDifficulty, -99999);
+            //Set32(guardCqcSlamExtremeDifficulty, -99999);
             SetArray(guardStunGrenadeDamage, new byte[] { 0x29, 0x86, 0x40, 0x01, 0x00, 0x00 });
-            Set8(guardPunchDamage, 4);
+            //Set8(guardPunchDamage, 4);
             SetArray(guardRollDamage, new byte[] { 0x29, 0x86, 0x40, 0x01, 0x00, 0x00 });
         }
         catch (Exception ex)
@@ -1371,10 +1368,10 @@ public class MGS3 : InjectEffectPack
     {
         try
         {
-            Set32(guardCqcSlamVeryEasytoHardDifficulty, -99999);
-            Set32(guardCqcSlamExtremeDifficulty, -99999);
+            //Set32(guardCqcSlamVeryEasytoHardDifficulty, -99999);
+            //Set32(guardCqcSlamExtremeDifficulty, -99999);
             SetArray(guardStunGrenadeDamage, new byte[] { 0x29, 0x86, 0x40, 0x01, 0x00, 0x00 });
-            Set8(guardPunchDamage, 10);
+            //Set8(guardPunchDamage, 10);
             SetArray(guardRollDamage, new byte[] { 0x29, 0x86, 0x40, 0x01, 0x00, 0x00 });
         }
         catch (Exception ex)
@@ -3347,7 +3344,7 @@ Note = "Uniform",
         Category = "Snake's Stats"
         },
 
-    new ("Snake x2 Damage Multiplier", "setSnakeDamageX2")
+    /*new ("Snake x2 Damage Multiplier", "setSnakeDamageX2")
         {
         Price = 80,
         Duration = 30,
@@ -3377,7 +3374,7 @@ Note = "Uniform",
         Duration = 30,
         Description = "Quintuples the damage Snake takes for a limited time",
         Category = "Snake's Stats"
-        },
+        },*/
 
     new ("Set Snake's Camo Index to -100%", "setSnakeCamoIndexNegative")
         {
@@ -6319,7 +6316,7 @@ Note = "Uniform",
                     () => Connector.SendMessage($"{request.DisplayViewer} gave Snake leeches."));
                 break;
 
-            case "setSnakeDamageX2":
+            /*case "setSnakeDamageX2":
                 if (IsInCutscene())
                 {
                     DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
@@ -6433,7 +6430,7 @@ Note = "Uniform",
                     SetSnakeDamageMultiplierValue(1);
                     Connector.SendMessage("Snake's damage multiplier is back to x1.");
                 });
-                break;
+                break;*/
 
             case "setSnakeCamoIndexNegative":
                 if (IsInCutscene() || !IsCamoIndexInstructionNormal())
