@@ -46,6 +46,8 @@ public class MGS3 : InjectEffectPack
     private AddressChain snakeDamageMultiplierInstructions;
     private AddressChain snakeDamageMultiplierValue;
     private AddressChain camoIndexInstructions;
+    private AddressChain camoIndexInstructions2;
+    private AddressChain camoIndexInstructions3;
     private AddressChain camoIndexValue;
     // Game State
     private AddressChain isPausedOrMenu;
@@ -97,75 +99,79 @@ public class MGS3 : InjectEffectPack
         Connector.PointerFormat = PointerFormat.Absolute64LE;
 
         /* Made a class to use offsets from the base address then add 80 bytes (0x50) to get to the next weapon to cut down on overall code */
-        baseWeaponAddress = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D2C16C");
-        baseItemAddress = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D2EA5C");
+        baseWeaponAddress = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D2E23C");
+        baseItemAddress = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D30B2C");
 
         // Snake Animations to test
-        snakeQuickSleep = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1E14C3B");
-        snakePukeFire = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1E14C3C");
-        snakeBunnyHop = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1E14C48");
-        snakeFreeze = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1E1F9DD");
-        snakeYcoordinate = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1E14BF0=>+134");
-        boxCrouch = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1E14C46");
+        snakeQuickSleep = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1E16D0B");
+        snakePukeFire = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1E16D0C");
+        snakeBunnyHop = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1E16D18");
+        snakeFreeze = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1E16D1C");
+        snakeYcoordinate = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D792F0=>+134");
+        boxCrouch = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1E16D16");
 
         // Snake Stats
-        snakeStamina = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+ACBE18=>+A4A");
-        snakeCommonCold = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+ACBE18=>+688");
-        snakePoison = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+ACBE18=>+696");
-        snakeFoodPoisoning = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+ACBE18=>+6A4");
-        snakeHasLeeches = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+ACBE18=>+6B2");
-        snakeCurrentEquippedWeapon = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+ACBE18=>+5D4");
-        snakeCurrentEquippedItem = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+ACBE18=>+5D6");
-        snakeCurrentCamo = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+ACBE18=>+67E"); // Exceeding 31 will crash the game
-        snakeCurrentFacePaint = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+ACBE18=>+67F"); // Exceeding 22 will crash the game
-        //snakeDamageMultiplierInstructions = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+335AE9");
-        //snakeDamageMultiplierValue = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+335AEB");
+        snakeStamina = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+ACDE98=>+A4A");
+        snakeCommonCold = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+ACDE98=>+688");
+        snakePoison = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+ACDE98=>+696");
+        snakeFoodPoisoning = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+ACDE98=>+6A4");
+        snakeHasLeeches = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+ACDE98=>+6B2");
+        snakeCurrentEquippedWeapon = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+ACDE98=>+5D4");
+        snakeCurrentEquippedItem = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+ACDE98=>+5D6");
+        snakeCurrentCamo = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+ACDE98=>+67E"); // Exceeding 31 will crash the game
+        snakeCurrentFacePaint = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+ACDE98=>+67F"); // Exceeding 22 will crash the game
+        snakeDamageMultiplierInstructions = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+336E99");
+        snakeDamageMultiplierValue = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+336E9B");
 
-        camoIndexInstructions = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+357927"); // 89 44 2B 24 = normal 90 90 90 90 allows camoIndexValue to be changed
-        camoIndexValue = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1E14C24"); // -1000 for -100% camo 1000 for 100% camo 4 byte value
+        // Camo index now uses 3 instruction redirects to a dedicated int32 value location.
+        camoIndexInstructions = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+7789CA");
+        camoIndexInstructions2 = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+19CA4B");
+        camoIndexInstructions3 = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+A78BA");
+        camoIndexValue = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+A7918"); // -1000 for -100% camo 1000 for 100% camo
 
         // Game State
-        isPausedOrMenu = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D76E9C");
-        mapStringAddress = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+ACBE18=>+24");
+        isPausedOrMenu = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D78F6C");
+        mapStringAddress = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+ACDE98=>+24");
 
         // 16 = Alert, 32 = Caution, 0 = No Alert
-        alertStatus = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D84F38");
+        alertStatus = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D87008");
 
         // HUD and Filters
-        hudPartiallyRemoved = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D558DD");
-        hudFullyRemoved = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D558DC");
-        fieldOfView = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+AE773");
+        hudPartiallyRemoved = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D579AD");
+        hudFullyRemoved = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D579AC");
+        fieldOfView = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+AF943");
 
-        pissFilter = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D5435B");
-        pissFilterDensity = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D54330");
-        lightNearSnake = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D5432D");
-        mapColour = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D54324");
-        skyColour = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D54320");
-        skyValue = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D5431C");
-        distanceVisibility = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D54316");
+        pissFilter = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D5642B");
+        pissFilterDensity = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D56400");
+        lightNearSnake = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D563FD");
+        mapColour = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D563F4");
+        skyColour = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D563F0");
+        skyValue = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D563EC");
+        distanceVisibility = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D563E6");
 
 
         // Guard Health, Sleep & Stun Statues
         // Lethal Damage
-        guardWpNadeDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1BC466");
-        guardShotgunDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CED0D");
-        guardM63Damage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CED4C");
-        guardKnifeForkDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CEE91");
-        guardMostWeaponsDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CF41F");
-        guardExplosionDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CF515");
+        guardWpNadeDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1BD806");
+        guardShotgunDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D00AD");
+        guardM63Damage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D00EC");
+        guardKnifeForkDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D0231");
+        guardMostWeaponsDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D07BF");
+        guardExplosionDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D08B5");
+        guardThroatSlitDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1F426D");
 
         // Sleep Damage
-        guardZzzDrain = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1BDC56");
-        guardSleepStatus1 = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CF3C2");
-        guardSleepStatus2 = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CF36E");
-        //guardZzzWeaponsDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D1941");
+        guardZzzDrain = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1BEFF6");
+        guardSleepStatus1 = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D0762");
+        guardSleepStatus2 = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D070E");
+        guardZzzWeaponsDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D2CF1");
 
         // Stun Damage
-        //guardCqcSlamVeryEasytoHardDifficulty = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1BC3E7");
-        //guardCqcSlamExtremeDifficulty = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1BC3F2");
-        guardRollDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CF012");
-        guardStunGrenadeDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CEDC2");
-        //guardPunchDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1CF636");
+        guardCqcSlamVeryEasytoHardDifficulty = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1BD797");
+        guardCqcSlamExtremeDifficulty = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1BD7A2");
+        guardRollDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D03B2");
+        guardStunGrenadeDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D0162");
+        guardPunchDamage = AddressChain.Parse(Connector, "\"METAL GEAR SOLID3.exe\"+1D02F9");
     }
 
     private void DeinitGame()
@@ -526,68 +532,6 @@ public class MGS3 : InjectEffectPack
        acquired or not is different than what is for when equipped by Snake ingame This version 
        doesn't utilize any of these or Facepaint, as I was worried about cluttering with 60+ effects 
        that only revolve around camo but it will in an update after testing */
-    public enum SnakesUniformCamo
-    {
-        OliveDrab = 0,
-        TigerStripe = 1,
-        Leaf = 2,
-        TreeBark = 3,
-        ChocoChip = 4,
-        Splitter = 5,
-        Raindrop = 6,
-        Squares = 7,
-        Water = 8,
-        Black = 9,
-        Snow = 10,
-        Naked = 11,
-        SneakingSuit = 12,
-        Scientist = 13,
-        Officer = 14,
-        Maintenance = 15,
-        Tuxedo = 16,
-        HornetStripe = 17,
-        Spider = 18,
-        Moss = 19,
-        Fire = 20,
-        Spirit = 21,
-        ColdWar = 22,
-        Snake = 23,
-        GakoCamo = 24,
-        DesertTiger = 25,
-        DPM = 26,
-        Flecktarn = 27,
-        Auscam = 28,
-        Animals = 29,
-        Fly = 30,
-        BananaCamo = 31
-    }
-
-    public enum SnakesFacePaint
-    {
-        NoPaint = 0,
-        Woodland = 1,
-        Black = 2,
-        Water = 3,
-        Desert = 4,
-        Splitter = 5,
-        Snow = 6,
-        Kabuki = 7,
-        Zombie = 8,
-        Oyama = 9,
-        Mask = 10, // Causes crashes when forced on or off will need an exception like if mask is on then don't change
-        Green = 11,
-        Brown = 12,
-        Infinity = 13,
-        SovietUnion = 14,
-        UK = 15,
-        France = 16,
-        Germany = 17,
-        Italy = 18,
-        Spain = 19,
-        Sweden = 20,
-        Japan = 21,
-        USA = 22
-    }
 
     public enum AlertModes
     {
@@ -928,6 +872,34 @@ public class MGS3 : InjectEffectPack
         Log.Message($"{item.Name} value set to {newValue}");
     }
 
+    private void AdjustItemValueByQuantity(Item item, int quantityDelta)
+    {
+        short currentValue = GetItemValue(item);
+        short maxCapacity = GetItemMaxCapacity(item);
+        int targetValue = Math.Clamp(currentValue + quantityDelta, 0, maxCapacity);
+        SetItemValue(item, (short)targetValue);
+    }
+
+    private static int GetRequestedQuantity(string[] codeParams)
+    {
+        if (codeParams.Length < 2)
+        {
+            return 1;
+        }
+
+        if (!int.TryParse(codeParams[1], out int quantity))
+        {
+            return 1;
+        }
+
+        if (quantity <= 0)
+        {
+            return 1;
+        }
+
+        return quantity;
+    }
+
     #endregion
 
     #region Snake's Stats
@@ -1073,8 +1045,12 @@ public class MGS3 : InjectEffectPack
     {
         try
         {
-            byte[] camoIndexInstruction = new byte[] { 0x89, 0x44, 0x2B, 0x24 };
-            SetArray(camoIndexInstructions, camoIndexInstruction);
+            byte[] camoIndexInstruction1 = new byte[] { 0x8B, 0x05, 0x24, 0xE3, 0x69, 0x01 };
+            SetArray(camoIndexInstructions, camoIndexInstruction1);
+            byte[] camoIndexInstruction2Bytes = new byte[] { 0x8B, 0x05, 0xA3, 0xA2, 0xC7, 0x01 };
+            SetArray(camoIndexInstructions2, camoIndexInstruction2Bytes);
+            byte[] camoIndexInstruction3Bytes = new byte[] { 0x8B, 0x05, 0xCC, 0xA1, 0xD7, 0x01 };
+            SetArray(camoIndexInstructions3, camoIndexInstruction3Bytes);
         }
         catch (Exception ex)
         {
@@ -1086,8 +1062,12 @@ public class MGS3 : InjectEffectPack
     {
         try
         {
-            byte[] camoIndexInstruction = new byte[] { 0x90, 0x90, 0x90, 0x90 };
-            SetArray(camoIndexInstructions, camoIndexInstruction);
+            byte[] camoIndexInstruction1 = new byte[] { 0x8B, 0x05, 0x48, 0xEF, 0x92, 0xFF };
+            SetArray(camoIndexInstructions, camoIndexInstruction1);
+            byte[] camoIndexInstruction2Bytes = new byte[] { 0x8B, 0x05, 0xC7, 0xAE, 0xF0, 0xFF };
+            SetArray(camoIndexInstructions2, camoIndexInstruction2Bytes);
+            byte[] camoIndexInstruction3Bytes = new byte[] { 0x8B, 0x05, 0x58, 0x00, 0x00, 0x00 };
+            SetArray(camoIndexInstructions3, camoIndexInstruction3Bytes);
         }
         catch (Exception ex)
         {
@@ -1113,9 +1093,17 @@ public class MGS3 : InjectEffectPack
     {
         try
         {
-            byte[] normalInstruction = new byte[] { 0x89, 0x44, 0x2B, 0x24 };
-            byte[] currentInstruction = GetArray<byte>(camoIndexInstructions, 4);
-            return currentInstruction.SequenceEqual(normalInstruction);
+            byte[] normalInstruction1 = new byte[] { 0x8B, 0x05, 0x24, 0xE3, 0x69, 0x01 };
+            byte[] normalInstruction2 = new byte[] { 0x8B, 0x05, 0xA3, 0xA2, 0xC7, 0x01 };
+            byte[] normalInstruction3 = new byte[] { 0x8B, 0x05, 0xCC, 0xA1, 0xD7, 0x01 };
+
+            byte[] currentInstruction1 = GetArray<byte>(camoIndexInstructions, 6);
+            byte[] currentInstruction2 = GetArray<byte>(camoIndexInstructions2, 6);
+            byte[] currentInstruction3 = GetArray<byte>(camoIndexInstructions3, 6);
+
+            return currentInstruction1.SequenceEqual(normalInstruction1)
+                   && currentInstruction2.SequenceEqual(normalInstruction2)
+                   && currentInstruction3.SequenceEqual(normalInstruction3);
         }
         catch (Exception ex)
         {
@@ -1228,7 +1216,7 @@ public class MGS3 : InjectEffectPack
             SetArray(guardZzzDrain, new byte[] { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 });
             SetArray(guardSleepStatus1, new byte[] { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 });
             Set16(guardSleepStatus2, 0);
-            //Set16(guardZzzWeaponsDamage, 0);
+            Set32(guardZzzWeaponsDamage, 0);
         }
         catch (Exception ex)
         {
@@ -1243,7 +1231,7 @@ public class MGS3 : InjectEffectPack
             SetArray(guardZzzDrain, new byte[] { 0x89, 0x87, 0x48, 0x01, 0x00, 0x00 });
             SetArray(guardSleepStatus1, new byte[] { 0x89, 0x86, 0x48, 0x01, 0x00, 0x00 });
             Set16(guardSleepStatus2, 1000);
-            //Set16(guardZzzWeaponsDamage, 1000);
+            Set32(guardZzzWeaponsDamage, 1000);
         }
         catch (Exception ex)
         {
@@ -1258,7 +1246,7 @@ public class MGS3 : InjectEffectPack
             SetArray(guardZzzDrain, new byte[] { 0x89, 0x87, 0x48, 0x01, 0x00, 0x00 });
             SetArray(guardSleepStatus1, new byte[] { 0x89, 0x86, 0x48, 0x01, 0x00, 0x00 });
             Set16(guardSleepStatus2, 4000);
-            //Set16(guardZzzWeaponsDamage, 4000);
+            Set32(guardZzzWeaponsDamage, 4000);
         }
         catch (Exception ex)
         {
@@ -1273,7 +1261,7 @@ public class MGS3 : InjectEffectPack
             SetArray(guardZzzDrain, new byte[] { 0x89, 0x87, 0x48, 0x01, 0x00, 0x00 });
             SetArray(guardSleepStatus1, new byte[] { 0x89, 0x86, 0x48, 0x01, 0x00, 0x00 });
             Set16(guardSleepStatus2, 8000);
-            //Set16(guardZzzWeaponsDamage, 8000);
+            Set32(guardZzzWeaponsDamage, 8000);
         }
         catch (Exception ex)
         {
@@ -1288,7 +1276,7 @@ public class MGS3 : InjectEffectPack
             SetArray(guardZzzDrain, new byte[] { 0x89, 0x87, 0x48, 0x01, 0x00, 0x00 });
             SetArray(guardSleepStatus1, new byte[] { 0x89, 0x86, 0x48, 0x01, 0x00, 0x00 });
             Set16(guardSleepStatus2, 30000);
-            //Set16(guardZzzWeaponsDamage, 30000);
+            Set32(guardZzzWeaponsDamage, 30000);
         }
         catch (Exception ex)
         {
@@ -1304,11 +1292,11 @@ public class MGS3 : InjectEffectPack
     {
         try
         {
-            //Set32(guardCqcSlamVeryEasytoHardDifficulty, 90000);
-            //Set32(guardCqcSlamExtremeDifficulty, 90000);
+            Set32(guardCqcSlamVeryEasytoHardDifficulty, 90000);
+            Set32(guardCqcSlamExtremeDifficulty, 90000);
             SetArray(guardStunGrenadeDamage, new byte[] { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 });
             SetArray(guardRollDamage, new byte[] { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 });
-            //Set8(guardPunchDamage, 0);
+            Set8(guardPunchDamage, 0);
         }
         catch (Exception ex)
         {
@@ -1320,11 +1308,11 @@ public class MGS3 : InjectEffectPack
     {
         try
         {
-            //Set32(guardCqcSlamVeryEasytoHardDifficulty, -1600);
-            //Set32(guardCqcSlamExtremeDifficulty, -1600);
+            Set32(guardCqcSlamVeryEasytoHardDifficulty, -1600);
+            Set32(guardCqcSlamExtremeDifficulty, -1600);
             SetArray(guardStunGrenadeDamage, new byte[] { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 });
             SetArray(guardRollDamage, new byte[] { 0x29, 0x86, 0x40, 0x01, 0x00, 0x00 });
-            //Set8(guardPunchDamage, 232);
+            Set8(guardPunchDamage, 232);
         }
         catch (Exception ex)
         {
@@ -1336,10 +1324,10 @@ public class MGS3 : InjectEffectPack
     {
         try
         {
-            //Set32(guardCqcSlamVeryEasytoHardDifficulty, -90000);
-            //Set32(guardCqcSlamExtremeDifficulty, -36000);
+            Set32(guardCqcSlamVeryEasytoHardDifficulty, -90000);
+            Set32(guardCqcSlamExtremeDifficulty, -36000);
             SetArray(guardStunGrenadeDamage, new byte[] { 0x29, 0x86, 0x40, 0x01, 0x00, 0x00 });
-            //Set8(guardPunchDamage, 1);
+            Set8(guardPunchDamage, 1);
             SetArray(guardRollDamage, new byte[] { 0x29, 0x86, 0x40, 0x01, 0x00, 0x00 });
         }
         catch (Exception ex)
@@ -1352,10 +1340,10 @@ public class MGS3 : InjectEffectPack
     {
         try
         {
-            //Set32(guardCqcSlamVeryEasytoHardDifficulty, -99999);
-            //Set32(guardCqcSlamExtremeDifficulty, -99999);
+            Set32(guardCqcSlamVeryEasytoHardDifficulty, -99999);
+            Set32(guardCqcSlamExtremeDifficulty, -99999);
             SetArray(guardStunGrenadeDamage, new byte[] { 0x29, 0x86, 0x40, 0x01, 0x00, 0x00 });
-            //Set8(guardPunchDamage, 4);
+            Set8(guardPunchDamage, 4);
             SetArray(guardRollDamage, new byte[] { 0x29, 0x86, 0x40, 0x01, 0x00, 0x00 });
         }
         catch (Exception ex)
@@ -1368,10 +1356,10 @@ public class MGS3 : InjectEffectPack
     {
         try
         {
-            //Set32(guardCqcSlamVeryEasytoHardDifficulty, -99999);
-            //Set32(guardCqcSlamExtremeDifficulty, -99999);
+            Set32(guardCqcSlamVeryEasytoHardDifficulty, -99999);
+            Set32(guardCqcSlamExtremeDifficulty, -99999);
             SetArray(guardStunGrenadeDamage, new byte[] { 0x29, 0x86, 0x40, 0x01, 0x00, 0x00 });
-            //Set8(guardPunchDamage, 10);
+            Set8(guardPunchDamage, 10);
             SetArray(guardRollDamage, new byte[] { 0x29, 0x86, 0x40, 0x01, 0x00, 0x00 });
         }
         catch (Exception ex)
@@ -1646,43 +1634,6 @@ public class MGS3 : InjectEffectPack
 
     #endregion
 
-    #region Camo and Face Paint
-
-    private void SwapUniform(SnakesUniformCamo uniform)
-    {
-        if (IsInCutscene())
-        {
-            throw new("Cannot swap uniform during a cutscene or menu.");
-        }
-        // Write the new uniform value.
-        Set8(snakeCurrentCamo, (byte)uniform);
-        Log.Message($"Uniform swapped to {uniform}");
-    }
-
-    private void SwapFacePaint(SnakesFacePaint facePaint)
-    {
-        if (IsInCutscene())
-        {
-            throw new("Cannot swap face paint during a cutscene or menu.");
-        }
-        byte currentFacePaint = Get8(snakeCurrentFacePaint);
-        if (currentFacePaint == (byte)SnakesFacePaint.Mask)
-        {
-            throw new("Cannot change face paint while mask is equipped.");
-        }
-        Set8(snakeCurrentFacePaint, (byte)facePaint);
-        Log.Message($"Face paint swapped to {facePaint}");
-    }
-
-    // Check if Mask is equipped
-    private bool IsMaskEquipped()
-    {
-        byte currentFacePaint = Get8(snakeCurrentFacePaint);
-        return currentFacePaint == (byte)SnakesFacePaint.Mask;
-    }
-
-    #endregion
-
     #region Snake's Animations
 
     private void MakeSnakeQuickSleep()
@@ -1704,11 +1655,8 @@ public class MGS3 : InjectEffectPack
         try
         {
             Log.Message("Attempting to make Snake puke while being set on fire.");
-            Set8(snakeFreeze, 1);
             Set8(snakePukeFire, 255);
             Log.Message("Snake is puking and on fire.");
-            Thread.Sleep(1500);
-            Set8(snakeFreeze, 0);
         }
         catch (Exception ex)
         {
@@ -1721,10 +1669,7 @@ public class MGS3 : InjectEffectPack
         try
         {
             Log.Message("Attempting to make Snake puke.");
-            Set8(snakeFreeze, 1);
             Set8(snakePukeFire, 1);
-            Thread.Sleep(1500);
-            Set8(snakeFreeze, 0);
             Log.Message("Snake is puking.");
         }
         catch (Exception ex)
@@ -1763,7 +1708,7 @@ public class MGS3 : InjectEffectPack
     {
         try
         {
-            Set8(snakeFreeze, 1);
+            Set8(snakeFreeze, 9);
         }
         catch (Exception ex)
         {
@@ -2025,931 +1970,6 @@ public class MGS3 : InjectEffectPack
 
     #endregion
 
-    #region Camo - Face Paint Swap
-
-    new ("Swap to No", "swapToNoFacePaint")
-        {
-        Note = "Face Paint",
-        Price = 30,
-        Description = "Removes Snake's face paint, leaving his face bare",
-        Category = "Camo - Face Paint"
-        },
-
-    new ("Swap to Woodland", "swapToWoodlandFacePaint")
-        {
-        Note = "Face Paint",
-        Price = 30,
-        Description = "Applies woodland face paint to Snake's face",
-        Category = "Camo - Face Paint",
-        Image = "face_pain"
-        },
-
-    new ("Swap to Black", "swapToBlackFacePaint")
-        {
-        Note = "Face Paint",
-        Price = 30,
-        Description = "Applies black face paint to Snake's face",
-        Category = "Camo - Face Paint",
-        Image = "face_pain"
-        },
-
-    new ("Swap to Water", "swapToWaterFacePaint")
-        {
-        Note = "Face Paint",
-        Price = 30,
-        Description = "Applies water face paint to Snake's face",
-        Category = "Camo - Face Paint",
-        Image = "face_pain"
-        },
-
-    new ("Swap to Desert", "swapToDesertFacePaint")
-        {
-        Note = "Face Paint",
-        Price = 30,
-        Description = "Applies desert face paint to Snake's face",
-        Category = "Camo - Face Paint",
-        Image = "face_pain"
-        },
-
-    new ("Swap to Splitter", "swapToSplitterFacePaint")
-        {
-        Note = "Face Paint",
-        Price = 30,
-        Description = "Applies splitter face paint to Snake's face",
-        Category = "Camo - Face Paint",
-        Image = "face_pain"
-        },
-
-    new ("Swap to Snow", "swapToSnowFacePaint")
-        {
-        Note = "Face Paint",
-        Price = 30,
-        Description = "Applies snow face paint to Snake's face",
-        Category = "Camo - Face Paint",
-        Image = "face_pain"
-        },
-
-    new ("Swap to Kabuki", "swapToKabukiFacePaint")
-        {
-        Note = "Face Paint",
-        Price = 30,
-        Description = "Applies kabuki face paint to Snake's face",
-        Category = "Camo - Face Paint",
-        Image = "face_pain"
-        },
-
-    new ("Swap to Zombie", "swapToZombieFacePaint")
-        {
-        Note = "Face Paint",
-        Price = 30,
-        Description = "Applies zombie face paint to Snake's face",
-        Category = "Camo - Face Paint",
-        Image = "face_pain"
-        },
-
-    new ("Swap to Oyama", "swapToOyamaFacePaint")
-        {
-        Note = "Face Paint",
-        Price = 30,
-        Description = "Applies oyama face paint to Snake's face",
-        Category = "Camo - Face Paint",
-        Image = "face_pain"
-        },
-
-    new ("Swap to Green", "swapToGreenFacePaint")
-        {
-        Note = "Face Paint",
-        Price = 30,
-        Description = "Applies green face paint to Snake's face",
-        Category = "Camo - Face Paint",
-        Image = "face_pain"
-        },
-
-    new ("Swap to Brown", "swapToBrownFacePaint")
-        {
-        Note = "Face Paint",
-        Price = 30,
-        Description = "Applies brown face paint to Snake's face",
-        Category = "Camo - Face Paint",
-        Image = "face_pain"
-        },
-
-    new ("Swap to Soviet Union", "swapToSovietUnionFacePaint")
-        {
-        Note = "Face Paint",
-        Price = 30,
-        Description = "Applies Soviet Union face paint to Snake's face",
-        Category = "Camo - Face Paint",
-        Image = "face_pain"
-        },
-
-    new ("Swap to UK", "swapToUKFacePaint")
-        {
-        Note = "Face Paint",
-        Price = 30,
-        Description = "Applies UK face paint to Snake's face",
-        Category = "Camo - Face Paint",
-        Image = "face_pain"
-        },
-
-    new ("Swap to France", "swapToFranceFacePaint")
-        {
-        Note = "Face Paint",
-        Price = 30,
-        Description = "Applies France face paint to Snake's face",
-        Category = "Camo - Face Paint",
-        Image = "face_pain"
-        },
-
-    new ("Swap to Germany", "swapToGermanyFacePaint")
-        {
-        Note = "Face Paint",
-        Price = 30,
-        Description = "Applies Germany face paint to Snake's face",
-        Category = "Camo - Face Paint",
-        Image = "face_pain"
-        },
-
-    new ("Swap to Italy", "swapToItalyFacePaint")
-        {
-        Note = "Face Paint",
-        Price = 30,
-        Description = "Applies Italy face paint to Snake's face",
-        Category = "Camo - Face Paint",
-        Image = "face_pain"
-        },
-
-    new ("Swap to Spain", "swapToSpainFacePaint")
-        {
-        Note = "Face Paint",
-        Price = 30,
-        Description = "Applies Spain face paint to Snake's face",
-        Category = "Camo - Face Paint",
-        Image = "face_pain"
-        },
-
-    new ("Swap to Sweden", "swapToSwedenFacePaint")
-        {
-        Note = "Face Paint",
-        Price = 30,
-        Description = "Applies Sweden face paint to Snake's face",
-        Category = "Camo - Face Paint",
-        Image = "face_pain"
-        },
-
-    new ("Swap to Japan", "swapToJapanFacePaint")
-        {
-        Note = "Face Paint",
-        Price = 30,
-        Description = "Applies Japan face paint to Snake's face",
-        Category = "Camo - Face Paint",
-        Image = "face_pain"
-        },
-
-    new ("Swap to USA", "swapToUSAFacePaint")
-        {
-        Note = "Face Paint",
-        Price = 30,
-        Description = "Applies USA face paint to Snake's face",
-        Category = "Camo - Face Paint",
-        Image = "face_pain"
-        },
-
-    #endregion
-
-    #region Camo - Uniform Swap
-
-    new ("Swap to Olive Drab", "swapToOliveDrab")
-        {
-        Note = "Uniform",
-        Price = 30,
-        Description = "Changes Snake's uniform to Olive Drab",
-        Category = "Camo - Uniform",
-        Image = "camo_uniform"
-        },
-
-    new ("Swap to Tiger Stripe", "swapToTigerStripe")
-        {
-        Note = "Uniform",
-        Price = 30,
-        Description = "Changes Snake's uniform to Tiger Stripe",
-        Category = "Camo - Uniform",
-        Image = "camo_uniform"
-        },
-
-    new ("Swap to Leaf", "swapToLeaf")
-        {
-        Note = "Uniform",
-        Price = 30,
-        Description = "Changes Snake's uniform to Leaf",
-        Category = "Camo - Uniform",
-        Image = "camo_uniform"
-        },
-
-    new ("Swap to Tree Bark", "swapToTreeBark")
-        {
-        Note = "Uniform",
-        Price = 30,
-        Description = "Changes Snake's uniform to Tree Bark",
-        Category = "Camo - Uniform",
-        Image = "camo_uniform"
-        },
-
-    new ("Swap to Choco Chip", "swapToChocoChip")
-        {
-
-        Note = "Uniform",
-        Price = 30,
-        Description = "Changes Snake's uniform to Choco Chip",
-        Category = "Camo - Uniform",
-        Image = "camo_uniform"
-        },
-
-    new ("Swap to Splitter", "swapToSplitter")
-        {
-
-        Note = "Uniform",
-        Price = 30,
-        Description = "Changes Snake's uniform to Splitter",
-        Category = "Camo - Uniform",
-        Image = "camo_uniform"
-        },
-
-    new ("Swap to Raindrop", "swapToRaindrop")
-        {
-
-Note = "Uniform",
-         Price = 30,
-            Description = "Changes Snake's uniform to Raindrop",
-            Category = "Camo - Uniform",
-            Image = "camo_uniform"
-        },
-
-    new ("Swap to Squares", "swapToSquares")
-        {
-
-Note = "Uniform",
-         Price = 30,
-            Description = "Changes Snake's uniform to Squares",
-            Category = "Camo - Uniform",
-            Image = "camo_uniform"
-        },
-
-    new ("Swap to Water", "swapToWater")
-        {
-
-Note = "Uniform",
-         Price = 30,
-            Description = "Changes Snake's uniform to Water",
-            Category = "Camo - Uniform",
-            Image = "camo_uniform"
-        },
-
-    new ("Swap to Black", "swapToBlack")
-        {
-
-Note = "Uniform",
-         Price = 30,
-            Description = "Changes Snake's uniform to Black",
-            Category = "Camo - Uniform",
-            Image = "camo_uniform"
-        },
-
-    new ("Swap to Snow", "swapToSnow")
-        {
-
-Note = "Uniform", 
-        Price = 30,
-            Description = "Changes Snake's uniform to Snow",
-            Category = "Camo - Uniform",
-            Image = "camo_uniform"
-        },
-
-    new ("Swap to Naked", "swapToNaked")
-        {
-
-Note = "Uniform",
-         Price = 30,
-            Description = "Changes Snake's uniform to Naked",
-            Category = "Camo - Uniform",
-            Image = "camo_uniform"
-        },
-
-    new ("Swap to Sneaking Suit", "swapToSneakingSuit")
-        {
-
-Note = "Uniform",
-         Price = 30,
-            Description = "Changes Snake's uniform to Sneaking Suit",
-            Category = "Camo - Uniform",
-            Image = "camo_uniform"
-        },
-
-    new ("Swap to Hornet Stripe", "swapToHornetStripe")
-        {
-
-Note = "Uniform", 
-        Price = 30,
-            Description = "Changes Snake's uniform to Hornet Stripe",
-            Category = "Camo - Uniform",
-            Image = "camo_uniform"
-        },
-
-    new ("Swap to Spider", "swapToSpider")
-        {
-
-Note = "Uniform", 
-        Price = 30,
-            Description = "Changes Snake's uniform to Spider",
-            Category = "Camo - Uniform",
-            Image = "camo_uniform"
-        },
-
-    new ("Swap to Moss", "swapToMoss")
-        {
-
-Note = "Uniform",
-         Price = 30,
-            Description = "Changes Snake's uniform to Moss",
-            Category = "Camo - Uniform",
-            Image = "camo_uniform"
-        },
-
-    new ("Swap to Fire", "swapToFire")
-        {
-
-Note = "Uniform",
-         Price = 30,
-            Description = "Changes Snake's uniform to Fire",
-            Category = "Camo - Uniform",
-            Image = "camo_uniform"
-        },
-
-    new ("Swap to Spirit", "swapToSpirit")
-        {
-
-Note = "Uniform",
-         Price = 30,
-            Description = "Changes Snake's uniform to Spirit",
-            Category = "Camo - Uniform",
-            Image = "camo_uniform"
-        },
-
-    new ("Swap to Cold War", "swapToColdWar")
-        {
-
-Note = "Uniform",
-         Price = 30,
-            Description = "Changes Snake's uniform to Cold War",
-            Category = "Camo - Uniform",
-            Image = "camo_uniform"
-        },
-
-    new ("Swap to Snake", "swapToSnake")
-        {
-
-Note = "Uniform", 
-        Price = 30,
-            Description = "Changes Snake's uniform to Snake",
-            Category = "Camo - Uniform",
-            Image = "camo_uniform"
-        },
-
-    new ("Swap to Ga-Ko", "swapToGaKo")
-        {
-
-        Note = "Uniform",
-        Price = 30,
-        Description = "Changes Snake's uniform to Ga-Ko",
-        Category = "Camo - Uniform",
-        Image = "camo_uniform"
-        },
-
-    new ("Swap to Desert Tiger", "swapToDesertTiger")
-        {
-
-        Note = "Uniform",
-        Price = 30,
-        Description = "Changes Snake's uniform to Desert Tiger",
-        Category = "Camo - Uniform",
-        Image = "camo_uniform"
-        },
-
-    new ("Swap to DPM", "swapToDPM")
-        {
-
-        Note = "Uniform",
-        Price = 30,
-        Description = "Changes Snake's uniform to DPM",
-        Category = "Camo - Uniform",
-        Image = "camo_uniform"
-        },
-
-    new ("Swap to Flecktarn", "swapToFlecktarn")
-        {
-
-        Note = "Uniform",
-        Price = 30,
-        Description = "Changes Snake's uniform to Flecktarn",
-        Category = "Camo - Uniform",
-        Image = "camo_uniform"
-        },
-
-    new ("Swap to Auscam", "swapToAuscam")
-        {
-
-        Note = "Uniform",
-        Price = 30,
-        Description = "Changes Snake's uniform to Auscam",
-        Category = "Camo - Uniform",
-        Image = "camo_uniform"
-        },
-
-    new ("Swap to Animals", "swapToAnimals")
-        {
-
-        Note = "Uniform",
-        Price = 30,
-        Description = "Changes Snake's uniform to Animals",
-        Category = "Camo - Uniform",
-        Image = "camo_uniform"
-        },
-
-    new ("Swap to Fly", "swapToFly")
-        {
-
-        Note = "Uniform",
-        Price = 30,
-        Description = "Changes Snake's uniform to Fly",
-        Category = "Camo - Uniform",
-        Image = "camo_uniform"
-        },
-
-    #endregion
-
-    #region Add/Remove Camos
-
-    new ("Add Olive Drab", "giveOliveDrab")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds Olive Drab camo to Snake's inventory",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove Olive Drab", "removeOliveDrab")
-        {
-        Price = 60,
-        Description = "Removes Olive Drab camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    new ("Add Tiger Stripe", "giveTigerStripe")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds Tiger Stripe camo to Snake's inventory",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove Tiger Stripe", "removeTigerStripe")
-        {
-        Price = 60,
-        Description = "Removes Tiger Stripe camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    new ("Add Leaf", "giveLeaf")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds Leaf camo to Snake's inventory",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove Leaf", "removeLeaf")
-        {
-        Price = 60,
-        Description = "Removes Leaf camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    new ("Add Tree Bark", "giveTreeBark")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds Tree Bark camo to Snake's inventory",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove Tree Bark", "removeTreeBark")
-        {
-        Price = 60,
-        Description = "Removes Tree Bark camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    new ("Add Choco Chip", "giveChocoChip")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds Choco Chip camo to Snake's inventory",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove Choco Chip", "removeChocoChip")
-        {
-        Price = 60,
-        Description = "Removes Choco Chip camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    new ("Add Splitter", "giveSplitter")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds Splitter camo to Snake's inventory",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove Splitter", "removeSplitter")
-        {
-        Price = 60,
-        Description = "Removes Splitter camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    new ("Add Raindrop", "giveRaindrop")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds Raindrop camo to Snake's inventory",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove Raindrop", "removeRaindrop")
-        {
-        Price = 60,
-        Description = "Removes Raindrop camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    new ("Add Squares", "giveSquares")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds Squares camo to Snake's inventory",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove Squares", "removeSquares")
-        {
-        Price = 60,
-        Description = "Removes Squares camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    new ("Add Water", "giveWater")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds Water camo to Snake's inventory",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove Water", "removeWater")
-        {
-        Price = 60,
-        Description = "Removes Water camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    new ("Add Black", "giveBlack")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds Black camo to Snake's inventory",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove Black", "removeBlack")
-        {
-        Price = 60,
-        Description = "Removes Black camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    new ("Add Snow", "giveSnow")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds Snow camo to Snake's inventory",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove Snow", "removeSnow")
-        {
-        Price = 60,
-        Description = "Removes Snow camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    new ("Add Sneaking Suit", "giveSneakingSuit")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds Sneaking Suit camo to Snake's inventory",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove Sneaking Suit", "removeSneakingSuit")
-        {
-        Price = 60,
-        Description = "Removes Sneaking Suit camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    new ("Add Hornet Stripe", "giveHornetStripe")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds Hornet Stripe camo to Snake's inventory",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove Hornet Stripe", "removeHornetStripe")
-        {
-        Price = 60,
-        Description = "Removes Hornet Stripe camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    new ("Add Spider", "giveSpider")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds Spider camo to Snake's inventory",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove Spider", "removeSpider")
-        {
-        Price = 60,
-        Description = "Removes Spider camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    new ("Add Moss", "giveMoss")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds Moss camo to Snake's inventory",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove Moss", "removeMoss")
-        {
-        Price = 60,
-        Description = "Removes Moss camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    new ("Add Fire", "giveFire")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds Fire camo to Snake's inventory",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove Fire", "removeFire")
-        {
-        Price = 60,
-        Description = "Removes Fire camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    new ("Add Spirit", "giveSpirit")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds Spirit camo to Snake's inventory",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove Spirit", "removeSpirit")
-        {
-        Price = 60,
-        Description = "Removes Spirit camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    new ("Add Cold War", "giveColdWar")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds Cold War camo to Snake's inventory",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove Cold War", "removeColdWar")
-        {
-        Price = 60,
-        Description = "Removes Cold War camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    new ("Add Snake", "giveSnake")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds Snake camo to Snake's inventory",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove Snake", "removeSnake")
-        {
-        Price = 60,
-        Description = "Removes Snake camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    new ("Add Ga-Ko", "giveGako")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds Ga-Ko camo to Snake's inventory",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove Ga-Ko", "removeGako")
-        {
-        Price = 60,
-        Description = "Removes Ga-Ko camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    new ("Add Desert Tiger", "giveDesertTiger")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds Desert Tiger camo to Snake's inventory",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove Desert Tiger", "removeDesertTiger")
-        {
-        Price = 60,
-        Description = "Removes Desert Tiger camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    new ("Add DPM", "giveDPM")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds DPM camo to Snake's inventory",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove DPM", "removeDPM")
-        {
-        Price = 60,
-        Description = "Removes DPM camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    new ("Add Flecktarn", "giveFlecktarn")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds Flecktarn camo to Snake's inventory",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove Flecktarn", "removeFlecktarn")
-        {
-        Price = 60,
-        Description = "Removes Flecktarn camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    new ("Add Auscam", "giveAuscam")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds Auscam camo to Snake's inventory",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove Auscam", "removeAuscam")
-        {
-        Price = 60,
-        Description = "Removes Auscam camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    new ("Add Animals", "giveAnimals")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds Animals camo to Snake's inventory",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove Animals", "removeAnimals")
-        {
-        Price = 60,
-        Description = "Removes Animals camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    new ("Add Fly", "giveFly")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds Fly camo to Snake's inventory",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove Fly", "removeFly")
-        {
-        Price = 60,
-        Description = "Removes Fly camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    new ("Add Banana", "giveBanana")
-        {
-        Note = "Uniform",
-        Price = 60,
-        Description = "Adds Banana camo to Snake's inventory, might appear without textures if mod is not installed",
-        Category = "Camo - Uniform - Add",
-        Image = "camo_give"
-        },
-
-    new ("Remove Banana", "removeBanana")
-        {
-        Price = 60,
-        Description = "Removes Banana camo from Snake's inventory",
-        Category = "Camo - Uniform - Remove",
-        Image = "camo_remove"
-        },
-
-    #endregion
-
     #region HUD Effects
 
     new ("Remove Partial HUD", "removePartialHUD")
@@ -3027,6 +2047,7 @@ Note = "Uniform",
     new ("Give Life Med", "giveLifeMedicine")
         {
         Price = 150,
+        Quantity = 3,
         Description = "Gives Snake a Life Med to restore health",
         Category = "Items - Add",
         Image = "give_item"
@@ -3035,6 +2056,7 @@ Note = "Uniform",
     new ("Remove Life Med", "removeLifeMedicine")
         {
         Price = 150,
+        Quantity = 3,
         Description = "Removes a Life Medicine from Snake's inventory",
         Category = "Items - Remove",
         Image = "remove_item"
@@ -3139,6 +2161,7 @@ Note = "Uniform",
     new ("Give Antidote", "giveAntidote")
         {
         Price = 30,
+        Quantity = 30,
         Description = "Gives Snake an antidote to cure certain poisons",
         Category = "Items (Medical) - Add",
         Image = "give_item_medical"
@@ -3147,6 +2170,7 @@ Note = "Uniform",
     new ("Remove Antidote", "removeAntidote")
         {
         Price = 30,
+        Quantity = 30,
         Description = "Removes an antidote from Snake's inventory",
         Category = "Items (Medical) - Remove",
         Image = "remove_item_medical"
@@ -3155,6 +2179,7 @@ Note = "Uniform",
     new ("Give C Med", "giveCMed")
         {
         Price = 30,
+        Quantity = 30,
         Description = "Gives Snake a C Med to cure colds",
         Category = "Items (Medical) - Add",
         Image = "give_item_medical"
@@ -3163,6 +2188,7 @@ Note = "Uniform",
     new ("Remove C Med", "removeCMed")
         {
         Price = 30,
+        Quantity = 30,
         Description = "Removes a C Med from Snake's inventory, the common cold is a mystery hope he doesn't catch it.",
         Category = "Items (Medical) - Remove",
         Image = "remove_item_medical"
@@ -3171,6 +2197,7 @@ Note = "Uniform",
     new ("Give D Med", "giveDMed")
         {
         Price = 30,
+        Quantity = 30,
         Description = "Gives Snake a D Med to cure Snake's stomach issues",
         Category = "Items (Medical) - Add",
         Image = "give_item_medical"
@@ -3179,6 +2206,7 @@ Note = "Uniform",
     new ("Remove D Med", "removeDMed")
         {
         Price = 30,
+        Quantity = 30,
         Description = "Removes a D Med from Snake's inventory, hope his stomach doesn't get upset somehow.",
         Category = "Items (Medical) - Remove",
         Image = "remove_item_medical"
@@ -3187,6 +2215,7 @@ Note = "Uniform",
     new ("Give Serum", "giveSerum")
         {
         Price = 50,
+        Quantity = 30,
         Description = "Gives Snake a serum to cure poison",
         Category = "Items (Medical) - Add",
         Image = "give_item_medical"
@@ -3195,6 +2224,7 @@ Note = "Uniform",
     new ("Remove Serum", "removeSerum")
         {
         Price = 50,
+        Quantity = 30,
         Description = "Removes a serum from Snake's inventory, sure would suck if he got poisoned.",
         Category = "Items (Medical) - Remove",
         Image = "remove_item_medical"
@@ -3203,6 +2233,7 @@ Note = "Uniform",
     new ("Give Bandage", "giveBandage")
         {
         Price = 60,
+        Quantity = 30,
         Description = "Gives Snake a bandage to stop bleeding",
         Category = "Items (Medical) - Add",
         Image = "give_item_medical"
@@ -3211,6 +2242,7 @@ Note = "Uniform",
     new ("Remove Bandage", "removeBandage")
         {
         Price = 60,
+        Quantity = 30,
         Description = "Removes a bandage from Snake's inventory, hope he doesn't get hurt.",
         Category = "Items (Medical) - Remove",
         Image = "remove_item_medical"
@@ -3219,6 +2251,7 @@ Note = "Uniform",
     new ("Give Disinfectant", "giveDisinfectant")
         {
         Price = 30,
+        Quantity = 30,
         Description = "Gives Snake a disinfectant to clean wounds",
         Category = "Items (Medical) - Add",
         Image = "give_item_medical"
@@ -3227,6 +2260,7 @@ Note = "Uniform",
     new ("Remove Disinfectant", "removeDisinfectant")
         {
         Price = 30,
+        Quantity = 30,
         Description = "Removes a disinfectant from Snake's inventory, hope he doesn't have to worry about an infection.",
         Category = "Items (Medical) - Remove",
         Image = "remove_item_medical"
@@ -3235,6 +2269,7 @@ Note = "Uniform",
     new ("Give Ointment", "giveOintment")
         {
         Price = 30,
+        Quantity = 30,
         Description = "Gives Snake an ointment to heal burns",
         Category = "Items (Medical) - Add",
         Image = "give_item_medical"
@@ -3243,6 +2278,7 @@ Note = "Uniform",
     new ("Remove Ointment", "removeOintment")
         {
         Price = 30,
+        Quantity = 30,
         Description = "Removes an ointment from Snake's inventory, getting burnt would not be ideal for Snake.",
         Category = "Items (Medical) - Remove",
         Image = "remove_item_medical"
@@ -3251,6 +2287,7 @@ Note = "Uniform",
     new ("Give Splint", "giveSplint")
         {
         Price = 30,
+        Quantity = 30,
         Description = "Gives Snake a splint to fix broken bones",
         Category = "Items (Medical) - Add",
         Image = "give_item_medical"
@@ -3259,6 +2296,7 @@ Note = "Uniform",
     new ("Remove Splint", "removeSplint")
         {
         Price = 30,
+        Quantity = 30,
         Description = "Removes a splint from Snake's inventory, what are the odds he gets thrown off a bridge again breaking all his bones?",
         Category = "Items (Medical) - Remove",
         Image = "remove_item_medical"
@@ -3267,6 +2305,7 @@ Note = "Uniform",
     new ("Give Styptic", "giveStyptic")
         {
         Price = 30,
+        Quantity = 30,
         Description = "Gives Snake a styptic to stop bleeding",
         Category = "Items (Medical) - Add",
         Image = "give_item_medical"
@@ -3275,6 +2314,7 @@ Note = "Uniform",
     new ("Remove Styptic", "removeStyptic")
         {
         Price = 30,
+        Quantity = 30,
         Description = "Removes a styptic from Snake's inventory, he probably doesn't need those.",
         Category = "Items (Medical) - Remove",
         Image = "remove_item_medical"
@@ -3283,6 +2323,7 @@ Note = "Uniform",
     new ("Give Suture Kit", "giveSutureKit")
         {
         Price = 30,
+        Quantity = 30,
         Description = "Gives Snake a suture kit to stitch up his cuts",
         Category = "Items (Medical) - Add",
         Image = "give_item_medical"
@@ -3291,6 +2332,7 @@ Note = "Uniform",
     new ("Remove Suture Kit", "removeSutureKit")
         {
         Price = 30,
+        Quantity = 30,
         Description = "Removes a suture kit from Snake's inventory, he's a CQC expert he probably won't get stabbed.",
         Category = "Items (Medical) - Remove",
         Image = "remove_item_medical"
@@ -3344,7 +2386,7 @@ Note = "Uniform",
         Category = "Snake's Stats"
         },
 
-    /*new ("Snake x2 Damage Multiplier", "setSnakeDamageX2")
+    new ("Snake x2 Damage Multiplier", "setSnakeDamageX2")
         {
         Price = 80,
         Duration = 30,
@@ -3374,7 +2416,7 @@ Note = "Uniform",
         Duration = 30,
         Description = "Quintuples the damage Snake takes for a limited time",
         Category = "Snake's Stats"
-        },*/
+        },
 
     new ("Set Snake's Camo Index to -100%", "setSnakeCamoIndexNegative")
         {
@@ -3916,1711 +2958,6 @@ Note = "Uniform",
 
             #endregion
 
-            #region Camo - Face Paint
-
-            case "swapToNoFacePaint":
-                if (IsInCutscene() || IsMaskEquipped())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapFacePaint(SnakesFacePaint.NoPaint);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Snake's face paint."));
-                break;
-
-
-            case "swapToWoodlandFacePaint":
-                if (IsInCutscene() || IsMaskEquipped())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapFacePaint(SnakesFacePaint.Woodland);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Woodland."));
-                break;
-
-            case "swapToBlackFacePaint":
-                if (IsInCutscene() || IsMaskEquipped())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapFacePaint(SnakesFacePaint.Black);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Black."));
-                break;
-
-            case "swapToWaterFacePaint":
-                if (IsInCutscene() || IsMaskEquipped())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapFacePaint(SnakesFacePaint.Water);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Water."));
-                break;
-
-            case "swapToDesertFacePaint":
-                if (IsInCutscene() || IsMaskEquipped())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapFacePaint(SnakesFacePaint.Desert);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Desert."));
-                break;
-
-            case "swapToSplitterFacePaint":
-                if (IsInCutscene() || IsMaskEquipped())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapFacePaint(SnakesFacePaint.Splitter);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Splitter."));
-                break;
-
-            case "swapToSnowFacePaint":
-                if (IsInCutscene() || IsMaskEquipped())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapFacePaint(SnakesFacePaint.Snow);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Snow."));
-                break;
-
-            case "swapToKabukiFacePaint":
-                if (IsInCutscene() || IsMaskEquipped())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapFacePaint(SnakesFacePaint.Kabuki);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Kabuki."));
-                break;
-
-            case "swapToZombieFacePaint":
-                if (IsInCutscene() || IsMaskEquipped())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapFacePaint(SnakesFacePaint.Zombie);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Zombie."));
-                break;
-
-            case "swapToOyamaFacePaint":
-                if (IsInCutscene() || IsMaskEquipped())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapFacePaint(SnakesFacePaint.Oyama);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Oyama."));
-                break;
-
-            case "swapToGreenFacePaint":
-                if (IsInCutscene() || IsMaskEquipped())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapFacePaint(SnakesFacePaint.Green);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Green."));
-                break;
-
-            case "swapToBrownFacePaint":
-                if (IsInCutscene() || IsMaskEquipped())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapFacePaint(SnakesFacePaint.Brown);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Brown."));
-                break;
-
-            case "swapToSovietUnionFacePaint":
-                if (IsInCutscene() || IsMaskEquipped())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapFacePaint(SnakesFacePaint.SovietUnion);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Soviet Union."));
-                break;
-
-            case "swapToUKFacePaint":
-                if (IsInCutscene() || IsMaskEquipped())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapFacePaint(SnakesFacePaint.UK);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to UK."));
-                break;
-
-            case "swapToFranceFacePaint":
-                if (IsInCutscene() || IsMaskEquipped())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapFacePaint(SnakesFacePaint.France);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to France."));
-                break;
-
-            case "swapToSpainFacePaint":
-                if (IsInCutscene() || IsMaskEquipped())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapFacePaint(SnakesFacePaint.Spain);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Spain."));
-                break;
-
-            case "swapToSwedenFacePaint":
-                if (IsInCutscene() || IsMaskEquipped())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapFacePaint(SnakesFacePaint.Sweden);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Sweden."));
-                break;
-
-            case "swapToItalyFacePaint":
-                if (IsInCutscene() || IsMaskEquipped())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapFacePaint(SnakesFacePaint.Italy);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Italy."));
-                break;
-
-            case "swapToGermanyFacePaint":
-                if (IsInCutscene() || IsMaskEquipped())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapFacePaint(SnakesFacePaint.Germany);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Germany."));
-                break;
-
-            case "swapToJapanFacePaint":
-                if (IsInCutscene() || IsMaskEquipped())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapFacePaint(SnakesFacePaint.Japan);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to Japan."));
-                break;
-
-
-            case "swapToUSAFacePaint":
-                if (IsInCutscene() || IsMaskEquipped())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.WrongMode);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapFacePaint(SnakesFacePaint.USA);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's face paint to USA."));
-                break;
-
-
-
-            #endregion
-
-            #region Camo - Uniform
-
-            case "swapToOliveDrab":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.OliveDrab);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Olive Drab."));
-                break;
-
-            case "swapToTigerStripe":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.TigerStripe);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Tiger Stripe."));
-                break;
-
-            case "swapToLeaf":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.Leaf);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Leaf."));
-                break;
-
-            case "swapToTreeBark":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.TreeBark);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Tree Bark."));
-                break;
-
-            case "swapToChocoChip":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.ChocoChip);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Choco Chip."));
-                break;
-
-            case "swapToSplitter":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.Splitter);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Splitter."));
-                break;
-
-            case "swapToRaindrop":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.Raindrop);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Raindrop."));
-                break;
-
-            case "swapToSquares":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.Squares);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Squares."));
-                break;
-
-            case "swapToWater":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.Water);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Water."));
-                break;
-
-            case "swapToBlack":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.Black);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Black."));
-                break;
-
-            case "swapToSnow":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.Snow);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Snow."));
-                break;
-
-            case "swapToNaked":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.Naked);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Naked."));
-                break;
-
-            case "swapToSneakingSuit":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.SneakingSuit);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Sneaking Suit."));
-                break;
-
-
-
-            case "swapToHornetStripe":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.HornetStripe);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Hornet Stripe."));
-                break;
-
-            case "swapToSpider":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.Spider);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Spider."));
-                break;
-
-            case "swapToMoss":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.Moss);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Moss."));
-                break;
-
-            case "swapToFire":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.Fire);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Fire."));
-                break;
-
-            case "swapToSpirit":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.Spirit);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Spirit."));
-                break;
-
-            case "swapToColdWar":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.ColdWar);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Cold War."));
-                break;
-
-            case "swapToSnake":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.Snake);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Snake."));
-                break;
-
-            case "swapToGaKo":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.GakoCamo);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Ga-Ko."));
-                break;
-
-            case "swapToDesertTiger":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.DesertTiger);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Desert Tiger."));
-                break;
-
-            case "swapToDPM":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.DPM);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to DPM."));
-                break;
-
-            case "swapToFlecktarn":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.Flecktarn);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Flecktarn."));
-                break;
-
-            case "swapToAuscam":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.Auscam);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Auscam."));
-                break;
-
-            case "swapToAnimals":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.Animals);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Animals."));
-                break;
-
-            case "swapToFly":
-                if (IsInCutscene())
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        SwapUniform(SnakesUniformCamo.Fly);
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} swapped Snake's uniform to Fly."));
-                break;
-
-            #endregion
-
-            #region Camo - Uniform Add/Remove
-
-            case "giveOliveDrab":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.OliveDrab) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.OliveDrab);
-                        SetItemValue(MGS3UsableObjects.OliveDrab, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Olive Drab."));
-                break;
-
-            case "removeOliveDrab":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.OliveDrab) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.OliveDrab);
-                        SetItemValue(MGS3UsableObjects.OliveDrab, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Olive Drab from Snake."));
-                break;
-
-            case "giveTigerStripe":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.TigerStripe) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.TigerStripe);
-                        SetItemValue(MGS3UsableObjects.TigerStripe, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Tiger Stripe."));
-                break;
-
-            case "removeTigerStripe":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.TigerStripe) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.TigerStripe);
-                        SetItemValue(MGS3UsableObjects.TigerStripe, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Tiger Stripe from Snake."));
-                break;
-
-            case "giveLeaf":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Leaf) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Leaf);
-                        SetItemValue(MGS3UsableObjects.Leaf, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Leaf."));
-                break;
-
-
-            case "removeLeaf":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Leaf) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Leaf);
-                        SetItemValue(MGS3UsableObjects.Leaf, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Leaf from Snake."));
-                break;
-
-            case "giveTreeBark":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.TreeBark) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.TreeBark);
-                        SetItemValue(MGS3UsableObjects.TreeBark, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Tree Bark."));
-                break;
-
-            case "removeTreeBark":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.TreeBark) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.TreeBark);
-                        SetItemValue(MGS3UsableObjects.TreeBark, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Tree Bark from Snake."));
-                break;
-
-            case "giveChocoChip":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.ChocoChip) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.ChocoChip);
-                        SetItemValue(MGS3UsableObjects.ChocoChip, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Choco Chip."));
-                break;
-
-            case "removeChocoChip":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.ChocoChip) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.ChocoChip);
-                        SetItemValue(MGS3UsableObjects.ChocoChip, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Choco Chip from Snake."));
-                break;
-
-            case "giveSplitter":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Splitter) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Splitter);
-                        SetItemValue(MGS3UsableObjects.Splitter, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Splitter."));
-                break;
-
-            case "removeSplitter":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Splitter) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Splitter);
-                        SetItemValue(MGS3UsableObjects.Splitter, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Splitter from Snake."));
-                break;
-
-            case "giveRaindrop":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Raindrop) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Raindrop);
-                        SetItemValue(MGS3UsableObjects.Raindrop, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Raindrop."));
-                break;
-
-            case "removeRaindrop":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Raindrop) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Raindrop);
-                        SetItemValue(MGS3UsableObjects.Raindrop, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Raindrop from Snake."));
-                break;
-
-            case "giveSquares":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Squares) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Squares);
-                        SetItemValue(MGS3UsableObjects.Squares, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Squares."));
-                break;
-
-            case "removeSquares":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Squares) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Squares);
-                        SetItemValue(MGS3UsableObjects.Squares, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Squares from Snake."));
-                break;
-
-            case "giveWater":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Water) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Water);
-                        SetItemValue(MGS3UsableObjects.Water, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Water."));
-                break;
-
-            case "removeWater":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Water) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Water);
-                        SetItemValue(MGS3UsableObjects.Water, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Water from Snake."));
-                break;
-
-            case "giveBlack":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Black) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Black);
-                        SetItemValue(MGS3UsableObjects.Black, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Black."));
-                break;
-
-            case "removeBlack":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Black) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Black);
-                        SetItemValue(MGS3UsableObjects.Black, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Black from Snake."));
-                break;
-
-            case "giveSnow":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Snow) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Snow);
-                        SetItemValue(MGS3UsableObjects.Snow, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Snow."));
-                break;
-
-            case "removeSnow":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Snow) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Snow);
-                        SetItemValue(MGS3UsableObjects.Snow, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Snow from Snake."));
-                break;
-
-            case "giveSneakingSuit":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.SneakingSuit) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.SneakingSuit);
-                        SetItemValue(MGS3UsableObjects.SneakingSuit, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Sneaking Suit."));
-                break;
-
-            case "removeSneakingSuit":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.SneakingSuit) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.SneakingSuit);
-                        SetItemValue(MGS3UsableObjects.SneakingSuit, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Sneaking Suit from Snake."));
-                break;
-
-            case "giveHornetStripe":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.HornetStripe) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.HornetStripe);
-                        SetItemValue(MGS3UsableObjects.HornetStripe, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Hornet Stripe."));
-                break;
-
-            case "removeHornetStripe":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.HornetStripe) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.HornetStripe);
-                        SetItemValue(MGS3UsableObjects.HornetStripe, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Hornet Stripe from Snake."));
-                break;
-
-            case "giveSpider":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Spider) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Spider);
-                        SetItemValue(MGS3UsableObjects.Spider, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Spider."));
-                break;
-
-            case "removeSpider":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Spider) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Spider);
-                        SetItemValue(MGS3UsableObjects.Spider, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Spider from Snake."));
-                break;
-
-            case "giveMoss":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Moss) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Moss);
-                        SetItemValue(MGS3UsableObjects.Moss, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Moss."));
-                break;
-
-            case "removeMoss":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Moss) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Moss);
-                        SetItemValue(MGS3UsableObjects.Moss, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Moss from Snake."));
-                break;
-
-            case "giveFire":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Fire) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Fire);
-                        SetItemValue(MGS3UsableObjects.Fire, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Fire."));
-                break;
-
-            case "removeFire":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Fire) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Fire);
-                        SetItemValue(MGS3UsableObjects.Fire, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Fire from Snake."));
-                break;
-
-            case "giveSpirit":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Spirit) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Spirit);
-                        SetItemValue(MGS3UsableObjects.Spirit, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Spirit."));
-                break;
-
-            case "removeSpirit":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Spirit) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Spirit);
-                        SetItemValue(MGS3UsableObjects.Spirit, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Spirit from Snake."));
-                break;
-
-            case "giveColdWar":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.ColdWar) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.ColdWar);
-                        SetItemValue(MGS3UsableObjects.ColdWar, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Cold War."));
-                break;
-
-            case "removeColdWar":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.ColdWar) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.ColdWar);
-                        SetItemValue(MGS3UsableObjects.ColdWar, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Cold War from Snake."));
-                break;
-
-            case "giveSnake":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Snake) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Snake);
-                        SetItemValue(MGS3UsableObjects.Snake, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Snake."));
-                break;
-
-            case "removeSnake":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Snake) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Snake);
-                        SetItemValue(MGS3UsableObjects.Snake, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Snake from Snake."));
-                break;
-
-            case "giveGako":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.GakoCamo) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.GakoCamo);
-                        SetItemValue(MGS3UsableObjects.GakoCamo, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Gako."));
-                break;
-
-            case "removeGako":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.GakoCamo) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.GakoCamo);
-                        SetItemValue(MGS3UsableObjects.GakoCamo, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Gako from Snake."));
-                break;
-
-            case "giveDesertTiger":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.DesertTiger) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.DesertTiger);
-                        SetItemValue(MGS3UsableObjects.DesertTiger, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Desert Tiger."));
-                break;
-
-            case "removeDesertTiger":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.DesertTiger) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.DesertTiger);
-                        SetItemValue(MGS3UsableObjects.DesertTiger, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Desert Tiger from Snake."));
-                break;
-
-            case "giveDPM":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.DPM) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.DPM);
-                        SetItemValue(MGS3UsableObjects.DPM, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake DPM."));
-                break;
-
-            case "removeDPM":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.DPM) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.DPM);
-                        SetItemValue(MGS3UsableObjects.DPM, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed DPM from Snake."));
-                break;
-
-            case "giveFlecktarn":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Flecktarn) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Flecktarn);
-                        SetItemValue(MGS3UsableObjects.Flecktarn, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Flecktarn."));
-                break;
-
-            case "removeFlecktarn":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Flecktarn) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Flecktarn);
-                        SetItemValue(MGS3UsableObjects.Flecktarn, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Flecktarn from Snake."));
-                break;
-
-            case "giveAuscam":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Auscam) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Auscam);
-                        SetItemValue(MGS3UsableObjects.Auscam, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Auscam."));
-                break;
-
-            case "removeAuscam":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Auscam) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Auscam);
-                        SetItemValue(MGS3UsableObjects.Auscam, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Auscam from Snake."));
-                break;
-
-            case "giveAnimals":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Animals) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Animals);
-                        SetItemValue(MGS3UsableObjects.Animals, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Animals."));
-                break;
-
-            case "removeAnimals":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Animals) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Animals);
-                        SetItemValue(MGS3UsableObjects.Animals, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Animals from Snake."));
-                break;
-
-            case "giveFly":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Fly) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Fly);
-                        SetItemValue(MGS3UsableObjects.Fly, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Fly."));
-                break;
-
-            case "removeFly":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.Fly) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Fly);
-                        SetItemValue(MGS3UsableObjects.Fly, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Fly from Snake."));
-                break;
-
-            case "giveBanana":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.BananaCamo) == 1))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.BananaCamo);
-                        SetItemValue(MGS3UsableObjects.BananaCamo, (short)(currentValue + 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake Banana."));
-                break;
-
-            case "removeBanana":
-                if (IsInCutscene() || (GetItemValue(MGS3UsableObjects.BananaCamo) == 0))
-                {
-                    DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
-                    return;
-                }
-                TryEffect(request,
-                    () => true,
-                    () =>
-                    {
-                        short currentValue = GetItemValue(MGS3UsableObjects.BananaCamo);
-                        SetItemValue(MGS3UsableObjects.BananaCamo, (short)(currentValue - 1));
-                        return true;
-                    },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed Banana camo from Snake."));
-                break;
-
-            #endregion
-
             #region Items
 
             case "giveLifeMedicine":
@@ -5633,11 +2970,10 @@ Note = "Uniform",
                     () => true,
                     () =>
                     {
-                        short currentValue = GetItemValue(MGS3UsableObjects.LifeMedicine);
-                        SetItemValue(MGS3UsableObjects.LifeMedicine, (short)(currentValue + 1));
+                        AdjustItemValueByQuantity(MGS3UsableObjects.LifeMedicine, GetRequestedQuantity(codeParams));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a life med. Snake now has {GetItemValue(MGS3UsableObjects.LifeMedicine)} life med(s)."));
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake {GetRequestedQuantity(codeParams)} life med(s). Snake now has {GetItemValue(MGS3UsableObjects.LifeMedicine)} life med(s)."));
                 break;
 
 
@@ -5651,11 +2987,10 @@ Note = "Uniform",
                     () => true,
                     () =>
                     {
-                        short currentValue = GetItemValue(MGS3UsableObjects.LifeMedicine);
-                        SetItemValue(MGS3UsableObjects.LifeMedicine, (short)(currentValue - 1));
+                        AdjustItemValueByQuantity(MGS3UsableObjects.LifeMedicine, -GetRequestedQuantity(codeParams));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed a life medicine from Snake, he now has {GetItemValue(MGS3UsableObjects.LifeMedicine)} life med(s)."));
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed {GetRequestedQuantity(codeParams)} life med(s) from Snake, he now has {GetItemValue(MGS3UsableObjects.LifeMedicine)} life med(s)."));
                 break;
 
             case "giveScope":
@@ -5872,11 +3207,10 @@ Note = "Uniform",
                     () => true,
                     () =>
                     {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Antidote);
-                        SetItemValue(MGS3UsableObjects.Antidote, (short)(currentValue + 1));
+                        AdjustItemValueByQuantity(MGS3UsableObjects.Antidote, GetRequestedQuantity(codeParams));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake an antidote. Snake now has {GetItemValue(MGS3UsableObjects.Antidote)} antidote(s)."));
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake {GetRequestedQuantity(codeParams)} antidote(s). Snake now has {GetItemValue(MGS3UsableObjects.Antidote)} antidote(s)."));
                 break;
 
             case "removeAntidote":
@@ -5889,11 +3223,10 @@ Note = "Uniform",
                     () => true,
                     () =>
                     {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Antidote);
-                        SetItemValue(MGS3UsableObjects.Antidote, (short)(currentValue - 1));
+                        AdjustItemValueByQuantity(MGS3UsableObjects.Antidote, -GetRequestedQuantity(codeParams));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed an antidote from Snake, he now has {GetItemValue(MGS3UsableObjects.Antidote)} antidote(s)."));
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed {GetRequestedQuantity(codeParams)} antidote(s) from Snake, he now has {GetItemValue(MGS3UsableObjects.Antidote)} antidote(s)."));
                 break;
 
             case "giveCMed":
@@ -5906,11 +3239,10 @@ Note = "Uniform",
                     () => true,
                     () =>
                     {
-                        short currentValue = GetItemValue(MGS3UsableObjects.ColdMedicine);
-                        SetItemValue(MGS3UsableObjects.ColdMedicine, (short)(currentValue + 1));
+                        AdjustItemValueByQuantity(MGS3UsableObjects.ColdMedicine, GetRequestedQuantity(codeParams));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a C Med. Snake now has {GetItemValue(MGS3UsableObjects.ColdMedicine)} C Med(s)."));
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake {GetRequestedQuantity(codeParams)} C Med(s). Snake now has {GetItemValue(MGS3UsableObjects.ColdMedicine)} C Med(s)."));
                 break;
 
             case "removeCMed":
@@ -5923,11 +3255,10 @@ Note = "Uniform",
                     () => true,
                     () =>
                     {
-                        short currentValue = GetItemValue(MGS3UsableObjects.ColdMedicine);
-                        SetItemValue(MGS3UsableObjects.ColdMedicine, (short)(currentValue - 1));
+                        AdjustItemValueByQuantity(MGS3UsableObjects.ColdMedicine, -GetRequestedQuantity(codeParams));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed a C Med from Snake, he now has {GetItemValue(MGS3UsableObjects.ColdMedicine)} C Med(s)."));
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed {GetRequestedQuantity(codeParams)} C Med(s) from Snake, he now has {GetItemValue(MGS3UsableObjects.ColdMedicine)} C Med(s)."));
                 break;
 
 
@@ -5941,11 +3272,10 @@ Note = "Uniform",
                     () => true,
                     () =>
                     {
-                        short currentValue = GetItemValue(MGS3UsableObjects.DigestiveMedicine);
-                        SetItemValue(MGS3UsableObjects.DigestiveMedicine, (short)(currentValue + 1));
+                        AdjustItemValueByQuantity(MGS3UsableObjects.DigestiveMedicine, GetRequestedQuantity(codeParams));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a D Med. Snake now has {GetItemValue(MGS3UsableObjects.DigestiveMedicine)} D Med(s)."));
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake {GetRequestedQuantity(codeParams)} D Med(s). Snake now has {GetItemValue(MGS3UsableObjects.DigestiveMedicine)} D Med(s)."));
                 break;
 
             case "removeDMed":
@@ -5958,11 +3288,10 @@ Note = "Uniform",
                     () => true,
                     () =>
                     {
-                        short currentValue = GetItemValue(MGS3UsableObjects.DigestiveMedicine);
-                        SetItemValue(MGS3UsableObjects.DigestiveMedicine, (short)(currentValue - 1));
+                        AdjustItemValueByQuantity(MGS3UsableObjects.DigestiveMedicine, -GetRequestedQuantity(codeParams));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed a D Med from Snake, he now has {GetItemValue(MGS3UsableObjects.DigestiveMedicine)} D Med(s)."));
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed {GetRequestedQuantity(codeParams)} D Med(s) from Snake, he now has {GetItemValue(MGS3UsableObjects.DigestiveMedicine)} D Med(s)."));
                 break;
 
             case "giveSerum":
@@ -5975,11 +3304,10 @@ Note = "Uniform",
                     () => true,
                     () =>
                     {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Serum);
-                        SetItemValue(MGS3UsableObjects.Serum, (short)(currentValue + 1));
+                        AdjustItemValueByQuantity(MGS3UsableObjects.Serum, GetRequestedQuantity(codeParams));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a serum. Snake now has {GetItemValue(MGS3UsableObjects.Serum)} serum(s)."));
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake {GetRequestedQuantity(codeParams)} serum(s). Snake now has {GetItemValue(MGS3UsableObjects.Serum)} serum(s)."));
                 break;
 
             case "removeSerum":
@@ -5992,11 +3320,10 @@ Note = "Uniform",
                     () => true,
                     () =>
                     {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Serum);
-                        SetItemValue(MGS3UsableObjects.Serum, (short)(currentValue - 1));
+                        AdjustItemValueByQuantity(MGS3UsableObjects.Serum, -GetRequestedQuantity(codeParams));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed a serum from Snake, he now has {GetItemValue(MGS3UsableObjects.Serum)} serum(s)."));
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed {GetRequestedQuantity(codeParams)} serum(s) from Snake, he now has {GetItemValue(MGS3UsableObjects.Serum)} serum(s)."));
                 break;
 
             case "giveBandage":
@@ -6009,11 +3336,10 @@ Note = "Uniform",
                     () => true,
                     () =>
                     {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Bandage);
-                        SetItemValue(MGS3UsableObjects.Bandage, (short)(currentValue + 1));
+                        AdjustItemValueByQuantity(MGS3UsableObjects.Bandage, GetRequestedQuantity(codeParams));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a bandage. Snake now has {GetItemValue(MGS3UsableObjects.Bandage)} bandage(s)."));
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake {GetRequestedQuantity(codeParams)} bandage(s). Snake now has {GetItemValue(MGS3UsableObjects.Bandage)} bandage(s)."));
                 break;
 
             case "removeBandage":
@@ -6026,11 +3352,10 @@ Note = "Uniform",
                     () => true,
                     () =>
                     {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Bandage);
-                        SetItemValue(MGS3UsableObjects.Bandage, (short)(currentValue - 1));
+                        AdjustItemValueByQuantity(MGS3UsableObjects.Bandage, -GetRequestedQuantity(codeParams));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed a bandage from Snake, he now has {GetItemValue(MGS3UsableObjects.Bandage)} bandage(s)."));
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed {GetRequestedQuantity(codeParams)} bandage(s) from Snake, he now has {GetItemValue(MGS3UsableObjects.Bandage)} bandage(s)."));
                 break;
 
             case "giveDisinfectant":
@@ -6043,11 +3368,10 @@ Note = "Uniform",
                     () => true,
                     () =>
                     {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Disinfectant);
-                        SetItemValue(MGS3UsableObjects.Disinfectant, (short)(currentValue + 1));
+                        AdjustItemValueByQuantity(MGS3UsableObjects.Disinfectant, GetRequestedQuantity(codeParams));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a disinfectant. Snake now has {GetItemValue(MGS3UsableObjects.Disinfectant)} disinfectant(s)."));
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake {GetRequestedQuantity(codeParams)} disinfectant(s). Snake now has {GetItemValue(MGS3UsableObjects.Disinfectant)} disinfectant(s)."));
                 break;
 
             case "removeDisinfectant":
@@ -6060,11 +3384,10 @@ Note = "Uniform",
                     () => true,
                     () =>
                     {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Disinfectant);
-                        SetItemValue(MGS3UsableObjects.Disinfectant, (short)(currentValue - 1));
+                        AdjustItemValueByQuantity(MGS3UsableObjects.Disinfectant, -GetRequestedQuantity(codeParams));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed a disinfectant from Snake, he now has {GetItemValue(MGS3UsableObjects.Disinfectant)} disinfectant(s)."));
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed {GetRequestedQuantity(codeParams)} disinfectant(s) from Snake, he now has {GetItemValue(MGS3UsableObjects.Disinfectant)} disinfectant(s)."));
                 break;
 
             case "giveOintment":
@@ -6077,11 +3400,10 @@ Note = "Uniform",
                     () => true,
                     () =>
                     {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Ointment);
-                        SetItemValue(MGS3UsableObjects.Ointment, (short)(currentValue + 1));
+                        AdjustItemValueByQuantity(MGS3UsableObjects.Ointment, GetRequestedQuantity(codeParams));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake an ointment. Snake now has {GetItemValue(MGS3UsableObjects.Ointment)} ointment(s)."));
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake {GetRequestedQuantity(codeParams)} ointment(s). Snake now has {GetItemValue(MGS3UsableObjects.Ointment)} ointment(s)."));
                 break;
 
             case "removeOintment":
@@ -6094,11 +3416,10 @@ Note = "Uniform",
                     () => true,
                     () =>
                     {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Ointment);
-                        SetItemValue(MGS3UsableObjects.Ointment, (short)(currentValue - 1));
+                        AdjustItemValueByQuantity(MGS3UsableObjects.Ointment, -GetRequestedQuantity(codeParams));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed an ointment from Snake, he now has {GetItemValue(MGS3UsableObjects.Ointment)} ointment(s)."));
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed {GetRequestedQuantity(codeParams)} ointment(s) from Snake, he now has {GetItemValue(MGS3UsableObjects.Ointment)} ointment(s)."));
                 break;
 
             case "giveSplint":
@@ -6111,11 +3432,10 @@ Note = "Uniform",
                     () => true,
                     () =>
                     {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Splint);
-                        SetItemValue(MGS3UsableObjects.Splint, (short)(currentValue + 1));
+                        AdjustItemValueByQuantity(MGS3UsableObjects.Splint, GetRequestedQuantity(codeParams));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a splint. Snake now has {GetItemValue(MGS3UsableObjects.Splint)} splint(s)."));
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake {GetRequestedQuantity(codeParams)} splint(s). Snake now has {GetItemValue(MGS3UsableObjects.Splint)} splint(s)."));
                 break;
 
             case "removeSplint":
@@ -6128,11 +3448,10 @@ Note = "Uniform",
                     () => true,
                     () =>
                     {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Splint);
-                        SetItemValue(MGS3UsableObjects.Splint, (short)(currentValue - 1));
+                        AdjustItemValueByQuantity(MGS3UsableObjects.Splint, -GetRequestedQuantity(codeParams));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed a splint from Snake, he now has {GetItemValue(MGS3UsableObjects.Splint)} splint(s)."));
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed {GetRequestedQuantity(codeParams)} splint(s) from Snake, he now has {GetItemValue(MGS3UsableObjects.Splint)} splint(s)."));
                 break;
 
             case "giveStyptic":
@@ -6145,11 +3464,10 @@ Note = "Uniform",
                     () => true,
                     () =>
                     {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Styptic);
-                        SetItemValue(MGS3UsableObjects.Styptic, (short)(currentValue + 1));
+                        AdjustItemValueByQuantity(MGS3UsableObjects.Styptic, GetRequestedQuantity(codeParams));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a styptic. Snake now has {GetItemValue(MGS3UsableObjects.Styptic)} styptic(s)."));
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake {GetRequestedQuantity(codeParams)} styptic(s). Snake now has {GetItemValue(MGS3UsableObjects.Styptic)} styptic(s)."));
                 break;
 
             case "removeStyptic":
@@ -6162,11 +3480,10 @@ Note = "Uniform",
                     () => true,
                     () =>
                     {
-                        short currentValue = GetItemValue(MGS3UsableObjects.Styptic);
-                        SetItemValue(MGS3UsableObjects.Styptic, (short)(currentValue - 1));
+                        AdjustItemValueByQuantity(MGS3UsableObjects.Styptic, -GetRequestedQuantity(codeParams));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed a styptic from Snake, he now has {GetItemValue(MGS3UsableObjects.Styptic)} styptic(s)."));
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed {GetRequestedQuantity(codeParams)} styptic(s) from Snake, he now has {GetItemValue(MGS3UsableObjects.Styptic)} styptic(s)."));
                 break;
 
             case "giveSutureKit":
@@ -6179,11 +3496,10 @@ Note = "Uniform",
                     () => true,
                     () =>
                     {
-                        short currentValue = GetItemValue(MGS3UsableObjects.SutureKit);
-                        SetItemValue(MGS3UsableObjects.SutureKit, (short)(currentValue + 1));
+                        AdjustItemValueByQuantity(MGS3UsableObjects.SutureKit, GetRequestedQuantity(codeParams));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake a suture kit. Snake now has {GetItemValue(MGS3UsableObjects.SutureKit)} suture kit(s)."));
+                    () => Connector.SendMessage($"{request.DisplayViewer} gave Snake {GetRequestedQuantity(codeParams)} suture kit(s). Snake now has {GetItemValue(MGS3UsableObjects.SutureKit)} suture kit(s)."));
                 break;
 
             case "removeSutureKit":
@@ -6196,11 +3512,10 @@ Note = "Uniform",
                     () => true,
                     () =>
                     {
-                        short currentValue = GetItemValue(MGS3UsableObjects.SutureKit);
-                        SetItemValue(MGS3UsableObjects.SutureKit, (short)(currentValue - 1));
+                        AdjustItemValueByQuantity(MGS3UsableObjects.SutureKit, -GetRequestedQuantity(codeParams));
                         return true;
                     },
-                    () => Connector.SendMessage($"{request.DisplayViewer} removed a suture kit from Snake, he now has {GetItemValue(MGS3UsableObjects.SutureKit)} suture kit(s)."));
+                    () => Connector.SendMessage($"{request.DisplayViewer} removed {GetRequestedQuantity(codeParams)} suture kit(s) from Snake, he now has {GetItemValue(MGS3UsableObjects.SutureKit)} suture kit(s)."));
                 break;
 
             #endregion
@@ -6316,7 +3631,7 @@ Note = "Uniform",
                     () => Connector.SendMessage($"{request.DisplayViewer} gave Snake leeches."));
                 break;
 
-            /*case "setSnakeDamageX2":
+            case "setSnakeDamageX2":
                 if (IsInCutscene())
                 {
                     DelayEffect(request, StandardErrors.BadGameState, GameState.Cutscene);
@@ -6430,7 +3745,7 @@ Note = "Uniform",
                     SetSnakeDamageMultiplierValue(1);
                     Connector.SendMessage("Snake's damage multiplier is back to x1.");
                 });
-                break;*/
+                break;
 
             case "setSnakeCamoIndexNegative":
                 if (IsInCutscene() || !IsCamoIndexInstructionNormal())
@@ -6867,3 +4182,11 @@ Note = "Uniform",
         }
     }
 }
+
+
+
+
+
+
+
+
