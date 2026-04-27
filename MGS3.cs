@@ -4175,7 +4175,7 @@ public class MGS3 : InjectEffectPack
                 break;
 
             default:
-                Respond(request, EffectStatus.FailPermanent, StandardErrors.UnknownEffect, request);
+                Respond(request, EffectStatus.FailPermanent, StandardErrors.EffectUnknown, request);
                 break;
 
                 #endregion
